@@ -11,7 +11,8 @@ import {
   ListItem,
   Link,
   Divider,
-  ListItemButton
+  ListItemButton,
+  Chip
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -46,6 +47,7 @@ export default function Header(props){
       }
       setSwipe({...swipe,[anchor]:open});
     };
+
     return (
       <>
       <AppBar position="fixed" color="default">
@@ -62,6 +64,9 @@ export default function Header(props){
           <IconButton aria-label="mais informações" color="inherit" edge="end">
             <MoreIcon />
           </IconButton>
+          
+          
+
         </StyledToolbar>
         <SwipeableDrawer 
           variant="temporary"

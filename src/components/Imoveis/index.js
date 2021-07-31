@@ -1,38 +1,122 @@
 import Images from "../Images";
-import { Card, CardActions, CardContent, CardHeader, IconButton, Typography } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent, { cardContentClasses } from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
+import React from "react";
+import { Avatar, Divider, Menu, MenuItem, Collapse } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { styled } from '@material-ui/core/styles';
 
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 export default function Imoveis(props){
-    
-    return (
+  
+    const [menu, setMenu] = React.useState(null);
+    const [expanded, setExpanded] = React.useState(false);
+    const open = Boolean(menu);
+    const handleClickOptions = (event) => {
+      event.preventDefault()
+      setMenu(event.currentTarget);
+    }
+    const handleCloseOptions = () => {
+      setMenu(null);
+    }
+    const handleExpandClick = () => {
+      setExpanded(!expanded);
+    }
+   
+
+   return (
       <>
-        <Card sx={{ maxWidth: 345 }}>
-          <CardHeader 
+      
+        <Card sx={{ maxWidth: 345 }} component="li">
+          <CardHeader
+          avatar={
+            <Avatar 
+            arial-label={props.imovel.imobiliaria_nome} 
+            src={`https://pow.com.br/powsites/${props.imovel.id_empresa}/${props.imovel.logo}`} 
+            sx={{width:36, height:36  }}
+            />
+          } 
           action={
-            <IconButton aria-label="opções">
+            <>
+            <IconButton 
+            id="botao-opcao"
+            aria-label="mais informações" 
+            aria-controls="basic-menu"
+            aria-expanded={open ? 'true' : undefined}
+            
+            onClick={handleClickOptions}
+            
+            >
               <MoreVertIcon />
             </IconButton>
+            <Menu 
+            id="basic-menu"
+            anchorEl={menu}
+            open={open}
+            onClose={handleCloseOptions}
+            MenuListProps={{
+              'aria-labelledby': 'botao-opcao',
+            }}
+            >
+              <MenuItem onClick={handleCloseOptions} noWrap>Mais sobre este imóvel</MenuItem>
+              <Divider />
+              <MenuItem onClick={handleCloseOptions}>Whatsapp</MenuItem>
+              <MenuItem onClick={handleCloseOptions}>Contato</MenuItem>
+              <Divider />
+              <MenuItem onClick={handleCloseOptions}>Sobre a {props.imovel.imobiliaria_nome}</MenuItem>
+            </Menu>
+            </>
           }
-          title={props.imovel.nome}
+          title={`${props.imovel.nome}`}
           subheader={`${props.imovel.bairro}, ${props.imovel.cidade} - ${props.imovel.estado}`}
           />
           <Images itens={props.imovel.images} />
-          <CardContent>
-            <Typography variant="body2" noWrap="5" color="text.secondary">
-            {props.imovel.descricao}
-            </Typography>
-          </CardContent>
+          
+          
           <CardActions>
-            <IconButton aria-label="Adicionar aos favoritos">
-              <FavoriteIcon />
+            <IconButton 
+              aria-label="Adicionar aos favoritos"  
+              onClick={ () => props.handleFavorito(props.imovel._id) }
+            >
+              <FavoriteIcon color={props.isFavorito ? "disabled" : "success"}/>
             </IconButton>
             <IconButton arial-label="Compartilhe">
               <ShareIcon />
             </IconButton>
+            <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="descrição do imóvel"
+              style={{alignSelf:'flex-end'}}
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
           </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+            {props.imovel.descricao}
+            </Typography>
+          </CardContent>
+          </Collapse>
         </Card>
 
           {/**
