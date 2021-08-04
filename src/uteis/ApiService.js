@@ -5,10 +5,14 @@ endereco: "http://localhost:5000/",
 endereco: "http://imoveis.powempresas.com/",
 */
 class ApiService {
+  
     constructor(){
       this.endereco = "http://192.168.0.106:5000/";
       this.headers = new Headers({'Content-Type': 'application/json'});
     }   
+
+    
+
     tituloQtdeImoveis = async (filtro) => {
       const requestInfo = {
         method:'GET',
@@ -45,6 +49,12 @@ class ApiService {
       return fetch(`${ApiService.endereco}get_cidade/?dominio=${host}`)
       .then(res => ApiService.TrataErros(res) )
       .then(data => data.json());
+    }
+    GetBairros = async (cidade) => {
+      let data = await fetch(`${this.endereco}get_bairros_por_cidade/${cidade}`)
+      .then(res => this.TrataErros(res) )
+      .then(data => data.json());
+      return data;
     }
     TrataErros = res => {
       if ( ! res.ok ){

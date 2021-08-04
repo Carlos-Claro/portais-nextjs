@@ -10,14 +10,14 @@ import ApiService from "../../uteis/ApiService";
   const TypographyH1 = styled.h1`
         padding-top: 70px;
         color: blue;
-        font-weight: 500;
-        font-size: 1;
+        font-weight: 600;
+        font-size: 1em;
         &:hover {
         }
     `;
     const TypographyH2 = styled.h2`
     padding-top: 10px;
-    font-size: 1;
+    font-size: 1em;
     font-weight: 500;
     color: red;
     &:hover {
@@ -26,6 +26,7 @@ import ApiService from "../../uteis/ApiService";
 
 export default function Lista(props){    
     const [parametrosURL, setParametrosURL] = React.useState(props.parametros)
+    
     const [qtdeItensporPagina, setQtdeItensporPagina] = React.useState(5)
     const [paginaAtual, setPaginaAtual] = React.useState(1)
     const [infoPagina, setInfoPagina] = React.useState({
@@ -346,7 +347,7 @@ export default function Lista(props){
                     "vila": ""
                 }])
     const retornaParametrosURL = () => {
-        var pesquisa = Object.keys(parametrosURL).map((chave,i)=> (i ? '&' : '' ) + chave + '=' + parametrosURL[chave] ).join('')
+        var pesquisa = Object.keys(props.parametros).map((chave,i) => props.parametros[chave] != '' ? (i ? '&' : '' ) + chave + '=' + props.parametros[chave] : '' ).join('')
         pesquisa += '&limit=' + qtdeItensporPagina + '&skip=' + ( paginaAtual * qtdeItensporPagina )
         return pesquisa
     };
@@ -363,7 +364,7 @@ export default function Lista(props){
                 setImoveis((itensAtual) => [...itensAtual,...res.itens])  
             }
         });
-    }, [paginaAtual])
+    }, [paginaAtual, props.parametros])
     /**
      * verifica fim da pagina
      */

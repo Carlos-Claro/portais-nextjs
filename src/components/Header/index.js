@@ -4,21 +4,14 @@ import {
   Toolbar, 
   IconButton, 
   Grid,
-  SwipeableDrawer,
-  Menu,
-  Box,
-  List,
-  ListItem,
-  Link,
-  Divider,
-  ListItemButton,
-  Chip
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { styled } from '@material-ui/core/styles';
 import React from 'react';
+import MenuPrincipal from '../MenuPrincipal';
+import Filtro from '../Filtro';
 
 const logo = '';
 
@@ -36,29 +29,33 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 
 export default function Header(props){
-  const [swipe, setSwipe] = React.useState({left:false});
-    const toggleDrawer = (anchor, open) => (event) => {
-      if (
-        event &&
-        event.type === 'keydown' &&
-        (event.key === 'Tab' || event.key === 'Shift')
-      ) {
-        return;
-      }
-      setSwipe({...swipe,[anchor]:open});
-    };
+  const [swipeMenu, setSwipeMenu] = React.useState({
+    left: false,
+    top:false
+  });
+  const toggleDrawerMenu = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setSwipeMenu({...swipeMenu,[anchor]:open});
+  };
+  
 
     return (
       <>
       <AppBar position="fixed" color="default">
         <StyledToolbar>
-          <IconButton edge="start" color="inherit" aria-label="Abre menu" sx={{ mr: 2 }} onClick={toggleDrawer("left", true)} >
+          <IconButton edge="start" color="inherit" aria-label="Abre menu" sx={{ mr: 2 }} onClick={toggleDrawerMenu('left',true)} >
             <MenuIcon />
           </IconButton>
           <Grid item sx={{ flexGrow: 1 }}>
             <img src="https://icuritiba.com/imagens/tp_imoveiscuritiba.gif" height="35dp" sx={{ flexGrow: 1 }}/>
           </Grid>
-          <IconButton aria-label="Buscador" color="inherit">
+          <IconButton aria-label="Abre buscador" color="inherit"  onClick={toggleDrawerMenu('top',true)}>
             <SearchIcon />
           </IconButton>
           <IconButton aria-label="mais informações" color="inherit" edge="end">
@@ -68,47 +65,14 @@ export default function Header(props){
           
 
         </StyledToolbar>
-        <SwipeableDrawer 
-          variant="temporary"
-          anchor="left" 
-          open={swipe["left"]}
-          onClose={toggleDrawer("left", false)} 
-          onOpen={toggleDrawer("left", true)}
-        >
-          <Box role="presentation" onClick={toggleDrawer('left',false)} onKeyDown={toggleDrawer('left',false)}>
-            <List component="nav">
-              <ListItem>
-                <img src="https://icuritiba.com/imagens/tp_imoveiscuritiba.gif" height="50dp" sx={{ flexGrow: 1,  }}/>
-
-              </ListItem>
-              <Divider />
-              <ListItemButton>
-                <Link aria-label="Lista de imóveis" color="inherit" href="imoveis" underline="hover">
-                  Imóveis
-                </Link>
-              </ListItemButton>
-              <Divider />
-              <ListItemButton>
-                <Link aria-label="Lista de imobiliárias" color="inherit" href="imobiliárias" underline="hover">
-                  Imobiliárias
-                </Link>
-              </ListItemButton>
-              <Divider />
-              <ListItemButton>
-                <Link aria-label="Encontramos o imóvel para você" color="inherit" href="nao_encontrei" underline="hover">
-                  Não Encontrei
-                </Link>
-              </ListItemButton>
-              <Divider />
-              <ListItemButton>
-                <Link aria-label="Lista de imobiliárias" color="inherit" href="imobiliárias" underline="hover">
-                  Imobiliárias
-                </Link>
-              </ListItemButton>
-              <Divider />
-            </List>
-          </Box>
-        </SwipeableDrawer>
+        <MenuPrincipal handleToggle={acao => toggleDrawerMenu('left', acao)} isOpen={swipeMenu['left']} />
+        <Filtro 
+            handleToggle={acao => toggleDrawerMenu('top',acao)} 
+            isOpen={swipeMenu.top} 
+            handleParametros={(tipo, valor) => props.handleParametros(tipo,valor)} 
+            parametros={props.parametros}
+            bairros={props.bairros}
+            /> 
       </AppBar>
       
       </>
