@@ -13,7 +13,7 @@ export default function ScrollTop(props){
       const anchor = (event.target.ownerDocument || document).querySelector(
         '#top',
       );
-        console.log(anchor);
+        
       if (anchor) {
         anchor.scrollIntoView({
           behavior: 'smooth',

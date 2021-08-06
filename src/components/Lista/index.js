@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Imoveis from "../Imoveis";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-
 import ApiService from "../../uteis/ApiService";
 
 
@@ -24,11 +23,8 @@ import ApiService from "../../uteis/ApiService";
     }
 `;
 
-export default function Lista(props){    
-    const [parametrosURL, setParametrosURL] = React.useState(props.parametros)
-    
+export default function Lista(props){
     const [qtdeItensporPagina, setQtdeItensporPagina] = React.useState(5)
-    const [paginaAtual, setPaginaAtual] = React.useState(1)
     const [infoPagina, setInfoPagina] = React.useState({
           qtde_total: 1420,
           titulo:'Imóveis em São José dos Pinhais'
@@ -83,42 +79,7 @@ export default function Lista(props){
                         "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
                         "titulo": "Imóvel de teste"
                     },
-                    {
-                        "arquivo": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                        "data": "2021-02-20T01:02:00Z",
-                        "extensao": "jpg",
-                        "gerado_image": 1,
-                        "id": 40521926,
-                        "id_empresa": 83975,
-                        "id_imovel": 2244808,
-                        "ordem": 3,
-                        "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                        "titulo": "Imagem 2 teste"
-                    },
-                    {
-                        "arquivo": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                        "data": "2021-02-20T01:02:00Z",
-                        "extensao": "jpg",
-                        "gerado_image": 1,
-                        "id": 40521927,
-                        "id_empresa": 83975,
-                        "id_imovel": 2244808,
-                        "ordem": 4,
-                        "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                        "titulo": "Image 3 Teste"
-                    },
-                    {
-                        "arquivo": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                        "data": "2021-02-20T01:02:00Z",
-                        "extensao": "jpg",
-                        "gerado_image": 1,
-                        "id": 40521928,
-                        "id_empresa": 83975,
-                        "id_imovel": 2244808,
-                        "ordem": 5,
-                        "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                        "titulo": "Image 4 teste"
-                    }
+                    
                 ],
                 "imobiliaria_bairro": "Centro",
                 "imobiliaria_cidade": "Curitiba",
@@ -239,42 +200,7 @@ export default function Lista(props){
                             "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
                             "titulo": "Imóvel de teste"
                         },
-                        {
-                            "arquivo": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                            "data": "2021-02-20T01:02:00Z",
-                            "extensao": "jpg",
-                            "gerado_image": 1,
-                            "id": 40521926,
-                            "id_empresa": 83975,
-                            "id_imovel": 2244808,
-                            "ordem": 3,
-                            "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                            "titulo": "Imagem 2 teste"
-                        },
-                        {
-                            "arquivo": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                            "data": "2021-02-20T01:02:00Z",
-                            "extensao": "jpg",
-                            "gerado_image": 1,
-                            "id": 40521927,
-                            "id_empresa": 83975,
-                            "id_imovel": 2244808,
-                            "ordem": 4,
-                            "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                            "titulo": "Image 3 Teste"
-                        },
-                        {
-                            "arquivo": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                            "data": "2021-02-20T01:02:00Z",
-                            "extensao": "jpg",
-                            "gerado_image": 1,
-                            "id": 40521928,
-                            "id_empresa": 83975,
-                            "id_imovel": 2244808,
-                            "ordem": 5,
-                            "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
-                            "titulo": "Image 4 teste"
-                        }
+                       
                     ],
                     "imobiliaria_bairro": "Centro",
                     "imobiliaria_cidade": "Curitiba",
@@ -346,9 +272,10 @@ export default function Lista(props){
                     "views": 0,
                     "vila": ""
                 }])
+    const [paginaAtual, setPaginaAtual] = React.useState(props.paginaAtual);
     const retornaParametrosURL = () => {
         var pesquisa = Object.keys(props.parametros).map((chave,i) => props.parametros[chave] != '' ? (i ? '&' : '' ) + chave + '=' + props.parametros[chave] : '' ).join('')
-        pesquisa += '&limit=' + qtdeItensporPagina + '&skip=' + ( paginaAtual * qtdeItensporPagina )
+        pesquisa += '&limit=' + qtdeItensporPagina + '&skip=' + ( props.paginaAtual * qtdeItensporPagina )
         return pesquisa
     };
     /**
@@ -358,7 +285,7 @@ export default function Lista(props){
         const item = new ApiService
         item.tituloQtdeImoveis(retornaParametrosURL()).then((res) => {
             setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
-            if ( paginaAtual == 1 ){
+            if ( props.paginaAtual == 1 ){
                 setImoveis(res.itens)  
             }else{
                 setImoveis((itensAtual) => [...itensAtual,...res.itens])  
@@ -371,7 +298,11 @@ export default function Lista(props){
     React.useEffect(() => {
         const intersectionObserver = new IntersectionObserver(entries => {
             if ( entries.some(entry => entry.isIntersecting) ){
-                setPaginaAtual((atual) => atual + 1);
+                setPaginaAtual((pagina) => {
+                    let proxima = pagina+1
+                    props.handlePaginaAtual( proxima );
+                    return proxima
+                })
             }
         })
         intersectionObserver.observe(document.querySelector("#fimPagina"))
@@ -398,7 +329,7 @@ export default function Lista(props){
                         key={imovel._id} 
                         imovel={imovel} 
                         isFavorito={props.favoritos.indexOf(imovel._id) === -1} 
-                        handleFavorito={(favorito) => props.clickFavorito(favorito)}
+                        handleFavorito={(favorito) => props.handleFavoritos(favorito)}
                         />
                      </>) )}
                     <li id="fimPagina">fim da pagina</li>

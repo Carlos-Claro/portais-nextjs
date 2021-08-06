@@ -3,12 +3,10 @@ import CardMedia from "@material-ui/core/CardMedia";
 import React from "react"
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import TemporaryImage from '../../../public/images/naodisponivel.jpg'
-import Image from 'next/image'
 
 export default function Images(props){
   const [image, SetImage] = React.useState({
-    src: TemporaryImage,
+    src: 'https://icuritiba.com/imagens/naodisponivel.jpg',
     alt: 'Imagem carregando',
     images: props.itens,
   });
@@ -17,7 +15,6 @@ export default function Images(props){
   const [fadeImage, setFadeImage] = React.useState(true)
   const [imageAtual, SetImageAtual] = React.useState(0)
   const [height, setHeight] = React.useState(200)
-  const [layout, setLayout] = React.useState("responsive")
   const fotoAnterior = () => {
     setFadeImage(false);
     setTimeout(() => {
@@ -44,24 +41,20 @@ export default function Images(props){
     },500)
   }  
   const setImages = () => {
-    if ( image.images.length && ( ativaImage || props.abaFavorito ) ){
+    if ( image.images.length && ativaImage ){
       return (
         <>
-          <Image 
+        <Fade in={fadeImage} timeout={800}>
+          <CardMedia 
           key={image.images[imageAtual].id}
+          component="img"
           className={`image-${props.id_imovel}`}
-          width={300}
-          height={height}
-          sx={{height:height, width:"auto", display:"block", margin:"auto" }}
-          layout={layout}
-          objectFit="cover"
-          placeholder="blur"
-          priority={true}
-          quality={90}
-          blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(300, 200))}`}
-          src={(image.images[imageAtual].arquivo).replace('650F_','')}
+          sx={{
+            height: height,
+          }}
+          src={image.images[imageAtual].arquivo}
           title={image.images[imageAtual].titulo}
-          onClick={() => setLayout("responsive")}
+          onClick={() => setHeight("auto")}
           onTouchStart={(e) => setSwipeStart(e.changedTouches[0].pageX)}
           onTouchEnd={(e) => {
             if ( e.changedTouches[0].pageX < swipeStart ){
@@ -71,28 +64,17 @@ export default function Images(props){
             }
           }}
           />  
-        
-        <Grid container spacing={2} sx={{
-          position: "relative",
-          top:"-50px",
-          display: "inline-grid",
-          gridTemplateColumns: "1fr 1fr 1fr"
-        }}>
-          <Grid item sx={{
-            textAlign:"left",
-          }} >
+        </Fade>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
             <Button onClick={() => fotoAnterior()}>
               <ArrowBackIosIcon />
             </Button>
           </Grid>
-          <Grid item sx={{
-            textAlign:"center",
-          }}>
-            <Chip label={`foto ${imageAtual+1} de ${image.images.length} images`}  color="primary" />
+          <Grid item xs={8}>
+            <Chip label={`foto ${imageAtual+1} de ${image.images.length} images`}  />
           </Grid>
-          <Grid item sx={{
-            textAlign:"right",
-          }}>
+          <Grid item xs={2}>
             <Button onClick={() => fotoProxima()}>
             <ArrowForwardIosIcon />
             </Button>
@@ -104,14 +86,14 @@ export default function Images(props){
         
       }else{
         return (
-          <Image 
+          <CardMedia 
           key={0}
           className={`image-${props.id_imovel}`}
           component="img"
         sx={{
           height: 200,
         }}
-        src={image.src}
+        image={image.src}
         title={image.alt}         
         />
         ) 
@@ -138,22 +120,3 @@ export default function Images(props){
       </>
   );
 }
-
-const shimmer = (w, h) => `
-<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <defs>
-    <linearGradient id="g">
-      <stop stop-color="#333" offset="20%" />
-      <stop stop-color="#222" offset="50%" />
-      <stop stop-color="#333" offset="70%" />
-    </linearGradient>
-  </defs>
-  <rect width="${w}" height="${h}" fill="#333" />
-  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
-  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
-</svg>`
-
-const toBase64 = (str) =>
-  typeof window === 'undefined'
-    ? Buffer.from(str).toString('base64')
-    : window.btoa(str)

@@ -7,7 +7,7 @@ endereco: "http://imoveis.powempresas.com/",
 class ApiService {
   
     constructor(){
-      this.endereco = "http://192.168.0.106:5000/";
+      this.endereco = "http://carlosclaro.ddns.net:5000/";
       this.headers = new Headers({'Content-Type': 'application/json'});
     }   
 
@@ -19,6 +19,16 @@ class ApiService {
         headers: this.headers
       };
       let data = await fetch(`${this.endereco}portal_main?${filtro}` , requestInfo)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
+    getFavoritos = async (ids) => {
+      const requestInfo = {
+        method:'GET',
+        headers: this.headers
+      };
+      let data = await fetch(`${this.endereco}portal_ids?ids=${ids.join(',')}` , requestInfo)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
       return data;

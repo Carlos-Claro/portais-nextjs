@@ -5,21 +5,27 @@ import Lista from '../src/components/Lista';
 import React, { Fragment } from 'react';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import ScrollTop from '../src/uteis/ScrollTop';
 import ApiService from '../src/uteis/ApiService';
+import { Box, Zoom } from '@material-ui/core';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
 export default function Home() {
+  
+  const [paginaAtual, setPaginaAtual] = React.useState(1)
 
   const [parametros,setParametros] = React.useState({
     cidade_link: 'sao_jose_dos_pinhais_pr',
     imoveis_tipos_link: 'apartamento',
     tipo_negocio: 'venda',
-    bairros_link: ['afonso_pena']
+    bairros_link: []
   });
   const handleParametros = (tipo,valor) => {
     setParametros({...parametros, [tipo]:valor})
+    setPaginaAtual(1)
+    handleScroll()
   }
   
+
   const [favoritos, setFavoritos] = React.useState([]);
   const handleFavoritos = (favorito) => {
     setFavoritos((favoritosAtuais) => {
@@ -41,18 +47,57 @@ export default function Home() {
   },[])
 
 
+  const triggerScroll = useScrollTrigger({
+    disableHysteresis:true,
+    threshold:100
+  })
+  const handleScroll = (event) => {
+    
+    const anchor = ((event ? event.target.ownerDocument : false) || document).querySelector(
+      '#top',
+    );
+      
+    if (anchor) {
+      anchor.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  };
+
+
   return (
     <Fragment>
       <Container>
-        <Header handleParametros={(tipo,valor) => handleParametros(tipo,valor)} parametros={parametros} bairros={bairros} />
-        <Lista parametros={parametros} favoritos={favoritos}  clickFavorito={favorito => handleFavoritos(favorito)} />
+        <Header 
+          handleParametros={(tipo,valor) => handleParametros(tipo,valor)} 
+          handleFavoritos={favorito => handleFavoritos(favorito)} 
+          parametros={parametros} 
+          bairros={bairros} 
+          favoritos={favoritos} 
+          />
+        <Lista 
+          parametros={parametros} 
+          favoritos={favoritos} 
+          handleFavoritos={favorito => handleFavoritos(favorito)} 
+          handlePaginaAtual={pagina => setPaginaAtual(pagina)}
+          paginaAtual={paginaAtual}
+          />
         <Footer />
       </Container>
-      <ScrollTop >
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
+      
+      <Zoom in={triggerScroll}>
+        <Box
+          onClick={handleScroll}
+          role="presentation"
+          sx={{ position: 'fixed', bottom: 16, right: 16 }}
+        >
+          <Fab color="secondary" size="small" aria-label="scroll back to top">
+            <KeyboardArrowUpIcon />
+          </Fab>
+        </Box>
+      </Zoom>
+      
     </Fragment>
   );
 }

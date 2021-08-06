@@ -87,7 +87,7 @@ export default function Imoveis(props){
           title={`${props.imovel.nome}`}
           subheader={`${props.imovel.bairro}, ${props.imovel.cidade} - ${props.imovel.estado}`}
           />
-          <Images itens={props.imovel.images} id_imovel={props.imovel._id} />
+          <Images itens={props.imovel.images} id_imovel={props.imovel._id} abaFavorito={props.abaFavorito}/>
           
           
           <CardActions>
