@@ -5,8 +5,11 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import TemporaryImage from '../../../public/images/naodisponivel.jpg'
 import Image from 'next/image'
+import PropTypes from 'prop-types'
+
 
 export default function Images(props){
+  
   const [image, SetImage] = React.useState({
     src: TemporaryImage,
     alt: 'Imagem carregando',
@@ -137,6 +140,16 @@ export default function Images(props){
           {setImages()}
       </>
   );
+}
+
+Images.defaultProps = {
+  abaFavorito: false
+}
+
+Images.propTypes = {
+  itens:PropTypes.arrayOf(PropTypes.object),
+  id_imovel:PropTypes.number,
+  abaFavorito:PropTypes.bool
 }
 
 const shimmer = (w, h) => `

@@ -1,4 +1,5 @@
 import { Box, Divider, Link, List, ListItem, ListItemButton, SwipeableDrawer } from "@material-ui/core";
+import PropTypes from 'prop-types'
 
 export default function Menu(props){
     return (
@@ -20,13 +21,13 @@ export default function Menu(props){
               </ListItem>
               <Divider />
               <ListItemButton>
-                <Link aria-label="Lista de imóveis" color="inherit" href="imoveis" underline="hover">
+                <Link aria-label="Lista de imóveis" color="inherit" href="/" underline="hover">
                   Imóveis
                 </Link>
               </ListItemButton>
               <Divider />
               <ListItemButton>
-                <Link aria-label="Lista de imobiliárias" color="inherit" href="imobiliárias" underline="hover">
+                <Link aria-label="Lista de imobiliárias" color="inherit" href="imobiliarias" underline="hover">
                   Imobiliárias
                 </Link>
               </ListItemButton>
@@ -58,4 +59,13 @@ export default function Menu(props){
           </Box>
         </SwipeableDrawer>
     )
+}
+
+
+Menu.defaultProps = {
+  isOpen:false
+}
+Menu.propTypes = {
+  handleToggle:PropTypes.func,
+  isOpen:PropTypes.bool
 }

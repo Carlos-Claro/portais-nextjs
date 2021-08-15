@@ -4,7 +4,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import BairrosInput from './bairros';
 import TiposInput from './tipos';
-
+import PropTypes from 'prop-types'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -64,4 +64,16 @@ export default function Filtro(props){
             </Paper>
         </SwipeableDrawer>
     )
+}
+
+Filtro.defaultProps = {
+    isOpen: false
+}
+
+Filtro.propTypes = {
+    handleToggle:PropTypes.func,
+    isOpen:PropTypes.bool,
+    handleParametros:PropTypes.func,
+    parametros:PropTypes.object,
+    bairros:PropTypes.arrayOf(PropTypes.object)
 }

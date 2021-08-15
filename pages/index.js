@@ -1,21 +1,26 @@
+import React from 'react';
+
+
 import Header from '../src/components/Header'
 import Footer from '../src/components/Footer'
 import Container from '@material-ui/core/Container';
 import Lista from '../src/components/Lista';
-import React, { Fragment } from 'react';
 import Fab from '@material-ui/core/Fab';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import ApiService from '../src/uteis/ApiService';
 import { Box, Zoom } from '@material-ui/core';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+
+import ApiService from '../src/uteis/ApiService';
+
 export default function Home() {
+
   
   const [paginaAtual, setPaginaAtual] = React.useState(1)
 
   const [parametros,setParametros] = React.useState({
     cidade_link: 'sao_jose_dos_pinhais_pr',
-    imoveis_tipos_link: 'apartamento',
+    imoveis_tipos_link: ['apartamento'],
     tipo_negocio: 'venda',
     bairros_link: []
   });
@@ -23,20 +28,6 @@ export default function Home() {
     setParametros({...parametros, [tipo]:valor})
     setPaginaAtual(1)
     handleScroll()
-  }
-  
-
-  const [favoritos, setFavoritos] = React.useState([]);
-  const handleFavoritos = (favorito) => {
-    setFavoritos((favoritosAtuais) => {
-      if (favoritosAtuais.indexOf(favorito) === -1){
-        return [...favoritosAtuais, favorito]
-      }else{
-        const fav = favoritosAtuais.slice()
-        fav.splice(favoritosAtuais.indexOf(favorito),1)
-        return fav
-      }
-    })
   }
 
 
@@ -67,19 +58,16 @@ export default function Home() {
 
 
   return (
-    <Fragment>
+    <>
+    
       <Container>
         <Header 
           handleParametros={(tipo,valor) => handleParametros(tipo,valor)} 
-          handleFavoritos={favorito => handleFavoritos(favorito)} 
           parametros={parametros} 
           bairros={bairros} 
-          favoritos={favoritos} 
           />
         <Lista 
           parametros={parametros} 
-          favoritos={favoritos} 
-          handleFavoritos={favorito => handleFavoritos(favorito)} 
           handlePaginaAtual={pagina => setPaginaAtual(pagina)}
           paginaAtual={paginaAtual}
           />
@@ -98,7 +86,7 @@ export default function Home() {
         </Box>
       </Zoom>
       
-    </Fragment>
+    </>
   );
 }
 

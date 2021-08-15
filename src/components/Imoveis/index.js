@@ -12,6 +12,9 @@ import React from "react";
 import { Avatar, Divider, Menu, MenuItem, Collapse } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { styled } from '@material-ui/core/styles';
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from "react-redux";
+import { handle } from "../../store/Favoritos/Favoritos.actions";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -25,7 +28,8 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Imoveis(props){
-  
+    const dispatch = useDispatch()
+    const isFavorito = useSelector(state => state.favoritos.indexOf(props.imovel._id) === -1)
     const [menu, setMenu] = React.useState(null);
     const [expanded, setExpanded] = React.useState(false);
     const open = Boolean(menu);
@@ -44,7 +48,7 @@ export default function Imoveis(props){
    return (
       <>
       
-        <Card sx={{ maxWidth: 345 }} component="li">
+        <Card sx={{ maxWidth: 345 }} component="li" className={props.className} key={`imovel-${props.imovel._id}`} >
           <CardHeader
           avatar={
             <Avatar 
@@ -93,9 +97,9 @@ export default function Imoveis(props){
           <CardActions>
             <IconButton 
               aria-label="Adicionar aos favoritos"  
-              onClick={ () => props.handleFavorito(props.imovel._id) }
+              onClick={ () => dispatch(handle(props.imovel._id)) }
             >
-              <FavoriteIcon color={props.isFavorito ? "disabled" : "success"}/>
+              <FavoriteIcon color={isFavorito ? "disabled" : "success"}/>
             </IconButton>
             <IconButton arial-label="Compartilhe">
               <ShareIcon />
@@ -153,4 +157,17 @@ export default function Imoveis(props){
       </>
 
       );
+}
+
+Imoveis.defaultPropr = {
+  isFavorito: false,
+  abaFavorito: false
+}
+
+Imoveis.propTypes = {
+  imovel:PropTypes.object,
+  isFavorito:PropTypes.bool,
+  handleFavorito:PropTypes.func,
+  abaFavorito:PropTypes.bool,
+  className:PropTypes.string
 }

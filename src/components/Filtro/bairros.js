@@ -1,5 +1,6 @@
 import { Autocomplete, Checkbox, Chip, TextField } from "@material-ui/core"
 import React from "react"
+import PropTypes from 'prop-types'
 
 export default function BairrosInput(props){
     
@@ -85,6 +86,17 @@ export default function BairrosInput(props){
 
 }    
 
-
+BairrosInput.defaultProps = {
+    bairrosSelecionados: [],
+    isOpen: false
+}
+BairrosInput.propTypes = {
+    handleParametros:PropTypes.func,
+    bairrosSelecionados:PropTypes.arrayOf(PropTypes.string),
+    icon:PropTypes.node,
+    checkedIcon:PropTypes.node,
+    isOpen:PropTypes.bool,
+    bairros:PropTypes.arrayOf(PropTypes.object)
+}
 
 

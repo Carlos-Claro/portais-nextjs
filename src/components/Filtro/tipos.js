@@ -1,10 +1,9 @@
 import { Autocomplete, Checkbox, Chip, TextField } from "@material-ui/core"
 import React from "react"
-
+import PropTypes from 'prop-types'
 
 
 export default function TiposInput(props){
-    
     const [selecionados, setSelecionados] = React.useState(props.selecionados)
     const [open,setOpen] = React.useState(false)
     
@@ -85,6 +84,16 @@ export default function TiposInput(props){
 
 }    
 
+TiposInput.defaultProps = {
+    selecionados: [],
+}
+TiposInput.propTypes = {
+    handleParametros:PropTypes.func,
+    selecionados:PropTypes.arrayOf(PropTypes.string),
+    icon:PropTypes.node,
+    checkedIcon:PropTypes.node
+}
+
 const tipos = [
     {"id":"andar","descricao":"Andar","plural":"Andares","english":"Floor"},
     {"id":"apartamento","descricao":"Apartamento","plural":"Apartamentos","english":"Apartment"},
@@ -112,4 +121,9 @@ const tipos = [
 
 ]
 
-
+tipos.propTypes = {
+    id:PropTypes.string,
+    descricao:PropTypes.string,
+    plural:PropTypes.string,
+    english:PropTypes.string
+}

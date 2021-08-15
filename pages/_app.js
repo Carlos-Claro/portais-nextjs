@@ -1,4 +1,8 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persisetdStore } from '../src/store'
+
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -24,10 +28,16 @@ const theme = {
 export default function App({ Component, pageProps }) {
   return (
     <>
+    <Provider store={store}>
+      <PersistGate persistor={persisetdStore}>
+
+      
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
       </ThemeProvider>
+      </PersistGate>
+    </Provider>
     </>
   )
 }
