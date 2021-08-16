@@ -17,6 +17,19 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: sans-serif;
   }
+  h1 {
+    padding-top: 70px;
+    color: blue;
+    font-weight: 600;
+    font-size: 1em;
+  }
+  h2 {
+    padding-top: 10px;
+    font-size: 1em;
+    font-weight: 500;
+    color: red;
+  }
+
 `
 
 const theme = {

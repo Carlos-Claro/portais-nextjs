@@ -5,6 +5,8 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import BairrosInput from './bairros';
 import TiposInput from './tipos';
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux';
+import { handleFiltro } from '../../store/Filtro/Filtro.actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -12,9 +14,8 @@ const tipo_negocio = ["venda","locacao"]
 
 
 export default function Filtro(props){
-    
-    
-
+    const parametros = useSelector(state => state.parametros)
+    const dispatch = useDispatch()
     return (
         <SwipeableDrawer 
           anchor="top" 
@@ -35,9 +36,9 @@ export default function Filtro(props){
             <Box sx={{width: '100%', typography: 'body1'}}>
                 <Tabs 
                 variant="fullWidth"
-                value={tipo_negocio.indexOf(props.parametros.tipo_negocio)} 
+                value={tipo_negocio.indexOf(parametros.tipo_negocio)} 
                 onChange={(object, value) => {
-                    props.handleParametros('tipo_negocio', object.target.id)
+                    dispatch(handleFiltro('tipo_negocio', object.target.id))
                 }} 
                 aria-label="Selecione o tipo de negócio desejado" 
                 >
@@ -47,8 +48,6 @@ export default function Filtro(props){
             </Box>
 
             <BairrosInput 
-            handleParametros={(item, valor) => props.handleParametros(item, valor)} 
-            bairrosSelecionados={props.parametros.bairros_link}  
             icon={icon}
             checkedIcon={checkedIcon}
             isOpen={props.isOpen}
@@ -56,8 +55,6 @@ export default function Filtro(props){
             />
             <Divider />
             <TiposInput 
-            handleParametros={(item, valor) => props.handleParametros(item, valor)} 
-            selecionados={props.parametros.imoveis_tipos_link}  
             icon={icon}
             checkedIcon={checkedIcon}
             />

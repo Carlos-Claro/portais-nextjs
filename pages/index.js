@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 
 import Header from '../src/components/Header'
@@ -13,21 +13,22 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 import ApiService from '../src/uteis/ApiService';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { handleFiltro } from '../src/store/Filtro/Filtro.actions';
+
 export default function Home() {
 
-  
+  const dispatch = useDispatch()
   const [paginaAtual, setPaginaAtual] = React.useState(1)
-
-  const [parametros,setParametros] = React.useState({
-    cidade_link: 'sao_jose_dos_pinhais_pr',
-    imoveis_tipos_link: ['apartamento'],
-    tipo_negocio: 'venda',
-    bairros_link: []
-  });
-  const handleParametros = (tipo,valor) => {
-    setParametros({...parametros, [tipo]:valor})
+  const parametros = useSelector(state => state.parametros)
+  
+  useEffect(() => {
     setPaginaAtual(1)
     handleScroll()
+  }, [parametros])
+
+  const handleParametros = (tipo,valor) => {
+    dispatch(handleFiltro(tipo,valor))
   }
 
 
@@ -62,12 +63,9 @@ export default function Home() {
     
       <Container>
         <Header 
-          handleParametros={(tipo,valor) => handleParametros(tipo,valor)} 
-          parametros={parametros} 
           bairros={bairros} 
           />
         <Lista 
-          parametros={parametros} 
           handlePaginaAtual={pagina => setPaginaAtual(pagina)}
           paginaAtual={paginaAtual}
           />

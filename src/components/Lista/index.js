@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import ApiService from "../../uteis/ApiService";
 import PropTypes from 'prop-types'
+import { useSelector } from "react-redux";
 
     const TypographyH1 = styled.h1`
         padding-top: 70px;
@@ -24,6 +25,9 @@ import PropTypes from 'prop-types'
     `;
 
 export default function Lista(props){
+    
+    const parametros = useSelector(state => state.parametros)
+
     const [qtdeItensporPagina, setQtdeItensporPagina] = React.useState(5)
     const [infoPagina, setInfoPagina] = React.useState({
           qtde_total: 1420,
@@ -32,7 +36,7 @@ export default function Lista(props){
     const [imoveis, setImoveis] = React.useState([])
     const [paginaAtual, setPaginaAtual] = React.useState(props.paginaAtual);
     const retornaParametrosURL = () => {
-        var pesquisa = Object.keys(props.parametros).map((chave,i) => props.parametros[chave] != '' ? (i ? '&' : '' ) + chave + '=' + props.parametros[chave] : '' ).join('')
+        var pesquisa = Object.keys(parametros).map((chave,i) => parametros[chave] != '' ? (i ? '&' : '' ) + chave + '=' + parametros[chave] : '' ).join('')
         pesquisa += '&limit=' + qtdeItensporPagina + '&skip=' + ( paginaAtual * qtdeItensporPagina )
         return pesquisa
     };
@@ -49,7 +53,7 @@ export default function Lista(props){
                 setImoveis((itensAtual) => [...itensAtual,...res.itens])  
             }
         });
-    }, [paginaAtual, props.parametros])
+    }, [paginaAtual, parametros])
     /**
      * verifica fim da pagina
      */
@@ -105,7 +109,6 @@ Lista.defaultProps = {
 }
 
 Lista.propTypes = {
-    parametros:PropTypes.object,
     handlePaginaAtual:PropTypes.func,
     paginaAtual:PropTypes.number
 }

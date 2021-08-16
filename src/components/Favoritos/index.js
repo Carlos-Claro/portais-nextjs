@@ -12,7 +12,7 @@ export default function Favoritos(props){
     const [imoveis,setImoveis] = React.useState([])
     const [alteraFav, setAlteraFav] = React.useState(false)
     React.useEffect(() => {
-        if ( favoritos.length ){
+        if ( favoritos.length && props.isOpen ){
 
             const item = new ApiService
             item.getFavoritos(favoritos).then((res) => {

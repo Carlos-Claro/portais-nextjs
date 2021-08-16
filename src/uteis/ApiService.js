@@ -66,6 +66,12 @@ class ApiService {
       .then(data => data.json());
       return data;
     }
+    GetImobiliarias = async (cidade) => {
+      let data = await fetch(`${this.endereco}portal_empresas?cidade_link=${cidade}`)
+      .then(res => this.TrataErros(res) )
+      .then(data => data.json());
+      return data;
+    }
     TrataErros = res => {
       if ( ! res.ok ){
         throw new Error('erro fetch');

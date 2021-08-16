@@ -12,6 +12,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import HouseIcon from '@material-ui/icons/House';
+
 import { styled } from '@material-ui/core/styles';
 import React from 'react';
 import MenuPrincipal from '../MenuPrincipal';
@@ -76,13 +78,26 @@ export default function Header(props){
           <Grid item sx={{ flexGrow: 1 }}>
             <img src="https://icuritiba.com/imagens/tp_imoveiscuritiba.gif" height="35dp" sx={{ flexGrow: 1 }}/>
           </Grid>
-        <>
+        
+        { ! props.noFiltro ? (
           <IconButton 
           aria-label="Abre buscador" 
           color="inherit"  
           onClick={toggleDrawerMenu('top',true)}>
             <SearchIcon />
           </IconButton>
+        )
+        : (
+          <IconButton
+          aria-label="Lista de imóveis" 
+          color="inherit" 
+          href="/"
+          >
+            <HouseIcon />
+          </IconButton>
+        )
+        }
+        
           <IconButton 
           aria-label="mais informações" 
           color="inherit" 
@@ -113,7 +128,7 @@ export default function Header(props){
                 <ChatBubbleOutlineIcon color={ ! chat.length ? "disabled" : "success"} /> 
                </Badge>
           </IconButton>       
-          </>
+          
       
         </StyledToolbar>
         <MenuPrincipal handleToggle={acao => toggleDrawerMenu('left', acao)} isOpen={swipeMenu['left']} />
@@ -142,12 +157,12 @@ export default function Header(props){
   }
 
   Header.propDefaults = {
-    
+    noFiltro:false,
   }
 
   Header.propTypes = {
     handleParametros:PropTypes.func,
-    
+    noFiltro:PropTypes.bool,
     parametros:PropTypes.object,
     bairros:PropTypes.arrayOf(PropTypes.object),
     

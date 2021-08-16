@@ -1,20 +1,18 @@
 import { Autocomplete, Checkbox, Chip, TextField } from "@material-ui/core"
 import React from "react"
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from "react-redux"
+import { getSelecionados } from "../../store/Filtro/Filtro.selectors"
+import { handleFiltro } from "../../store/Filtro/Filtro.actions"
 
 export default function BairrosInput(props){
-    
-    const [bairrosSelecionados, setBairrosSelecionados] = React.useState(props.bairrosSelecionados)
+    const bairrosSelecionados = useSelector(state => getSelecionados(state, 'bairros_link'))
+    const dispatch = useDispatch()
     const [bairros, setBairros] = React.useState(props.bairros)
     const [open,setOpen] = React.useState(false)
     
-    const handleBairros = (item) => (event) => {
-        setBairrosSelecionados((bairrosAtuais) => {
-            return [...bairrosAtuais, item]
-          })
-    }
     const handleParametros = (valor) => {
-        props.handleParametros('bairros_link',valor)
+        dispatch(handleFiltro('bairros_link',valor))
     }
 
     const bairrosProps = {
@@ -52,11 +50,9 @@ export default function BairrosInput(props){
             const reasons = ['removeOption', 'selectOption'];
             if( reasons.indexOf(r) >= 0 ){
                 if (v.length === 0) {
-                    setBairrosSelecionados([])
                     handleParametros([])
                 }else{
                     const b = v.map((ba) => ba.link);
-                    setBairrosSelecionados(b);
                     handleParametros(b)
                 }
             }
@@ -68,7 +64,7 @@ export default function BairrosInput(props){
                 <Autocomplete
                         {...bairrosProps}
                         id="bairro"
-                        onClick={handleBairros()}
+                        
                         renderInput={(params) => (
                         <TextField 
                             {...params} 

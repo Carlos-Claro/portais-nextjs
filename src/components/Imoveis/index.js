@@ -8,9 +8,9 @@ import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import React from "react";
 import { Avatar, Divider, Menu, MenuItem, Collapse } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import React from "react";
 import { styled } from '@material-ui/core/styles';
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from "react-redux";
