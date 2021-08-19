@@ -4,17 +4,20 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent, { cardContentClasses } from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import { Avatar, Divider, Menu, MenuItem, Collapse } from "@material-ui/core";
+
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
 import { styled } from '@material-ui/core/styles';
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from "react-redux";
 import { handle } from "../../store/Favoritos/Favoritos.actions";
+
+import { Descricao } from "./descricao";
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -90,11 +93,13 @@ export default function Imoveis(props){
           }
           title={`${props.imovel.nome}`}
           subheader={`${props.imovel.bairro}, ${props.imovel.cidade} - ${props.imovel.estado}`}
+          wrapped
           />
           <Images itens={props.imovel.images} id_imovel={props.imovel._id} abaFavorito={props.abaFavorito}/>
-          
-          
-          <CardActions>
+          <CardActions style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 2fr"
+          }}>
             <IconButton 
               aria-label="Adicionar aos favoritos"  
               onClick={ () => dispatch(handle(props.imovel._id)) }
@@ -104,21 +109,20 @@ export default function Imoveis(props){
             <IconButton arial-label="Compartilhe">
               <ShareIcon />
             </IconButton>
+
             <ExpandMore
               expand={expanded}
               onClick={handleExpandClick}
               aria-expanded={expanded}
               aria-label="descrição do imóvel"
-              style={{alignSelf:'flex-end'}}
+            
             >
               <ExpandMoreIcon />
             </ExpandMore>
           </CardActions>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography variant="body2" color="text.secondary">
-            {props.imovel.descricao}
-            </Typography>
+            <Descricao imovel={props.imovel} />
           </CardContent>
           </Collapse>
         </Card>

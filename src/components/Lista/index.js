@@ -5,7 +5,8 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import ApiService from "../../uteis/ApiService";
 import PropTypes from 'prop-types'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setParametros } from "../../store/Filtro/Filtro.actions";
 
     const TypographyH1 = styled.h1`
         padding-top: 70px;
@@ -40,6 +41,7 @@ export default function Lista(props){
         pesquisa += '&limit=' + qtdeItensporPagina + '&skip=' + ( paginaAtual * qtdeItensporPagina )
         return pesquisa
     };
+    const dispatch = useDispatch()
     /**
      * Carga de imóveis, altera quando paginaAtual ou parametros são altertados, e na primeira carga
      */
@@ -52,6 +54,19 @@ export default function Lista(props){
             }else{
                 setImoveis((itensAtual) => [...itensAtual,...res.itens])  
             }
+            if ( parametros['url'] ){
+                if ( ! res.parametros['tipo_negocio']){
+                    res.parametros['tipo_negocio'] = "venda"
+                }
+                if ( ! res.parametros['bairros_link']){
+                    res.parametros['bairros_link'] = []
+                }
+                if ( ! res.parametros['imoveis_tipos_link']){
+                    res.parametros['imoveis_tipos_link'] = []
+                }
+                dispatch(setParametros(res.parametros))
+            }
+
         });
     }, [paginaAtual, parametros])
     /**

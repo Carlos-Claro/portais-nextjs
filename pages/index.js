@@ -16,12 +16,11 @@ import ApiService from '../src/uteis/ApiService';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleFiltro } from '../src/store/Filtro/Filtro.actions';
 
-export default function Home() {
 
+export default function Home() {
   const dispatch = useDispatch()
   const [paginaAtual, setPaginaAtual] = React.useState(1)
   const parametros = useSelector(state => state.parametros)
-  
   useEffect(() => {
     setPaginaAtual(1)
     handleScroll()
@@ -35,8 +34,8 @@ export default function Home() {
   const [bairros,setBairros] = React.useState([])
   React.useEffect(() => {
       const api = new ApiService;
-          api.GetBairros(parametros.cidade_link).then( (resposta) => setBairros(resposta.itens) )
-  },[])
+          api.GetBairros(parametros.cidade_link ? parametros.cidade_link : 'curitiba_pr').then( (resposta) => setBairros(resposta.itens) )
+  },[parametros.cidade_link])
 
 
   const triggerScroll = useScrollTrigger({

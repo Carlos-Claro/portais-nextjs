@@ -4,3 +4,25 @@ export function handleFiltro (tipo, valor) {
         payload: {tipo:tipo, valor:valor}
     }
 }
+
+export function limpaFiltro (chave){
+    return {
+        type:'LIMPA_PARAMETROS',
+        payload:chave
+    }
+}
+
+export function setURL(url){
+    return {
+        type:'SET_URL',
+        payload:url
+    }
+
+}
+
+export function setParametros(parametros){
+    return {
+        type:'SET_PARAMETROS',
+        payload:parametros
+    }
+}

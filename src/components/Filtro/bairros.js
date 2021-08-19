@@ -14,7 +14,7 @@ export default function BairrosInput(props){
     const handleParametros = (valor) => {
         dispatch(handleFiltro('bairros_link',valor))
     }
-
+    
     const bairrosProps = {
         options: bairros,
         getOptionLabel: (option) => option.nome_,

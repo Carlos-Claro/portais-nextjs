@@ -43,8 +43,6 @@ export default function App({ Component, pageProps }) {
     <>
     <Provider store={store}>
       <PersistGate persistor={persisetdStore}>
-
-      
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
