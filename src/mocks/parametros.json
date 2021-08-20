@@ -3,5 +3,9 @@
     "imoveis_tipos_link": ["apartamento"],
     "tipo_negocio": "venda",
     "bairros_link": ["afonso_pena"],
-    "url":false
+    "url":false,
+    "quartos":[],
+    "garagem":[],
+    "banheiros":[]
+
 }

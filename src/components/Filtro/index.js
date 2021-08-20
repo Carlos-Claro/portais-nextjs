@@ -7,6 +7,7 @@ import TiposInput from './tipos';
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux';
 import { handleFiltro } from '../../store/Filtro/Filtro.actions';
+import Range from './range';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -58,6 +59,9 @@ export default function Filtro(props){
             icon={icon}
             checkedIcon={checkedIcon}
             />
+            <Divider />
+            <Range tipo="unidade" label="Quartos" />
+            <Range tipo="venda" label="Valores" />
             </Paper>
         </SwipeableDrawer>
     )
