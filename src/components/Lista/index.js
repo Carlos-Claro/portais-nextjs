@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from "react-redux";
 import { setParametros } from "../../store/Filtro/Filtro.actions";
 
+import { useRouter } from "next/router";
+
     const TypographyH1 = styled.h1`
         padding-top: 70px;
         color: blue;
@@ -42,33 +44,46 @@ export default function Lista(props){
         return pesquisa
     };
     const dispatch = useDispatch()
+    const router = useRouter()
+  
     /**
      * Carga de imóveis, altera quando paginaAtual ou parametros são altertados, e na primeira carga
      */
     React.useEffect(() => {
-        const item = new ApiService
-        item.tituloQtdeImoveis(retornaParametrosURL()).then((res) => {
-            setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
-            if ( paginaAtual == 1 ){
-                setImoveis(res.itens)  
-            }else{
-                setImoveis((itensAtual) => [...itensAtual,...res.itens])  
-            }
-            if ( parametros['url'] ){
-                if ( ! res.parametros['tipo_negocio']){
-                    res.parametros['tipo_negocio'] = "venda"
+        
+            const item = new ApiService
+            item.tituloQtdeImoveis(retornaParametrosURL()).then((res) => {
+                setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
+                if ( paginaAtual == 1 ){
+                    setImoveis(res.itens)
+                    if ( ! router.query['url'] || (router.query['url'] && router.query.['url'][0] !== res.uri)){
+                        router.push({
+                            pathname: '/[...url]',
+                            query: { url: [res.uri] }
+                        }, 
+                        undefined, { shallow: true }
+                        )
+                    }
+                }else{
+                    setImoveis((itensAtual) => [...itensAtual,...res.itens])  
                 }
-                if ( ! res.parametros['bairros_link']){
-                    res.parametros['bairros_link'] = []
+                let retornoParametros = res.parametros
+                if ( parametros['url'] ){
+                    if ( ! retornoParametros['tipo_negocio'] ){
+                        retornoParametros['tipo_negocio'] = "venda"
+                    }
+                    if ( ! retornoParametros['bairros_link'] ){
+                        retornoParametros['bairros_link'] = []
+                    }
+                    if ( ! retornoParametros['imoveis_tipos_link'] ){
+                        retornoParametros['imoveis_tipos_link'] = []
+                    }
+                    dispatch(setParametros(retornoParametros))
                 }
-                if ( ! res.parametros['imoveis_tipos_link']){
-                    res.parametros['imoveis_tipos_link'] = []
-                }
-                dispatch(setParametros(res.parametros))
-            }
-
-        });
-    }, [paginaAtual, parametros])
+                
+            });
+        
+    }, [paginaAtual, parametros, router.isReady])
     /**
      * verifica fim da pagina
      */

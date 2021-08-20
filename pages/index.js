@@ -33,9 +33,12 @@ export default function Home() {
 
   const [bairros,setBairros] = React.useState([])
   React.useEffect(() => {
+    if ( parametros.cidade_link ){
       const api = new ApiService;
-          api.GetBairros(parametros.cidade_link ? parametros.cidade_link : 'curitiba_pr').then( (resposta) => setBairros(resposta.itens) )
-  },[parametros.cidade_link])
+          api.GetBairros(parametros.cidade_link ? parametros.cidade_link : 'curitiba_pr')
+          .then( (resposta) => setBairros(resposta.itens) )
+    }
+  },[parametros])
 
 
   const triggerScroll = useScrollTrigger({

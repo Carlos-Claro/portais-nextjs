@@ -2,5 +2,6 @@
     "cidade_link": "sao_jose_dos_pinhais_pr",
     "imoveis_tipos_link": ["apartamento"],
     "tipo_negocio": "venda",
-    "bairros_link": ["afonso_pena"]
+    "bairros_link": ["afonso_pena"],
+    "url":false
 }
