@@ -1,4 +1,4 @@
-export default function (state=[], action){
+export default function Favorito(state=[], action){
     switch(action.type) {
         case 'HANDLE_FAVORITO':
             if (state.indexOf(action.payload) === -1){
