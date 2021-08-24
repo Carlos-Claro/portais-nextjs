@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { Box, Slider, SliderThumb, Stack, Typography  } from "@material-ui/core";
 import React from "react"
-import { styled } from '@material-ui/core/styles';
 
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import BedIcon from '@material-ui/icons/Bed';
@@ -10,6 +9,15 @@ import OpenInFullIcon from '@material-ui/icons/OpenInFull';
 import { handleFiltro } from '../../store/Filtro/Filtro.actions';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { styled } from '@material-ui/core/styles';
+const MyBox = styled(Box)(({ theme }) => ({
+    height: 85,
+    paddingRight:0,
+    '& .MuiTypography-body1': {
+        fontSize:14,
+        color: theme.primary
+    },
+}));
 const AirbnbSlider = styled(Slider)(({ theme }) => ({
     color: '#3a8589',
     height: 3,
@@ -38,10 +46,101 @@ const AirbnbSlider = styled(Slider)(({ theme }) => ({
       opacity: theme.palette.mode === 'dark' ? undefined : 1,
       height: 3,
     },
+    '& .MuiSlider-markLabel': {
+        fontSize: 10,
+    },
   }));
 
 
-  const options = {
+  
+
+function AirbnbThumbComponent(props) {
+    const { children, ...other } = props;
+    return (
+      <SliderThumb {...other}>
+        {children}
+        <span className="airbnb-bar" />
+        <span className="airbnb-bar" />
+        <span className="airbnb-bar" />
+      </SliderThumb>
+    );
+  }
+  
+  AirbnbThumbComponent.propTypes = {
+    children: PropTypes.node,
+  };
+
+  
+  const getValueDefault = (item, tipo) => {
+    if (Array.isArray(item)){
+        const retorno = item.map((i) => {
+            const opcao = options[tipo].marks.find((a) => a.valor == i)
+            return opcao.value
+        })
+        return retorno
+    } else {
+        const valor = options[tipo].marks.find((i) => i.valor == item)
+        return valor.value
+    }
+  }
+  const getValorDefault = (item, tipo) => {
+      
+    if (Array.isArray(item)){
+        const retorno = item.map((i) => {
+            const opcao = options[tipo].marks.find((a) => a.value == i)
+            return opcao.valor
+        })
+        return retorno
+    } else {
+        const valor = options[tipo].marks.find((i) => i.value == item)
+        return valor.valor
+    }
+  }
+  const getLabelDefault = (item, tipo) => {
+    
+    if (Array.isArray(item)){
+        const retorno = item.map((i) => {
+            const opcao = options[tipo].marks.find((a) => a.value == i)
+            return opcao.label
+        })
+        return retorno.join(" até ")
+    } else {
+        const valor = options[tipo].marks.find((i) => i.value == item)
+        return valor.label
+    }
+    }
+  
+  export default function Range(props){
+      const dispatch = useDispatch()
+      const parametro = useSelector(state => state.parametros[props.name])
+      const value = parametro ? getValueDefault(parametro, props.tipo) : options[props.tipo].default;
+      const handleChange = (evento, newValue) => {
+          dispatch(handleFiltro(props.name, getValorDefault(newValue,props.tipo)))
+        }
+
+    return (
+        <MyBox>
+            <Typography >{props.label} : {getLabelDefault(value,props.tipo)}</Typography>
+            <Stack direction="row" alignItems="center" spacing={2}>
+                {props.iconeInicio}
+                <AirbnbSlider
+                    components={{ Thumb: AirbnbThumbComponent }}
+                    defaultValue={value}
+                    step={options[props.tipo].steps}
+                    valueLabelDisplay="auto"
+                    marks={options[props.tipo].marks}
+                    min={options[props.tipo].min}
+                    max={options[props.tipo].max}
+                    onChangeCommitted={handleChange}
+                    valueLabelDisplay="off"
+                    />
+                {props.iconeFim}
+            </Stack>
+        </MyBox>
+    )
+}
+
+const options = {
     'unidade': {
             min: 1,
             max: 4,
@@ -157,11 +256,16 @@ const AirbnbSlider = styled(Slider)(({ theme }) => ({
             },
             {
                 value:5,
+                label: '2mi',
+                valor:2000000
+            },
+            {
+                value:6,
                 label: '5mi',
                 valor:5000000
             },
             {
-                value:6,
+                value:7,
                 label: '10mi',
                 valor:10000000
             },
@@ -210,110 +314,20 @@ const AirbnbSlider = styled(Slider)(({ theme }) => ({
             },
             {
                 value:6,
-                label: '10milm',
+                label: '5m m',
+                valor:5000
+            },
+            {
+                value:7,
+                label: '10m m',
                 valor:10000
             },
             {
                 value:8,
-                label: '50mi',
+                label: '50m m',
                 valor:50000
             },
         ]
     }
   }
 
-
-
-function AirbnbThumbComponent(props) {
-    const { children, ...other } = props;
-    return (
-      <SliderThumb {...other}>
-        {children}
-        <span className="airbnb-bar" />
-        <span className="airbnb-bar" />
-        <span className="airbnb-bar" />
-      </SliderThumb>
-    );
-  }
-  
-  AirbnbThumbComponent.propTypes = {
-    children: PropTypes.node,
-  };
-
-  
-  const getValueDefault = (item, tipo) => {
-    if (Array.isArray(item)){
-        const retorno = item.map((i) => {
-            const opcao = options[tipo].marks.find((a) => a.valor == i)
-            return opcao.value
-        })
-        return retorno
-    } else {
-        const valor = options[tipo].marks.find((i) => i.valor == item)
-        return valor.value
-    }
-  }
-  const getValorDefault = (item, tipo) => {
-      
-    if (Array.isArray(item)){
-        const retorno = item.map((i) => {
-            const opcao = options[tipo].marks.find((a) => a.value == i)
-            return opcao.valor
-        })
-        return retorno
-    } else {
-        const valor = options[tipo].marks.find((i) => i.value == item)
-        return valor.valor
-    }
-  }
-  const getLabelDefault = (item, tipo) => {
-    
-    if (Array.isArray(item)){
-        const retorno = item.map((i) => {
-            const opcao = options[tipo].marks.find((a) => a.value == i)
-            return opcao.label
-        })
-        return retorno.join(" até ")
-    } else {
-        const valor = options[tipo].marks.find((i) => i.value == item)
-        return valor.label
-    }
-    }
-  
-  export default function Range(props){
-      const dispatch = useDispatch()
-      const parametro = useSelector(state => state.parametros[props.name])
-      const value = parametro ? getValueDefault(parametro, props.tipo) : options[props.tipo].default;
-      const handleChange = (evento, newValue) => {
-          dispatch(handleFiltro(props.name, getValorDefault(newValue,props.tipo)))
-        }
-
-    return (
-        <Box>
-            <Stack spacing={2}>
-
-                <Typography gutterBottom  >{props.label} : {getLabelDefault(value,props.tipo)}</Typography>
-                <Stack direction="row" alignItems="center" spacing={2}>
-
-                    {props.iconeInicio}
-                    <AirbnbSlider
-                        components={{ Thumb: AirbnbThumbComponent }}
-                        
-                        defaultValue={value}
-                        step={options[props.tipo].steps}
-                        valueLabelDisplay="auto"
-                        marks={options[props.tipo].marks}
-                        min={options[props.tipo].min}
-                        max={options[props.tipo].max}
-                        onChangeCommitted={handleChange}
-                        valueLabelDisplay="off"
-                        />
-                    {props.iconeFim}
-                
-                </Stack>
-            </Stack>
-
-            
-        </Box>
-    )
-}

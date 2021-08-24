@@ -1,8 +1,8 @@
 {
-    "cidade_link": "sao_jose_dos_pinhais_pr",
-    "imoveis_tipos_link": ["apartamento"],
+    "cidade_link": "curitiba_pr",
+    "imoveis_tipos_link": [],
     "tipo_negocio": "venda",
-    "bairros_link": ["afonso_pena"],
+    "bairros_link": [],
     "url":false,
     "quartos":[],
     "garagem":[],

@@ -1,7 +1,12 @@
 import { Box, Divider, Link, List, ListItem, ListItemButton, SwipeableDrawer } from "@material-ui/core";
 import PropTypes from 'prop-types'
+import { useDispatch } from "react-redux";
+import parametrosDefault from "../../mocks/parametros.json"
+import { setParametros } from "../../store/Filtro/Filtro.actions";
 
 export default function Menu(props){
+    const dispatch = useDispatch()
+
     return (
         <SwipeableDrawer 
           variant="temporary"
@@ -17,12 +22,21 @@ export default function Menu(props){
             <List component="nav">
               <ListItem>
                 <img src="https://icuritiba.com/imagens/tp_imoveiscuritiba.gif" height="50dp" sx={{ flexGrow: 1,  }}/>
-
               </ListItem>
               <Divider />
               <ListItemButton>
-                <Link aria-label="Lista de imóveis" color="inherit" href="/" underline="hover">
-                  Imóveis
+                <Link aria-label="Lista de imóveis Venda" color="inherit" underline="hover" onClick={(e) => dispatch(setParametros(parametrosDefault))}>
+                  Imóveis à venda
+                </Link>
+              </ListItemButton>
+              <Divider />
+              <ListItemButton>
+                <Link aria-label="Lista de imóveis aluguel" color="inherit" underline="hover" onClick={(e) => {
+                  let p = parametrosDefault
+                  p.tipo_negocio = 'locacao';
+                  dispatch(setParametros(p))
+                }}>
+                  Imóveis para alugar
                 </Link>
               </ListItemButton>
               <Divider />

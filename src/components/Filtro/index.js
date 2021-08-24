@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Box, Button, Divider, Grid, IconButton, Paper, SwipeableDrawer, Tab, Tabs, Typography } from "@material-ui/core";
+import {  Box, Divider, Grid, IconButton, Paper, SwipeableDrawer, Tab, Tabs, Typography } from "@material-ui/core";
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import BairrosInput from './bairros';
@@ -16,13 +16,19 @@ import OpenInFullIcon from '@material-ui/icons/OpenInFull';
 import DirectionsCarFilledIcon from '@material-ui/icons/DirectionsCarFilled';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
-import styled from "styled-components";
 
-const MyDivider = styled(Divider)`
-    margin-bottom: 5px;
-    margin-top: 25px;
-`
+import { styled } from '@material-ui/core/styles';
 
+const MyDivider = styled(Divider)(({ theme }) => ({
+    marginTop:0,
+    marginBottom:10,
+  }));
+const MyTitulo = styled(Typography)(({theme}) => ({
+    fontSize: 20, 
+    textAlign:'left', 
+    marginLeft:20,
+    marginTop:15,
+}));
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -39,32 +45,41 @@ export default function Filtro(props){
           onClose={props.handleToggle(false)} 
           onOpen={props.handleToggle(true)}
         >
-          <Paper 
-          component="form"
-          sx={{p:'2px 4px', display: 'table', alignItems: 'center', width:'96%', m:'0px auto'}}
-          >
+            <Paper
+            sx={{p:'2px 4px', display: 'table', alignItems: 'center', width:'96%', m:'5px auto'}}
+            >
+
               <Grid container spacing={1}>
-                  <Grid item xs={11}>
-                        <Typography 
+                  <Grid item xs={10}>
+                        <MyTitulo 
                         variant="h3" 
-                        sx={{fontSize: 24, textAlign:'center', p: '10px 0px'}} 
+                        
                         children="Encontre os melhores imóveis"
                         />
 
                   </Grid>
-                  <Grid item xs={1}>
+                  <Grid item xs={2}>
                         <IconButton 
                             aria-label="fecha filtro"
-                            sx={{width:"100%"}} 
+                            sx={{
+                                width:"100%",
+                                display: 'block'
+                            }} 
                             onClick={props.handleToggle(false)} 
                             color="secondary" 
                             size="large" 
                             variant="contained">
                             <ArrowDropUpIcon fontSize="inherit" />
+                            <Typography sx={{fontSize:10, display:"block"}}>fechar</Typography>
                         </IconButton>
                   </Grid>
               </Grid>
+            </Paper>
 
+          <Paper 
+          component="form"
+          sx={{p:'2px 4px', display: 'table', alignItems: 'center', width:'96%', m:'0px auto'}}
+          >
             <Box sx={{width: '100%', typography: 'body1'}}>
                 <Tabs 
                 variant="fullWidth"
@@ -158,6 +173,7 @@ export default function Filtro(props){
                     size="large" 
                     variant="contained">
                     <ArrowDropUpIcon fontSize="inherit" />
+                    <Typography sx={{fontSize:10, display:"block"}}>fechar</Typography>
                 </IconButton>
             </Paper>
         </SwipeableDrawer>
