@@ -30,6 +30,7 @@ import { useRouter } from "next/router";
 export default function Lista(props){
     
     const parametros = useSelector(state => state.parametros)
+    const carregamento = useSelector(state => state.carregamento)
 
     const [qtdeItensporPagina, setQtdeItensporPagina] = React.useState(5)
     const [infoPagina, setInfoPagina] = React.useState({
@@ -56,7 +57,7 @@ export default function Lista(props){
                 setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
                 if ( paginaAtual == 1 ){
                     setImoveis(res.itens)
-                    if ( ! router.query['url'] || (router.query['url'] && router.query.['url'][0] !== res.uri)){
+                    if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
                         router.push({
                             pathname: '/[...url]',
                             query: { url: [res.uri] }
@@ -82,8 +83,7 @@ export default function Lista(props){
                 }
                 
             });
-        
-    }, [paginaAtual, parametros, router.isReady])
+    }, [paginaAtual, carregamento.imoveis])
     /**
      * verifica fim da pagina
      */

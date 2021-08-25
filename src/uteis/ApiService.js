@@ -13,6 +13,16 @@ class ApiService {
 
     
 
+    QtdeImoveis = async (filtro) => {
+      const requestInfo = {
+        method:'GET',
+        headers: this.headers
+      };
+      let data = await fetch(`${this.endereco}portal_qtde?${filtro}` , requestInfo)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
     tituloQtdeImoveis = async (filtro) => {
       const requestInfo = {
         method:'GET',

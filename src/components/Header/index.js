@@ -23,7 +23,8 @@ import { ChatContent } from "../../../pages/chat/index";
 import PropTypes from 'prop-types'
 
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setImoveis } from '../../store/Carregamento/Carregamento.actions';
 
 const logo = '';
 
@@ -42,9 +43,8 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 export default function Header(props){
   
+  const dispatch = useDispatch()
   const favoritos = useSelector(state => state.favoritos)
-  
-
   const [swipeMenu, setSwipeMenu] = React.useState({
     left: false,
     top:false,
@@ -58,6 +58,10 @@ export default function Header(props){
     ) {
       return;
     }
+    if (anchor == 'top' && ! open){
+      dispatch(setImoveis())
+    }
+    
     setSwipeMenu({...swipeMenu,[anchor]:open});
   };
   const [chat, setChat] = React.useState(ChatContent);
@@ -76,7 +80,7 @@ export default function Header(props){
             <MenuIcon />
           </IconButton>
           <Grid item sx={{ flexGrow: 1 }}>
-            <img src="https://icuritiba.com/imagens/tp_imoveiscuritiba.gif" height="35dp" sx={{ flexGrow: 1 }}/>
+            <img src="https://icuritiba.com/imagens/tp_imoveiscuritiba.gif" height="40px" width="150px" />
           </Grid>
         
         { ! props.noFiltro ? (

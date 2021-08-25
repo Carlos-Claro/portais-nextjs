@@ -1,0 +1,362 @@
+[
+    {
+        "id": "abranches",
+        "descricao": "Abranches",
+        "qtde": "27"
+    },
+    {
+        "id": "agua_verde",
+        "descricao": "\u00c1gua Verde",
+        "qtde": "219"
+    },
+    {
+        "id": "ahu",
+        "descricao": "Ah\u00fa",
+        "qtde": "33"
+    },
+    {
+        "id": "alto_boqueirao",
+        "descricao": "Alto Boqueir\u00e3o",
+        "qtde": "65"
+    },
+    {
+        "id": "alto_da_gloria",
+        "descricao": "Alto da Gl\u00f3ria",
+        "qtde": "55"
+    },
+    {
+        "id": "alto_da_xv",
+        "descricao": "Alto da XV",
+        "qtde": "40"
+    },
+    {
+        "id": "atuba",
+        "descricao": "Atuba",
+        "qtde": "18"
+    },
+    {
+        "id": "augusta",
+        "descricao": "Augusta",
+        "qtde": "4"
+    },
+    {
+        "id": "bacacheri",
+        "descricao": "Bacacheri",
+        "qtde": "51"
+    },
+    {
+        "id": "bairro_alto",
+        "descricao": "Bairro Alto",
+        "qtde": "39"
+    },
+    {
+        "id": "barreirinha",
+        "descricao": "Barreirinha",
+        "qtde": "16"
+    },
+    {
+        "id": "batel",
+        "descricao": "Batel",
+        "qtde": "110"
+    },
+    {
+        "id": "bigorrilho",
+        "descricao": "Bigorrilho",
+        "qtde": "108"
+    },
+    {
+        "id": "boa_vista",
+        "descricao": "Boa Vista",
+        "qtde": "62"
+    },
+    {
+        "id": "bom_retiro",
+        "descricao": "Bom Retiro",
+        "qtde": "19"
+    },
+    {
+        "id": "boqueirao",
+        "descricao": "Boqueir\u00e3o",
+        "qtde": "176"
+    },
+    {
+        "id": "butiatuvinha",
+        "descricao": "Butiatuvinha",
+        "qtde": "2"
+    },
+    {
+        "id": "cabral",
+        "descricao": "Cabral",
+        "qtde": "67"
+    },
+    {
+        "id": "cachoeira",
+        "descricao": "Cachoeira",
+        "qtde": "7"
+    },
+    {
+        "id": "cajuru",
+        "descricao": "Cajur\u00fa",
+        "qtde": "81"
+    },
+    {
+        "id": "campina_do_siqueira",
+        "descricao": "Campina do Siqueira",
+        "qtde": "9"
+    },
+    {
+        "id": "campo_comprido",
+        "descricao": "Campo Comprido",
+        "qtde": "49"
+    },
+    {
+        "id": "campo_de_santana",
+        "descricao": "Campo de Santana",
+        "qtde": "23"
+    },
+    {
+        "id": "capao_da_imbuia",
+        "descricao": "Cap\u00e3o da Imbuia",
+        "qtde": "20"
+    },
+    {
+        "id": "capao_raso",
+        "descricao": "Cap\u00e3o Raso",
+        "qtde": "79"
+    },
+    {
+        "id": "cascatinha",
+        "descricao": "Cascatinha",
+        "qtde": "3"
+    },
+    {
+        "id": "centro",
+        "descricao": "Centro",
+        "qtde": "533"
+    },
+    {
+        "id": "centro_civico",
+        "descricao": "Centro C\u00edvico",
+        "qtde": "22"
+    },
+    {
+        "id": "cidade_industrial",
+        "descricao": "Cidade Industrial",
+        "qtde": "102"
+    },
+    {
+        "id": "cristo_rei",
+        "descricao": "Cristo Rei",
+        "qtde": "76"
+    },
+    {
+        "id": "fazendinha",
+        "descricao": "Fazendinha",
+        "qtde": "21"
+    },
+    {
+        "id": "ganchinho",
+        "descricao": "Ganchinho",
+        "qtde": "5"
+    },
+    {
+        "id": "guabirotuba",
+        "descricao": "Guabirotuba",
+        "qtde": "57"
+    },
+    {
+        "id": "hugo_lange",
+        "descricao": "Hugo Lange",
+        "qtde": "5"
+    },
+    {
+        "id": "jardim_botanico",
+        "descricao": "Jardim Bot\u00e2nico",
+        "qtde": "22"
+    },
+    {
+        "id": "jardim_das_americas",
+        "descricao": "Jardim das Am\u00e9ricas",
+        "qtde": "44"
+    },
+    {
+        "id": "jardim_social",
+        "descricao": "Jardim Social",
+        "qtde": "9"
+    },
+    {
+        "id": "juveve",
+        "descricao": "Juvev\u00ea",
+        "qtde": "38"
+    },
+    {
+        "id": "merces",
+        "descricao": "Merc\u00eas",
+        "qtde": "65"
+    },
+    {
+        "id": "mossungue",
+        "descricao": "Mossungu\u00ea",
+        "qtde": "72"
+    },
+    {
+        "id": "novo_mundo",
+        "descricao": "Novo Mundo",
+        "qtde": "89"
+    },
+    {
+        "id": "orleans",
+        "descricao": "Orleans",
+        "qtde": "2"
+    },
+    {
+        "id": "parolin",
+        "descricao": "Parolin",
+        "qtde": "17"
+    },
+    {
+        "id": "pilarzinho",
+        "descricao": "Pilarzinho",
+        "qtde": "31"
+    },
+    {
+        "id": "pinheirinho",
+        "descricao": "Pinheirinho",
+        "qtde": "85"
+    },
+    {
+        "id": "portao",
+        "descricao": "Port\u00e3o",
+        "qtde": "98"
+    },
+    {
+        "id": "prado_velho",
+        "descricao": "Prado Velho",
+        "qtde": "4"
+    },
+    {
+        "id": "reboucas",
+        "descricao": "Rebou\u00e7as",
+        "qtde": "105"
+    },
+    {
+        "id": "santa_candida",
+        "descricao": "Santa C\u00e2ndida",
+        "qtde": "54"
+    },
+    {
+        "id": "santa_felicidade",
+        "descricao": "Santa Felicidade",
+        "qtde": "58"
+    },
+    {
+        "id": "santa_quiteria",
+        "descricao": "Santa Quit\u00e9ria",
+        "qtde": "22"
+    },
+    {
+        "id": "santo_inacio",
+        "descricao": "Santo In\u00e1cio",
+        "qtde": "22"
+    },
+    {
+        "id": "sao_braz",
+        "descricao": "S\u00e3o Braz",
+        "qtde": "13"
+    },
+    {
+        "id": "sao_francisco",
+        "descricao": "S\u00e3o Francisco",
+        "qtde": "39"
+    },
+    {
+        "id": "sao_joao",
+        "descricao": "S\u00e3o Jo\u00e3o",
+        "qtde": "1"
+    },
+    {
+        "id": "sao_lourenco",
+        "descricao": "S\u00e3o Louren\u00e7o",
+        "qtde": "10"
+    },
+    {
+        "id": "sao_miguel",
+        "descricao": "S\u00e3o Miguel",
+        "qtde": "1"
+    },
+    {
+        "id": "seminario",
+        "descricao": "Semin\u00e1rio",
+        "qtde": "9"
+    },
+    {
+        "id": "sitio_cercado",
+        "descricao": "S\u00edtio Cercado",
+        "qtde": "90"
+    },
+    {
+        "id": "taboao",
+        "descricao": "Tabo\u00e3o",
+        "qtde": "1"
+    },
+    {
+        "id": "taruma",
+        "descricao": "Tarum\u00e3",
+        "qtde": "3"
+    },
+    {
+        "id": "tatuquara",
+        "descricao": "Tatuquara",
+        "qtde": "11"
+    },
+    {
+        "id": "tingui",
+        "descricao": "Tingui",
+        "qtde": "39"
+    },
+    {
+        "id": "uberaba",
+        "descricao": "Uberaba",
+        "qtde": "176"
+    },
+    {
+        "id": "umbara",
+        "descricao": "Umbar\u00e1",
+        "qtde": "20"
+    },
+    {
+        "id": "vila_fanny",
+        "descricao": "Vila Fanny",
+        "qtde": "30"
+    },
+    {
+        "id": "vila_guaira",
+        "descricao": "Vila Gua\u00edra",
+        "qtde": "28"
+    },
+    {
+        "id": "vila_hauer",
+        "descricao": "Vila Hauer",
+        "qtde": "54"
+    },
+    {
+        "id": "vila_izabel",
+        "descricao": "Vila Izabel",
+        "qtde": "39"
+    },
+    {
+        "id": "vila_lindoia",
+        "descricao": "Vila Lind\u00f3ia",
+        "qtde": "20"
+    },
+    {
+        "id": "vista_alegre_merces",
+        "descricao": "Vista Alegre Merc\u00eas",
+        "qtde": "30"
+    },
+    {
+        "id": "xaxim",
+        "descricao": "Xaxim",
+        "qtde": "117"
+    }
+]

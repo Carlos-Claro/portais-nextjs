@@ -7,17 +7,18 @@ import { setURL } from "../src/store/Filtro/Filtro.actions";
 export default function URL(){
   const dispatch = useDispatch()
   const router = useRouter()
-  
-  const parametros = useSelector(state => state.parametros);
-  
+  const carregamento = useSelector(state => state.carregamento)
+
   useEffect(() => {
-    
     if ( router.isReady ) {
-      console.log(router.query);
       dispatch(setURL(router.query['url'][0]))
     } 
 
   }, [router.isReady])  
+
+  useEffect(() => {
+    console.log(carregamento);
+  }, [carregamento])
 
   return <Home />;
 }

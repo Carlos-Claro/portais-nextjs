@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {  Box, Divider, Grid, IconButton, Paper, SwipeableDrawer, Tab, Tabs, Typography } from "@material-ui/core";
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
@@ -18,6 +18,8 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 
 import { styled } from '@material-ui/core/styles';
+import ApiService from '../../uteis/ApiService';
+
 
 const MyDivider = styled(Divider)(({ theme }) => ({
     marginTop:0,
@@ -38,6 +40,20 @@ const tipo_negocio = ["venda","locacao"]
 export default function Filtro(props){
     const parametros = useSelector(state => state.parametros)
     const dispatch = useDispatch()
+    const [qtdePesquisado, setQtdePesquisado] = React.useState()
+    const retornaParametrosURL = () => {
+        var pesquisa = Object.keys(parametros).map((chave,i) => parametros[chave] != '' ? (i ? '&' : '' ) + chave + '=' + parametros[chave] : '' ).join('')
+        return pesquisa
+    };
+    useEffect(() => {
+        if (props.isOpen){
+            const item = new ApiService
+            item.QtdeImoveis(retornaParametrosURL()).then((res) => {
+                setQtdePesquisado(res.qtde_total)
+            })
+        }
+    },[props.isOpen, parametros])
+
     return (
         <SwipeableDrawer 
           anchor="top" 
@@ -56,7 +72,9 @@ export default function Filtro(props){
                         
                         children="Encontre os melhores imóveis"
                         />
-
+                        <Typography variant="p" sx={{marginLeft:"20px"}}>
+                            {qtdePesquisado} imóveis para esta pesquisa
+                        </Typography>
                   </Grid>
                   <Grid item xs={2}>
                         <IconButton 
@@ -95,13 +113,12 @@ export default function Filtro(props){
                     <Tab label="Aluguel" id="locacao" />
                 </Tabs>
             </Box>
-            
             <BairrosInput 
-            icon={icon}
-            checkedIcon={checkedIcon}
-            isOpen={props.isOpen}
-            bairros={props.bairros}
-            />
+                icon={icon}
+                checkedIcon={checkedIcon}
+                isOpen={props.isOpen}
+                />
+            
             <MyDivider />
             <TiposInput 
             icon={icon}

@@ -13,16 +13,10 @@ import { handleFiltro } from "../../store/Filtro/Filtro.actions"
 export default function TiposInput(props){
     const dispatch = useDispatch()
     const selecionados = useSelector(state => getSelecionados(state,'imoveis_tipos_link'))
-
-    
     const [open,setOpen] = React.useState(false)
-    
     const handleParametros = (valor) => {
         dispatch(handleFiltro('imoveis_tipos_link',valor));
-        
     }
-    console.log(tiposMock);
-
     const Props = {
         options: tiposMock,
         getOptionLabel: (option) => option.descricao,
@@ -31,7 +25,12 @@ export default function TiposInput(props){
         disableCloseOnSelect:true,
         disableClearable:true,
         includeInputInList:true,
-        defaultValue: tiposMock.filter( (item) => selecionados.indexOf(item.id) >= 0),
+        defaultValue: () => {
+            if (selecionados){
+                return tiposMock.filter( (item) => selecionados.indexOf(item.id) >= 0)
+            }
+            return []
+        },
         renderOption:(props, option, {selected}) => {
             return (
             <li {...props} >
