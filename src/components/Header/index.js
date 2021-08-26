@@ -17,14 +17,23 @@ import HouseIcon from '@material-ui/icons/House';
 import { styled } from '@material-ui/core/styles';
 import React from 'react';
 import MenuPrincipal from '../MenuPrincipal';
-import Filtro from '../Filtro';
-import Favoritos from '../Favoritos';
+
 import { ChatContent } from "../../../pages/chat/index";
 import PropTypes from 'prop-types'
 
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setImoveis } from '../../store/Carregamento/Carregamento.actions';
+
+import dynamic from 'next/dynamic'
+const FiltroDinamico = dynamic(
+  () => import('../Filtro'),
+  {ssr:true}
+)
+const FavoritosDinamico = dynamic(
+  () => import('../Favoritos'),
+  {ssr:true}
+)
 
 const logo = '';
 
@@ -80,7 +89,7 @@ export default function Header(props){
             <MenuIcon />
           </IconButton>
           <Grid item sx={{ flexGrow: 1 }}>
-            <img src="https://icuritiba.com/imagens/tp_imoveiscuritiba.gif" height="40px" width="150px" />
+            <img src="/images/tp_imoveiscuritiba.gif" height="auto" width="auto" />
           </Grid>
         
         { ! props.noFiltro ? (
@@ -136,7 +145,9 @@ export default function Header(props){
       
         </StyledToolbar>
         <MenuPrincipal handleToggle={acao => toggleDrawerMenu('left', acao)} isOpen={swipeMenu['left']} />
-         <Filtro 
+        
+
+         <FiltroDinamico
           handleToggle={acao => toggleDrawerMenu('top',acao)} 
           isOpen={swipeMenu.top} 
           handleParametros={(tipo, valor) => props.handleParametros(tipo,valor)} 
@@ -144,7 +155,7 @@ export default function Header(props){
           bairros={props.bairros}
           /> 
         
-        <Favoritos 
+        <FavoritosDinamico
         
         handleToggle={acao => toggleDrawerMenu('right',acao)} 
         isOpen={swipeMenu.right}

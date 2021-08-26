@@ -25,7 +25,7 @@ export default function ImagesNext(props){
       <Fade in={fadeImage} timeout={800} >
 
           <Image
-            src={image.images[0].arquivo !== 'https://icuritiba.com/imagens/naodisponivel.jpg' ? image.images[0].arquivo : TemporaryImage}
+            src={image.images[0].arquivo !== '/images/naodisponivel.jpg' ? image.images[0].arquivo : TemporaryImage}
             layout="responsive"
             width={350}
             height={250}

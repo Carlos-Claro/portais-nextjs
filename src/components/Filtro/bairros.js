@@ -24,6 +24,7 @@ export default function BairrosInput(props){
         disableClearable:true,
         includeInputInList:true,
         defaultValue: () => { 
+            
             if (bairrosSelecionados){
                 return BairrosMock.filter( (item) => bairrosSelecionados.indexOf(item.id) >= 0)
             }

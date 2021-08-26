@@ -1,20 +1,35 @@
 import React, { useEffect } from 'react';
 
-
 import Header from '../src/components/Header'
-import Footer from '../src/components/Footer'
 import Container from '@material-ui/core/Container';
-import Lista from '../src/components/Lista';
+
 import Fab from '@material-ui/core/Fab';
 import { Box, Zoom } from '@material-ui/core';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-import ApiService from '../src/uteis/ApiService';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { handleFiltro } from '../src/store/Filtro/Filtro.actions';
+
+
+import dynamic from 'next/dynamic'
+const ListaDinamico = dynamic(
+  () => import('../src/components/Lista'),
+  {
+    loading: () => <p >loading...</p>,
+    ssr:true
+  }
+)
+
+const FooterDinamico = dynamic(
+  () => import('../src/components/Footer'),
+  {
+    loading: () => <p >loading...</p>,
+    ssr:true
+  }
+)
 
 
 export default function Home() {
@@ -55,18 +70,14 @@ export default function Home() {
 
   return (
     <>
-    
       <Container>
-        <Header 
-          
-          />
-        <Lista 
+        <Header />
+        <ListaDinamico 
           handlePaginaAtual={pagina => setPaginaAtual(pagina)}
           paginaAtual={paginaAtual}
           />
-        <Footer />
+        <FooterDinamico />
       </Container>
-      
       <Zoom in={triggerScroll}>
         <Box
           onClick={handleScroll}
@@ -78,7 +89,6 @@ export default function Home() {
           </Fab>
         </Box>
       </Zoom>
-      
     </>
   );
 }

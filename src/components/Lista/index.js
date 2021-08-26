@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from "react-redux";
 import { setParametros } from "../../store/Filtro/Filtro.actions";
 
+import ImoveisMock from "../../mocks/imoveisItens.json"
+
 import { useRouter } from "next/router";
 
     const TypographyH1 = styled.h1`
@@ -37,7 +39,7 @@ export default function Lista(props){
           qtde_total: 1420,
           titulo:'Imóveis em São José dos Pinhais'
     })
-    const [imoveis, setImoveis] = React.useState([])
+    const [imoveis, setImoveis] = React.useState(ImoveisMock)
     const [paginaAtual, setPaginaAtual] = React.useState(props.paginaAtual);
     const retornaParametrosURL = () => {
         var pesquisa = Object.keys(parametros).map((chave,i) => parametros[chave] != '' ? (i ? '&' : '' ) + chave + '=' + parametros[chave] : '' ).join('')
@@ -57,14 +59,17 @@ export default function Lista(props){
                 setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
                 if ( paginaAtual == 1 ){
                     setImoveis(res.itens)
-                    if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
-                        router.push({
-                            pathname: '/[...url]',
-                            query: { url: [res.uri] }
-                        }, 
-                        undefined, { shallow: true }
-                        )
-                    }
+                    console.log(router);
+                    console.log(router.query['url']);
+
+                    // if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
+                    //     router.push({
+                    //         pathname: '/[...url]',
+                    //         query: { url: [res.uri] }
+                    //     }, 
+                    //     undefined, { shallow: true }
+                    //     )
+                    // }
                 }else{
                     setImoveis((itensAtual) => [...itensAtual,...res.itens])  
                 }

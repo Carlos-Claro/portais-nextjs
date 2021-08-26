@@ -1,5 +1,4 @@
-const imoveis = [
-    {
+[{
             "_id": 1,
             "area": 0.0,
             "area_terreno": 100.00,
@@ -37,7 +36,7 @@ const imoveis = [
             "id_tipo": 1,
             "images": [
                 {
-                    "arquivo": "https://icuritiba.com/imagens/naodisponivel.jpg",
+                    "arquivo": "/images/naodisponivel.jpg",
                     "data": "2021-02-20T01:02:00Z",
                     "extensao": "jpg",
                     "gerado_image": 1,
@@ -45,9 +44,9 @@ const imoveis = [
                     "id_empresa": 83975,
                     "id_imovel": 2244808,
                     "ordem": 1,
-                    "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
+                    "original": "/images/naodisponivel.jpg",
                     "titulo": "Imóvel de teste"
-                },
+                }
                 
             ],
             "imobiliaria_bairro": "Centro",
@@ -158,7 +157,7 @@ const imoveis = [
                 "id_tipo": 1,
                 "images": [
                     {
-                        "arquivo": "https://icuritiba.com/imagens/naodisponivel.jpg",
+                        "arquivo": "/images/naodisponivel.jpg",
                         "data": "2021-02-20T01:02:00Z",
                         "extensao": "jpg",
                         "gerado_image": 1,
@@ -166,9 +165,9 @@ const imoveis = [
                         "id_empresa": 83975,
                         "id_imovel": 2244808,
                         "ordem": 1,
-                        "original": "https://icuritiba.com/imagens/naodisponivel.jpg",
+                        "original": "/images/naodisponivel.jpg",
                         "titulo": "Imóvel de teste"
-                    },
+                    }
                    
                 ],
                 "imobiliaria_bairro": "Centro",

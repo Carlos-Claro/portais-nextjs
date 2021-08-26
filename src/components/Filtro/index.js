@@ -42,7 +42,12 @@ export default function Filtro(props){
     const dispatch = useDispatch()
     const [qtdePesquisado, setQtdePesquisado] = React.useState()
     const retornaParametrosURL = () => {
-        var pesquisa = Object.keys(parametros).map((chave,i) => parametros[chave] != '' ? (i ? '&' : '' ) + chave + '=' + parametros[chave] : '' ).join('')
+        var pesquisa = Object.keys(parametros).map((chave,i) => (
+                                            parametros[chave] != '' 
+                                                    ? (i ? '&' : '' ) + chave + '=' + parametros[chave] 
+                                                    : '' 
+                                                    )).join('')
+        
         return pesquisa
     };
     useEffect(() => {

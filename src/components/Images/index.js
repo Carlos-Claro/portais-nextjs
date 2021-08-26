@@ -1,5 +1,5 @@
 import { Button, Chip, Fade, Grid } from "@material-ui/core";
-import CardMedia from "@material-ui/core/CardMedia";
+
 import React from "react"
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
