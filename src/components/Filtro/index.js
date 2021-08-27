@@ -186,7 +186,7 @@ export default function Filtro(props){
                         />
             <MyDivider />
             </Paper>
-            <Paper elevation="10" variant="outlined" >
+            <Paper elevation={8} >
                 <IconButton 
                     aria-label="fecha filtro"
                     sx={{width:"100%"}} 

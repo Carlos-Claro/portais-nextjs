@@ -34,21 +34,10 @@ const FooterDinamico = dynamic(
 
 export default function Home() {
   const dispatch = useDispatch()
-  const [paginaAtual, setPaginaAtual] = React.useState(1)
   const parametros = useSelector(state => state.parametros)
   useEffect(() => {
-    setPaginaAtual(1)
     handleScroll()
   }, [parametros])
-
-  const handleParametros = (tipo,valor) => {
-    dispatch(handleFiltro(tipo,valor))
-  }
-
-
-  
-
-
   const triggerScroll = useScrollTrigger({
     disableHysteresis:true,
     threshold:100
@@ -72,10 +61,7 @@ export default function Home() {
     <>
       <Container>
         <Header />
-        <ListaDinamico 
-          handlePaginaAtual={pagina => setPaginaAtual(pagina)}
-          paginaAtual={paginaAtual}
-          />
+        <ListaDinamico />
         <FooterDinamico />
       </Container>
       <Zoom in={triggerScroll}>

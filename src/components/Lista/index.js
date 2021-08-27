@@ -8,20 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setParametros } from "../../store/Filtro/Filtro.actions";
 
-import ImoveisMock from "../../mocks/imoveisItens.json"
+import HelpTwoToneIcon from '@material-ui/icons/HelpTwoTone';
 
 import { useRouter } from "next/router";
-import { CircularProgress, Divider, Paper, Typography } from "@material-ui/core";
+import { CircularProgress, IconButton, Paper, Typography, Dialog, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core"
 
 import Imoveis from "../Imoveis";
-
-import dynamic from 'next/dynamic'
-const NaoEncontreiDinamico = dynamic(
-  () => import('../NaoEncontrei'),
-  {
-    ssr:true
-  }
-)
 
     const TypographyH1 = styled.h1`
         padding-top: 70px;
@@ -49,20 +41,50 @@ export default function Lista(props){
           qtde_total: 1420,
           titulo:'Imóveis em São José dos Pinhais'
     })
-    const [imoveis, setImoveis] = React.useState(ImoveisMock)
-    const [paginaAtual, setPaginaAtual] = React.useState(props.paginaAtual);
+    const [imoveis, setImoveis] = React.useState([])
+    const [paginaAtual, setPaginaAtual] = React.useState(0);
     const retornaParametrosURL = () => {
         var pesquisa = Object.keys(parametros).map((chave,i) => parametros[chave] != '' ? (i ? '&' : '' ) + chave + '=' + parametros[chave] : '' ).join('')
         pesquisa += '&limit=' + qtdeItensporPagina + '&skip=' + ( paginaAtual * qtdeItensporPagina )
         return pesquisa
     };
-    
     const [fimDaLista, setFimDaLista] = React.useState(false)
 
     const dispatch = useDispatch()
     const router = useRouter()
   
+    const [openNaoEncontrei, setOpenNaoEncontrei] = React.useState(false)
+    const handleOpenNaoencontrei = (acao) => setOpenNaoEncontrei(acao)
     
+    const valorFimDalista = () => {
+        if (fimDaLista){
+            return (
+               <>
+                   <Typography variant="overline">
+                       Esta lista acabou!!! 
+                       <br />
+                       O que fazer agora?
+                   </Typography>
+                   <br />
+                   <IconButton variant="outline" href="/nao_encontrei">
+                       <HelpTwoToneIcon fontSize="large" color="info" />
+                   </IconButton>
+                </>
+           )
+        } else{
+            return (
+                <>
+                    <CircularProgress />
+                    <br />
+                    <Typography variant="caption"  align="center">
+                        Carregando mais imóveis
+                    </Typography>
+                </>
+
+            )
+        }
+    }
+
 
     /**
      * Carga de imóveis, altera quando paginaAtual ou parametros são altertados, e na primeira carga
@@ -73,7 +95,7 @@ export default function Lista(props){
                 setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
                 if ( res.itens.length ){
                     
-                    if ( paginaAtual == 1 ){
+                    if ( paginaAtual == 0 ){
                         setImoveis(res.itens)
                         // if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
                         //     router.push({
@@ -99,8 +121,7 @@ export default function Lista(props){
                         }
                         dispatch(setParametros(retornoParametros))
                     }
-                }
-                else{
+                }else{
                     setFimDaLista(true)
                 }
                 
@@ -114,10 +135,10 @@ export default function Lista(props){
             if ( entries.some(entry => entry.isIntersecting) ){
                 let imovelClass = document.querySelectorAll(".imovel")
              
-                if ( imovelClass.length > 0 ){
+                if ( imovelClass.length > 0  ){
                     setPaginaAtual((pagina) => {
                         let proxima = pagina + 1
-                        props.handlePaginaAtual( proxima );
+                        setPaginaAtual( proxima );
                         return proxima
                     })
                 }
@@ -127,6 +148,10 @@ export default function Lista(props){
         return () => intersectionObserver.disconnect()
     }, [])
     
+    React.useEffect(() => {
+        setPaginaAtual(0)
+    }, [parametros])
+
     return (
         <>
         <Container variant="main" >
@@ -149,30 +174,7 @@ export default function Lista(props){
                      ) )}
                     <li id="fimPagina" key="fim de pagina" >
                         <Paper elevation={8} align="center" sx={{m:"10px"}} >
-                            {
-                                fimDaLista 
-                                ? (
-                                    <>
-                                        <Typography variant="overline">
-                                            Esta lista acabou!!! 
-                                            <br />
-                                            O que fazer agora?
-                                        </Typography>
-                                        
-                                    </>
-                                )
-                                : (
-                                    <>
-                                        <CircularProgress />
-                                        <br />
-                                        <Typography variant="caption"  align="center">
-                                            Carregando mais imóveis
-                                        </Typography>
-                                    </>
-
-                                )
-                            }
-                            
+                            {valorFimDalista()}
                         </Paper>
                         
                     </li>
