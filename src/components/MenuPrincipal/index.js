@@ -21,7 +21,7 @@ export default function Menu(props){
           >
             <List component="nav">
               <ListItem>
-                <img src="https://icuritiba.com/imagens/tp_imoveiscuritiba.gif" height="50dp" sx={{ flexGrow: 1,  }}/>
+                <img src="/images/tp_imoveiscuritiba.gif" height="50dp" sx={{ flexGrow: 1,  }}/>
               </ListItem>
               <Divider />
               <ListItemButton>
@@ -47,7 +47,7 @@ export default function Menu(props){
               </ListItemButton>
               <Divider />
               <ListItemButton>
-                <Link aria-label="Encontramos o imóvel para você" color="inherit" href="nao_encontrei" underline="hover">
+                <Link aria-label="Encontramos o imóvel para você" color="inherit" href="encontre" underline="hover">
                   Não Encontrei
                 </Link>
               </ListItemButton>
@@ -59,12 +59,12 @@ export default function Menu(props){
               </ListItemButton>
               <Divider />
               <ListItemButton>
-                <Link aria-label="Estatisticas de valor " color="inherit" href="estatisticas_valor" underline="hover">
+                <Link aria-label="Estatisticas de valor " color="inherit" href="estatisticasvalor" underline="hover">
                   Estátisticas Valor
                 </Link>
               </ListItemButton>
               <ListItemButton>
-                <Link aria-label="Estatisticas de Portal " color="inherit" href="estatisticas_portal" underline="hover">
+                <Link aria-label="Estatisticas de Portal " color="inherit" href="estatisticasportal" underline="hover">
                   Estátisticas Portal
                 </Link>
               </ListItemButton>

@@ -66,7 +66,7 @@ export default function Lista(props){
                        O que fazer agora?
                    </Typography>
                    <br />
-                   <IconButton variant="outline" href="/nao_encontrei">
+                   <IconButton variant="outline" href="/encontre">
                        <HelpTwoToneIcon fontSize="large" color="info" />
                    </IconButton>
                 </>
@@ -155,14 +155,19 @@ export default function Lista(props){
     return (
         <>
         <Container variant="main" >
-            <Box variant="section" id="top">
+            <Paper 
+                variant="section" 
+                id="top" 
+                elevation={6} 
+                sx={{m:2}} 
+                >
                 <TypographyH1 as="h1" >
                     {infoPagina.titulo}
                 </TypographyH1>
                 <TypographyH2 as="h2" >
                     {infoPagina.qtde_total} Imóveis encontrados
                 </TypographyH2>
-            </Box>
+            </Paper>
             <Box>
                 <ul style={{ listStyleType:"none"}} >
                     {imoveis.map( (imovel) => (

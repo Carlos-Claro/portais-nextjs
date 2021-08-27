@@ -1,4 +1,5 @@
-import { SwipeableDrawer, Typography } from "@material-ui/core";
+import { Badge, CircularProgress, IconButton, Paper, SwipeableDrawer, Typography } from "@material-ui/core";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import React from "react";
 import ApiService from "../../uteis/ApiService";
 import Imoveis from "../Imoveis";
@@ -36,14 +37,46 @@ export default function Favoritos(props){
                 marginTop:"70px",
                 width:"95%"
             }}>
-                <Typography variant="h3" >Seus Favoritos: {favoritos.length}</Typography>
+                <Paper elevation={6} sx={{m:2}}>
+                    <Typography 
+                        component="h3"  
+                        variant="subtitle1"  
+                        align="center"
+                        sx={{p:"10px"}}
+                        >Seus imóveis Favoritos: 
+                    <IconButton
+                        aria-label="Seus Favoritos" 
+                        color="inherit" 
+                        >
+                        <Badge 
+                        badgeContent={favoritos.length} 
+                        color="success" >
+                        <FavoriteIcon 
+                            color={ ! favoritos.length ? "disabled" : "success"} />
+                        </Badge>
+                    </IconButton>
+                    </Typography>
+                </Paper>
                 <ul>
-                    {imoveis.map( (imovel) => (
+                    {
+                        ! imoveis.length
+                        ? (
+                            <Paper elevation={8} align="center" sx={{m:"10px"}} >
+                                <CircularProgress />
+                                <br />
+                                <Typography variant="caption"  align="center">
+                                    Carregando seus imóveis favoritos
+                                </Typography>
+                            </Paper>
+                            
+                        )
+                        : imoveis.map( (imovel) => (
                         <>
                         <Imoveis 
                         key={imovel._id} 
                         imovel={imovel} 
                         abaFavorito={true}
+                        
                         />
                      </>) )}
                     
