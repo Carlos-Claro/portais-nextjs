@@ -1,7 +1,7 @@
 {
     "headers": [
       {
-        "source": "http://carlosclaro.ddns.net:5000/(.*)",
+        "source": "(.*)",
         "headers": [
           { "key": "Access-Control-Allow-Credentials", "value": "true" },
           { "key": "Access-Control-Allow-Origin", "value": "*" },
