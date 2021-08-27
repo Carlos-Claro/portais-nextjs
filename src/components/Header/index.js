@@ -6,6 +6,9 @@ import {
   Grid,
   Badge,
   Link,
+  Menu,
+  MenuItem,
+  Divider,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -13,6 +16,8 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import HouseIcon from '@material-ui/icons/House';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
 
 import { styled } from '@material-ui/core/styles';
 import React from 'react';
@@ -74,8 +79,17 @@ export default function Header(props){
     setSwipeMenu({...swipeMenu,[anchor]:open});
   };
   const [chat, setChat] = React.useState(ChatContent);
-  const [modalStatus, setModalStatus] = React.useState(false);
+  const [modalStatus, setModalStatus] = React.useState(false)
   
+  const [menu, setMenu] = React.useState(null)
+  const openOptions = Boolean(menu)
+  const handleOpenOptions = (e) => {
+    e.preventDefault()
+    setMenu(e.currentTarget) 
+  }
+  const handleCloseOptions = () => {
+    setMenu(null) 
+  }
     return (
       <>
       <AppBar position="fixed" color="default">
@@ -111,8 +125,42 @@ export default function Header(props){
         )
         }
         
+
           <IconButton 
-          aria-label="mais informações" 
+            id="botao-opcao-options"
+            aria-label="mais opções" 
+            aria-controls="basic-menu-option"
+            aria-expanded={openOptions ? 'true' : undefined}
+            onClick={handleOpenOptions}
+            
+            color="inherit" 
+            >
+              <Badge 
+              badgeContent={favoritos.length+chat.length} 
+              color="success" >
+              <MoreVertIcon />
+
+              </Badge>
+            </IconButton>
+          
+        
+        </StyledToolbar>
+        <MenuPrincipal handleToggle={acao => toggleDrawerMenu('left', acao)} isOpen={swipeMenu['left']} />
+        
+          <Menu 
+            id="basic-menu-option"
+            open={openOptions}
+            onClose={handleCloseOptions}
+            anchorEl={menu}
+            MenuListProps={{
+              'aria-labelledby': 'botao-opcao-options',
+            }}
+          >
+            <MenuItem > 
+            
+
+          <IconButton 
+          aria-label="Favoritos" 
           color="inherit" 
           onClick={toggleDrawerMenu('right',true)} >
             <Badge 
@@ -122,16 +170,19 @@ export default function Header(props){
                 color={ ! favoritos.length ? "disabled" : "success"} />
             </Badge>
           </IconButton>
+          </MenuItem > 
+          <MenuItem > 
           <IconButton
           aria-label="Login/cadastro" 
           color="inherit" 
           >
             <GitHubIcon />
           </IconButton>
+          </MenuItem > 
+          <MenuItem > 
           <IconButton
           aria-label="Conversas iniciadas" 
           color="inherit" 
-          edge="end" 
           component={Link}
           href="chat"
           >
@@ -141,11 +192,11 @@ export default function Header(props){
                 <ChatBubbleOutlineIcon color={ ! chat.length ? "disabled" : "success"} /> 
                </Badge>
           </IconButton>       
-          
-      
-        </StyledToolbar>
-        <MenuPrincipal handleToggle={acao => toggleDrawerMenu('left', acao)} isOpen={swipeMenu['left']} />
-        
+
+            </MenuItem>
+            
+            
+          </Menu>
 
          <FiltroDinamico
           handleToggle={acao => toggleDrawerMenu('top',acao)} 
