@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import {  Box, Divider, Grid, IconButton, Paper, SwipeableDrawer, Tab, Tabs, Typography } from "@material-ui/core";
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import BairrosInput from './bairros';
-import TiposInput from './tipos';
+import BairrosInput, {BairrosSelect} from './bairros';
+import {TiposSelect} from './tipos';
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux';
 import { handleFiltro, limpaFiltro } from '../../store/Filtro/Filtro.actions';
@@ -118,17 +118,9 @@ export default function Filtro(props){
                     <Tab label="Aluguel" id="locacao" />
                 </Tabs>
             </Box>
-            <BairrosInput 
-                icon={icon}
-                checkedIcon={checkedIcon}
-                isOpen={props.isOpen}
-                />
-            
+            <BairrosSelect/>
             <MyDivider />
-            <TiposInput 
-            icon={icon}
-            checkedIcon={checkedIcon}
-            />
+            <TiposSelect />
             <MyDivider />
             {
                 parametros.tipo_negocio == "venda" ? 

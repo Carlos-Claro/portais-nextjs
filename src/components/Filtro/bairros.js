@@ -1,97 +1,50 @@
-import { Autocomplete, Checkbox, Chip, TextField } from "@material-ui/core"
-import React, { useEffect } from "react"
-import PropTypes from 'prop-types'
+import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select } from "@material-ui/core"
+import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getSelecionados } from "../../store/Filtro/Filtro.selectors"
 import { handleFiltro } from "../../store/Filtro/Filtro.actions"
 
 import BairrosMock from "../../mocks/bairros/curitiba_pr.json"
 
-export default function BairrosInput(props){
-    const bairrosSelecionados = useSelector(state => getSelecionados(state, 'bairros_link'))
-    const cidadeSelecionada = useSelector(state => state.parametros.cidade_link)
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+    },
+  },
+};
+
+export function BairrosSelect(props){
     const dispatch = useDispatch()
-    const [open,setOpen] = React.useState(false)
+    const selecionados = useSelector(state => getSelecionados(state,'bairros_link'))
     const handleParametros = (valor) => {
-        dispatch(handleFiltro('bairros_link',valor))
+        dispatch(handleFiltro('bairros_link',valor.target.value));
     }
-    const bairrosProps = {
-        options: BairrosMock,
-        getOptionLabel: (option) => option.descricao,
-        multiple:true,
-        open:open,
-        disableCloseOnSelect:true,
-        disableClearable:true,
-        includeInputInList:true,
-        defaultValue: () => { 
-            
-            if (bairrosSelecionados){
-                return BairrosMock.filter( (item) => bairrosSelecionados.indexOf(item.id) >= 0)
-            }
-        },
-        renderOption:(props, option, {selected}) => { return (
-            <li {...props} >
-                <Checkbox 
-                icon={props.icon}
-                checkedIcon={props.checkedIcon}
-                style={{marginRight:8}}
-                checked={selected || bairrosSelecionados.indexOf(option.id) >= 0}
-                value={option.id}
-                />
-                {option.descricao}
-            </li>
-            )},
-        renderTags:(value, getTagProps) => value.map((option, index) => <Chip variant="outlined" label={option.descricao} {...getTagProps({ index })} />),
-        onOpen: () => {
-
-            setOpen(true)
-        },
-        onClose: () => {
-            setOpen(false)
-        },
-        onChange:(e,v,r) => {
-            const reasons = ['removeOption', 'selectOption'];
-            if( reasons.indexOf(r) >= 0 ){
-                if (v.length === 0) {
-                    handleParametros([])
-                }else{
-                    const b = v.map((ba) => ba.id);
-                    handleParametros(b)
-                }
-            }
-        },
-    }
-    
     return (
-
-                <Autocomplete
-                        {...bairrosProps}
-                        id="bairro"
-                        renderInput={(params) => (
-                        <TextField 
-                            {...params} 
-                            label="autoComplete" 
-                            variant="standard" 
-                            label="Encontre por Bairro" 
-                            
-                            />
-                            )}
-                        />
-            )
-    
-
-        
-
-}    
-
-BairrosInput.defaultProps = {
-    isOpen: false
+        <FormControl variant="standard" sx={{ m: 1, width:0.95 }}>
+        <InputLabel id="bairros-label">Encontre por bairros </InputLabel>
+        <Select
+          labelId="bairros-label"
+          id="bairros-name"
+          multiple
+          value={selecionados}
+          onChange={handleParametros}
+          MenuProps={MenuProps}
+          renderValue={(selected) => BairrosMock.filter( (item) => selected.indexOf(item.id) >= 0)
+                        .reduce((item, cur, idx) => item + (idx ? ', ' : '') + cur.descricao, '')
+                        }>
+          {BairrosMock.map((tipo) => (
+            <MenuItem
+              key={tipo.id}
+              value={tipo.id}
+            >
+                <Checkbox checked={selecionados.indexOf(tipo.id) > -1} />
+                <ListItemText primary={tipo.descricao} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )
 }
-BairrosInput.propTypes = {
-    handleParametros:PropTypes.func,
-    icon:PropTypes.node,
-    checkedIcon:PropTypes.node,
-    isOpen:PropTypes.bool,
-}
-
-
