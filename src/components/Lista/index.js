@@ -36,7 +36,7 @@ export default function Lista(props){
     
     const parametros = useSelector(state => state.parametros)
     const carregamento = useSelector(state => state.carregamento)
-    const [qtdeItensporPagina, setQtdeItensporPagina] = React.useState(5)
+    const [qtdeItensporPagina, setQtdeItensporPagina] = React.useState(3)
     const [infoPagina, setInfoPagina] = React.useState({
           qtde_total: 1420,
           titulo:'Imóveis em São José dos Pinhais'
