@@ -4,36 +4,66 @@ import Header from '../src/components/Header'
 import Container from '@material-ui/core/Container';
 
 import Fab from '@material-ui/core/Fab';
-import { Box, Zoom } from '@material-ui/core';
+import { Box, Paper, Typography, Zoom, CircularProgress } from '@material-ui/core';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
+import { useSelector } from 'react-redux';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { handleFiltro } from '../src/store/Filtro/Filtro.actions';
+import HeaderDinamico from '../src/components/Header'
+import ListaDinamico from '../src/components/Lista'
+import FooterDinamico from '../src/components/Footer'
 
+// import dynamic from 'next/dynamic'
 
-import dynamic from 'next/dynamic'
-const ListaDinamico = dynamic(
-  () => import('../src/components/Lista'),
-  {
-    loading: () => <p >loading...</p>,
-    ssr:true
-  }
-)
+// const HeaderDinamico = dynamic(
+//   () => import('../src/components/Header'),
+//   {
+//     loading: () => (<Paper elevation={8} align="center" sx={{m:"10px"}} >
+//                       <CircularProgress />
+//                       <br />
+//                       <Typography variant="caption"  align="center">
+//                           Este site esta a caminho...
+//                       </Typography>
+//                   </Paper>),
+//     ssr:true,
+//     // suspense:true
+//   }
+// )
 
-const FooterDinamico = dynamic(
-  () => import('../src/components/Footer'),
-  {
-    loading: () => <p >loading...</p>,
-    ssr:true
-  }
-)
+// const ListaDinamico = dynamic(
+//   () => import('../src/components/Lista'),
+//   {
+//     loading: () => (<Paper elevation={8} align="center" sx={{m:"10px"}} >
+//                       <CircularProgress />
+//                       <br />
+//                       <Typography variant="caption"  align="center">
+//                           Buscando a lista de imóveis
+//                       </Typography>
+//                   </Paper>),
+//     ssr:true,
+//     // suspense:true
+//   }
+// )
+
+// const FooterDinamico = dynamic(
+//   () => import('../src/components/Footer'),
+//   {
+//     loading: () => (<Paper elevation={8} align="center" sx={{m:"10px"}} >
+//                       <CircularProgress />
+//                       <br />
+//                       <Typography variant="caption"  align="center">
+//                           Carregando rodapé
+//                       </Typography>
+//                   </Paper>),
+//     ssr:true,
+//     // suspense:true
+//   }
+// )
 
 
 export default function Home() {
-  const dispatch = useDispatch()
   const parametros = useSelector(state => state.parametros)
   useEffect(() => {
     handleScroll()
@@ -60,7 +90,7 @@ export default function Home() {
   return (
     <>
       <Container>
-        <Header />
+        <HeaderDinamico />
         <ListaDinamico />
         <FooterDinamico />
       </Container>

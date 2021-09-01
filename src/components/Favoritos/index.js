@@ -61,14 +61,23 @@ export default function Favoritos(props){
                     {
                         ! imoveis.length
                         ? (
-                            <Paper elevation={8} align="center" sx={{m:"10px"}} >
-                                <CircularProgress />
-                                <br />
-                                <Typography variant="caption"  align="center">
-                                    Carregando seus imóveis favoritos
-                                </Typography>
-                            </Paper>
-                            
+                            favoritos.length ? (
+                                <Paper elevation={8} align="center" sx={{m:"10px"}} >
+                                    <CircularProgress />
+                                    <br />
+                                    <Typography variant="caption"  align="center">
+                                        Carregando seus imóveis favoritos
+                                    </Typography>
+                                </Paper>
+                                ) : (
+                                    <Paper elevation={8} align="center" sx={{m:"10px"}} >
+                                        <Typography variant="caption">
+                                            Ainda não curtiu nenhum imóvel,
+                                            <br/> 
+                                            Curta alguns imóveis e compare eles
+                                        </Typography>
+                                    </Paper>
+                            )                           
                         )
                         : imoveis.map( (imovel) => (
                         <>

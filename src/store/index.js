@@ -2,12 +2,12 @@ import { createStore, combineReducers } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import favoritosReducer from './Favoritos/Favoritos.reducer'
+import FavoritosReducer from './Favoritos/Favoritos.reducer'
 import FiltroReducer from './Filtro/Filtro.reducer'
 import CarregamentoReducer from './Carregamento/Carregamento.reducer'
 
 const rootReducer = combineReducers({
-  favoritos: favoritosReducer,
+  favoritos: FavoritosReducer,
   parametros: FiltroReducer,
   carregamento: CarregamentoReducer,
 })

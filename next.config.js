@@ -6,8 +6,7 @@ module.exports = {
         'pow.com.br',
         'www.pow.com.br',
         'images.portaisimobiliarios.com.br',
-        'powempresas.com', 
-      ],
-      
-    },
+        'powempresas.com'
+      ]
+    }
   };

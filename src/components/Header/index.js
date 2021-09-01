@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react';
 
 import {
   AppBar, 
@@ -7,8 +8,7 @@ import {
   Badge,
   Link,
   Menu,
-  MenuItem,
-  Divider,
+  MenuItem
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -18,14 +18,10 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import HouseIcon from '@material-ui/icons/House';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-
 import { styled } from '@material-ui/core/styles';
-import React from 'react';
-import MenuPrincipal from '../MenuPrincipal';
 
 import { ChatContent } from "../../../pages/chat/index";
 import PropTypes from 'prop-types'
-
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setImoveis } from '../../store/Carregamento/Carregamento.actions';
@@ -33,11 +29,15 @@ import { setImoveis } from '../../store/Carregamento/Carregamento.actions';
 import dynamic from 'next/dynamic'
 const FiltroDinamico = dynamic(
   () => import('../Filtro'),
-  {ssr:true}
+  {suspense:true}
+  )
+const MenuPrincipal  = dynamic(
+  () => import('../MenuPrincipal'),
+  {suspense:true}
 )
 const FavoritosDinamico = dynamic(
   () => import('../Favoritos'),
-  {ssr:true}
+  {suspense:true}
 )
 
 const logo = '';
@@ -65,6 +65,7 @@ export default function Header(props){
     right:false
   });
   const toggleDrawerMenu = (anchor, open) => (event) => {
+    handleCloseOptions()
     if (
       event &&
       event.type === 'keydown' &&
@@ -105,7 +106,6 @@ export default function Header(props){
           <Grid item sx={{ flexGrow: 1 }}>
             <img src="/images/tp_imoveiscuritiba.gif" height="auto" width="auto" />
           </Grid>
-        
         { ! props.noFiltro ? (
           <IconButton 
           aria-label="Abre buscador" 
@@ -113,8 +113,7 @@ export default function Header(props){
           onClick={toggleDrawerMenu('top',true)}>
             <SearchIcon />
           </IconButton>
-        )
-        : (
+        ):(
           <IconButton
           aria-label="Lista de imóveis" 
           color="inherit" 
@@ -124,30 +123,24 @@ export default function Header(props){
           </IconButton>
         )
         }
-        
-
-          <IconButton 
-            id="botao-opcao-options"
-            aria-label="mais opções" 
-            aria-controls="basic-menu-option"
-            aria-expanded={openOptions ? 'true' : undefined}
-            onClick={handleOpenOptions}
-            
-            color="inherit" 
-            >
-              <Badge 
-              badgeContent={favoritos.length+chat.length} 
-              color="success" >
+        <IconButton 
+          id="botao-opcao-options"
+          aria-label="mais opções" 
+          aria-controls="basic-menu-option"
+          aria-expanded={openOptions ? 'true' : undefined}
+          onClick={handleOpenOptions}
+          color="inherit" 
+        >
+          <Badge 
+          badgeContent={favoritos.length+chat.length} 
+          color="success" >
               <MoreVertIcon />
 
-              </Badge>
-            </IconButton>
-          
-        
-        </StyledToolbar>
-        <MenuPrincipal handleToggle={acao => toggleDrawerMenu('left', acao)} isOpen={swipeMenu['left']} />
-        
-          <Menu 
+          </Badge>
+        </IconButton>
+      </StyledToolbar>
+      <MenuPrincipal handleToggle={acao => toggleDrawerMenu('left', acao)} isOpen={swipeMenu['left']} />
+        <Menu 
             id="basic-menu-option"
             open={openOptions}
             onClose={handleCloseOptions}
@@ -155,70 +148,59 @@ export default function Header(props){
             MenuListProps={{
               'aria-labelledby': 'botao-opcao-options',
             }}
-          >
-            <MenuItem > 
-            
-
+        >
+        <MenuItem > 
           <IconButton 
-          aria-label="Favoritos" 
-          color="inherit" 
-          onClick={toggleDrawerMenu('right',true)} >
+            aria-label="Favoritos" 
+            color="inherit" 
+            onClick={toggleDrawerMenu('right',true)} >
             <Badge 
               badgeContent={favoritos.length} 
               color="success" >
-              <FavoriteIcon 
-                color={ ! favoritos.length ? "disabled" : "success"} />
+              <FavoriteIcon color={ ! favoritos.length ? "disabled" : "success"} />
             </Badge>
           </IconButton>
-          </MenuItem > 
-          <MenuItem > 
+        </MenuItem > 
+        <MenuItem > 
           <IconButton
-          aria-label="Login/cadastro" 
-          color="inherit" 
+            aria-label="Login/cadastro" 
+            color="inherit" 
           >
             <GitHubIcon />
           </IconButton>
-          </MenuItem > 
-          <MenuItem > 
+        </MenuItem > 
+        <MenuItem > 
           <IconButton
-          aria-label="Conversas iniciadas" 
-          color="inherit" 
-          component={Link}
-          href="chat"
+            aria-label="Conversas iniciadas" 
+            color="inherit" 
+            component={Link}
+            href="chat"
           >
             <Badge 
               badgeContent={chat.length} 
               color="success" >
                 <ChatBubbleOutlineIcon color={ ! chat.length ? "disabled" : "success"} /> 
-               </Badge>
+            </Badge>
           </IconButton>       
-
-            </MenuItem>
-            
-            
-          </Menu>
-
-         <FiltroDinamico
+        </MenuItem>
+      </Menu>
+      <Suspense fallback={`loading`} >
+        <FiltroDinamico
           handleToggle={acao => toggleDrawerMenu('top',acao)} 
           isOpen={swipeMenu.top} 
           handleParametros={(tipo, valor) => props.handleParametros(tipo,valor)} 
           parametros={props.parametros}
           bairros={props.bairros}
           /> 
-        
+      </Suspense>
+      <Suspense fallback={`loading`} >
         <FavoritosDinamico
-        
-        handleToggle={acao => toggleDrawerMenu('right',acao)} 
-        isOpen={swipeMenu.right}
-        
+          handleToggle={acao => toggleDrawerMenu('right',acao)} 
+          isOpen={swipeMenu.right}
         />
-      
-
-      </AppBar>
-      
-      </>
-
-  
+      </Suspense>
+    </AppBar>    
+  </>
     );
   }
 
