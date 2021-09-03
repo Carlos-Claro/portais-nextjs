@@ -39,6 +39,7 @@ const FavoritosDinamico = dynamic(
   () => import('../Favoritos'),
   {suspense:true}
 )
+import { signIn, signOut, useSession } from "next-auth/client"
 
 const logo = '';
 
@@ -56,7 +57,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 
 export default function Header(props){
-  
+  const [session, loading] = useSession()
   const dispatch = useDispatch()
   const favoritos = useSelector(state => state.favoritos)
   const [swipeMenu, setSwipeMenu] = React.useState({
@@ -162,9 +163,11 @@ export default function Header(props){
           </IconButton>
         </MenuItem > 
         <MenuItem > 
+        {!session ? ("nao logado") : "logado"}
           <IconButton
             aria-label="Login/cadastro" 
-            color="inherit" 
+            color="inherit"
+            onClick={() => signIn()} 
           >
             <GitHubIcon />
           </IconButton>
