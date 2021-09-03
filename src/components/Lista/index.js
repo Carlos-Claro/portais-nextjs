@@ -12,7 +12,7 @@ import HelpTwoToneIcon from '@material-ui/icons/HelpTwoTone';
 
 import { useRouter } from "next/router";
 import { CircularProgress, IconButton, Paper, Typography, Dialog, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core"
-
+ 
 import Imoveis from "../Imoveis"; 
 
     const TypographyH1 = styled.h1`
