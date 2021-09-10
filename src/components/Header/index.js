@@ -39,7 +39,7 @@ const FavoritosDinamico = dynamic(
   () => import('../Favoritos'),
   {suspense:true}
 )
-import { signIn, signOut, useSession } from "next-auth/client"
+import { signIn, signOut, useSession } from "next-auth/react"
 
 const logo = '';
 
@@ -57,7 +57,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 
 export default function Header(props){
-  const [session, loading] = useSession()
+  const {data: session} = useSession()
   const dispatch = useDispatch()
   const favoritos = useSelector(state => state.favoritos)
   const [swipeMenu, setSwipeMenu] = React.useState({
