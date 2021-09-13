@@ -16,7 +16,7 @@ const MenuProps = {
   },
 };
 
-export function BairrosSelect(props){
+export function BairrosSelect(){
     const dispatch = useDispatch()
     const selecionados = useSelector(state => getSelecionados(state,'bairros_link'))
     const handleParametros = (valor) => {
@@ -47,4 +47,8 @@ export function BairrosSelect(props){
         </Select>
       </FormControl>
     )
+}
+export async function getServerSideProps(){
+  const data = []
+  return { props: { data } }
 }

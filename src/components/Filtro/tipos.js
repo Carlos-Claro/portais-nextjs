@@ -17,7 +17,7 @@ const MenuProps = {
   },
 };
 
-export function TiposSelect(props){
+export function TiposSelect(){
     const dispatch = useDispatch()
     const selecionados = useSelector(state => getSelecionados(state,'imoveis_tipos_link'))
     const handleParametros = (valor) => {

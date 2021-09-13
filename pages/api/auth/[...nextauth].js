@@ -1,9 +1,7 @@
 import NextAuth from "next-auth"
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
-import { signIn, signOut } from "next-auth/react"
-import { redirect } from "next/dist/server/api-utils"
-import session from "redux-persist/lib/storage/session"
+
 
 export default NextAuth({
   providers: [
@@ -12,8 +10,8 @@ export default NextAuth({
       clientSecret: process.env.GITHUB_SECRET,
     }),
     GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        clientId: process.env.GOOGLE_ID,
+        clientSecret: process.env.GOOGLE_SECRET
       })
   ],
   secret: process.env.SECRET,
@@ -33,7 +31,10 @@ export default NextAuth({
   events:{},
   callbacks:{
     async signIn({user, account, profile, email, credentials}){
+      console.log('signInStart');
       console.log(user)
+      console.log(profile, email, credentials)
+      console.log('signInEnd');
       return true
     },
     async redirect({url, baseUrl}){

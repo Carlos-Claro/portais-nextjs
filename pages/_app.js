@@ -44,11 +44,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     <>
     <SessionProvider session={session}>
       <Provider store={store}>
-        <PersistGate persistor={persisetdStore}>
-        <GlobalStyle />
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <PersistGate persistor={persisetdStore} >
+          <GlobalStyle />
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
         </PersistGate>
       </Provider>
     </SessionProvider>

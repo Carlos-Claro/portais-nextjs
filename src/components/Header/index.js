@@ -8,7 +8,8 @@ import {
   Badge,
   Link,
   Menu,
-  MenuItem
+  MenuItem,
+  Avatar
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -149,42 +150,50 @@ export default function Header(props){
             MenuListProps={{
               'aria-labelledby': 'botao-opcao-options',
             }}
+            
         >
-        <MenuItem > 
+        <MenuItem onClick={() => !session ? signIn() : signOut()}  > 
+
+          <IconButton
+            aria-label="Login/cadastro" 
+            color="inherit"
+            >
+              {
+                ! session 
+                ? <GitHubIcon />
+                : <Avatar alt={session.user.name} src={session.user.image} sx={{width:24, height:24 }} />
+              }
+          </IconButton>
+              { ! session ? "Login" : "Sair"}
+        </MenuItem > 
+        <MenuItem onClick={toggleDrawerMenu('right',true)} >
           <IconButton 
             aria-label="Favoritos" 
             color="inherit" 
-            onClick={toggleDrawerMenu('right',true)} >
+            >
             <Badge 
               badgeContent={favoritos.length} 
               color="success" >
               <FavoriteIcon color={ ! favoritos.length ? "disabled" : "success"} />
             </Badge>
           </IconButton>
+        <p>Favoritos</p>
         </MenuItem > 
-        <MenuItem > 
-        {!session ? ("nao logado") : "logado"}
-          <IconButton
-            aria-label="Login/cadastro" 
-            color="inherit"
-            onClick={() => signIn()} 
-          >
-            <GitHubIcon />
-          </IconButton>
-        </MenuItem > 
-        <MenuItem > 
+        <MenuItem 
+            component={Link}
+            href="chat"
+        > 
           <IconButton
             aria-label="Conversas iniciadas" 
             color="inherit" 
-            component={Link}
-            href="chat"
-          >
+            >
             <Badge 
               badgeContent={chat.length} 
               color="success" >
                 <ChatBubbleOutlineIcon color={ ! chat.length ? "disabled" : "success"} /> 
             </Badge>
           </IconButton>       
+                <p>Chat</p>
         </MenuItem>
       </Menu>
       <Suspense fallback={`loading`} >
