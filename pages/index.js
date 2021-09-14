@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react';
 
-import Header from '../src/components/Header'
-import Container from '@material-ui/core/Container';
-
-import Fab from '@material-ui/core/Fab';
-import { Box, Paper, Typography, Zoom, CircularProgress } from '@material-ui/core';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import { Container, Box, Fab, Zoom, useScrollTrigger } from '@material-ui/core';
 
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
@@ -15,8 +10,13 @@ import HeaderDinamico from '../src/components/Header'
 import ListaDinamico from '../src/components/Lista'
 import FooterDinamico from '../src/components/Footer'
 
-// import dynamic from 'next/dynamic'
+// todo
+// Verificar efetividade de dynamic no contexto 
+// de carregamento mais rapido e dinamico, 
+// testar carga com getserversideprops
+// 
 
+// import dynamic from 'next/dynamic'
 // const HeaderDinamico = dynamic(
 //   () => import('../src/components/Header'),
 //   {
@@ -31,7 +31,6 @@ import FooterDinamico from '../src/components/Footer'
 //     // suspense:true
 //   }
 // )
-
 // const ListaDinamico = dynamic(
 //   () => import('../src/components/Lista'),
 //   {
@@ -46,7 +45,6 @@ import FooterDinamico from '../src/components/Footer'
 //     // suspense:true
 //   }
 // )
-
 // const FooterDinamico = dynamic(
 //   () => import('../src/components/Footer'),
 //   {
@@ -62,31 +60,23 @@ import FooterDinamico from '../src/components/Footer'
 //   }
 // )
 
-
+/**
+ * Inicia pagina de imóveis, filtra, busca data em store
+ * 
+ */
 export default function Home() {
   const parametros = useSelector(state => state.parametros)
-  useEffect(() => {
-    handleScroll()
-  }, [parametros])
+  useEffect(() => {handleScroll()}, [parametros])
   const triggerScroll = useScrollTrigger({
     disableHysteresis:true,
     threshold:100
   })
   const handleScroll = (event) => {
-    
-    const anchor = ((event ? event.target.ownerDocument : false) || document).querySelector(
-      '#top',
-    );
-      
+    const anchor = ((event ? event.target.ownerDocument : false) || document).querySelector('#top');
     if (anchor) {
-      anchor.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+      anchor.scrollIntoView({behavior: 'smooth',block: 'center'});
     }
   };
-
-
   return (
     <>
       <Container>
@@ -108,6 +98,3 @@ export default function Home() {
     </>
   );
 }
-
-
-

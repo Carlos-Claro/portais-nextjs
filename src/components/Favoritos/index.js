@@ -2,10 +2,9 @@ import { Badge, CircularProgress, IconButton, Paper, SwipeableDrawer, Typography
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import React from "react";
 import ApiService from "../../uteis/ApiService";
-import Imoveis from "../Imoveis";
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from "react-redux";
-import { handle } from '../../store/Favoritos/Favoritos.actions'
+import ImovelLista from "../Imoveis/imovelLista";
 
 export default function Favoritos(props){
     const dispatch = useDispatch()
@@ -81,7 +80,7 @@ export default function Favoritos(props){
                         )
                         : imoveis.map( (imovel) => (
                         <>
-                        <Imoveis 
+                        <ImovelLista
                         key={imovel._id} 
                         imovel={imovel} 
                         abaFavorito={true}

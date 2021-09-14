@@ -13,7 +13,7 @@ import HelpTwoToneIcon from '@material-ui/icons/HelpTwoTone';
 import { useRouter } from "next/router";
 import { CircularProgress, IconButton, Paper, Typography, Dialog, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core"
  
-import Imoveis from "../Imoveis"; 
+import ImovelLista from "../Imoveis/imovelLista"; 
 
     const TypographyH1 = styled.h1`
         padding-top: 70px;
@@ -171,7 +171,7 @@ export default function Lista(props){
             <Box>
                 <ul style={{ listStyleType:"none"}} >
                     {imoveis.map( (imovel) => (
-                        <Imoveis 
+                        <ImovelLista 
                             className="imovel"
                             key={`lista-${imovel._id}`} 
                             imovel={imovel} 
