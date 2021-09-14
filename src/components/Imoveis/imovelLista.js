@@ -49,7 +49,7 @@ export default function ImovelLista(props){
   }
   const handleCloseOptions = () => setMenu(null)
   const handleExpandClick = () => setExpanded(!expanded)
-   
+  
 
   return (
     <>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import ApiService from "../../uteis/ApiService";
-import PropTypes from 'prop-types'
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { setParametros } from "../../store/Filtro/Filtro.actions";
@@ -11,8 +11,11 @@ import { setParametros } from "../../store/Filtro/Filtro.actions";
 import HelpTwoToneIcon from '@material-ui/icons/HelpTwoTone';
 
 import { useRouter } from "next/router";
-import { CircularProgress, IconButton, Paper, Typography, Dialog, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core"
+import { CircularProgress, IconButton, Paper, Typography } from "@material-ui/core"
  
+
+
+
 import ImovelLista from "../Imoveis/imovelLista"; 
 
     const TypographyH1 = styled.h1`
@@ -32,8 +35,7 @@ import ImovelLista from "../Imoveis/imovelLista";
     }
     `;
 
-export default function Lista(props){
-    
+export default function Lista(){        
     const parametros = useSelector(state => state.parametros)
     const carregamento = useSelector(state => state.carregamento)
     const [qtdeItensporPagina, setQtdeItensporPagina] = React.useState(3)
@@ -97,6 +99,7 @@ export default function Lista(props){
                     
                     if ( paginaAtual == 0 ){
                         setImoveis(res.itens)
+                        /** retorna itens na url, desativado no desenvolvimento para evitar refresh da pasta .next o tempo todo */
                         // if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
                         //     router.push({
                         //         pathname: '/[...url]',
@@ -190,11 +193,3 @@ export default function Lista(props){
     );
 }
 
-Lista.defaultProps = {
-    paginaAtual: 1
-}
-
-Lista.propTypes = {
-    handlePaginaAtual:PropTypes.func,
-    paginaAtual:PropTypes.number
-}

@@ -4,7 +4,7 @@ import { Container, Box, Fab, Zoom, useScrollTrigger } from '@material-ui/core';
 
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import HeaderDinamico from '../src/components/Header'
 import ListaDinamico from '../src/components/Lista'
@@ -60,12 +60,20 @@ import FooterDinamico from '../src/components/Footer'
 //   }
 // )
 
+import { set as SetAuth} from '../src/store/Auth/Auth.actions'
+import { useSession } from "next-auth/react"
+
 /**
  * Inicia pagina de imóveis, filtra, busca data em store
  * 
  */
 export default function Home() {
+  const dispatch = useDispatch()
   const parametros = useSelector(state => state.parametros)
+  const {data: session} = useSession()
+  useEffect(() => {
+    dispatch(SetAuth(session))
+  },[])
   useEffect(() => {handleScroll()}, [parametros])
   const triggerScroll = useScrollTrigger({
     disableHysteresis:true,
