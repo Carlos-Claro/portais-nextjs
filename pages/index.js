@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import HeaderDinamico from '../src/components/Header'
 import ListaDinamico from '../src/components/Lista'
 import FooterDinamico from '../src/components/Footer'
+import ApiService from '../src/uteis/ApiService';
 
 // todo
 // Verificar efetividade de dynamic no contexto 
@@ -60,20 +61,14 @@ import FooterDinamico from '../src/components/Footer'
 //   }
 // )
 
-import { set as SetAuth} from '../src/store/Auth/Auth.actions'
-import { useSession } from "next-auth/react"
-
 /**
  * Inicia pagina de imóveis, filtra, busca data em store
  * 
  */
 export default function Home() {
-  const dispatch = useDispatch()
+  
   const parametros = useSelector(state => state.parametros)
-  const {data: session} = useSession()
-  useEffect(() => {
-    dispatch(SetAuth(session))
-  },[])
+  
   useEffect(() => {handleScroll()}, [parametros])
   const triggerScroll = useScrollTrigger({
     disableHysteresis:true,
@@ -106,3 +101,4 @@ export default function Home() {
     </>
   );
 }
+

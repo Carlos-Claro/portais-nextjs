@@ -12,7 +12,6 @@ class ApiService {
     }   
 
     
-
     QtdeImoveis = async (filtro) => {
       const requestInfo = {
         method:'GET',
