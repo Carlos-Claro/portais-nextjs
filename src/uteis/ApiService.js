@@ -4,14 +4,29 @@ http://imoveis.powempresas.com/
 endereco: "http://localhost:5000/",
 endereco: "http://imoveis.powempresas.com/",
 */
+
 class ApiService {
   
-    constructor(){
+    constructor(token){
+      var bearer = 'Bearer ' + token;
       this.endereco = "http://carlosclaro.ddns.net:5000/";
-      this.headers = new Headers({'Content-Type': 'application/json'});
+      this.headers = new Headers({
+        'Authorization': bearer,
+        'Content-Type': 'application/json'
+      });
     }   
 
-    
+    Auth = async () => {
+      const requestInfo = {
+        method:'POST',
+        headers: this.headers
+      };
+      let data = await fetch(`${this.endereco}auth` , requestInfo)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
+
     QtdeImoveis = async (filtro) => {
       const requestInfo = {
         method:'GET',

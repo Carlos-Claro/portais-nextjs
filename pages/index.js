@@ -10,6 +10,7 @@ import HeaderDinamico from '../src/components/Header'
 import ListaDinamico from '../src/components/Lista'
 import FooterDinamico from '../src/components/Footer'
 import ApiService from '../src/uteis/ApiService';
+import { setToken } from '../src/store/Carregamento/Carregamento.actions';
 
 // todo
 // Verificar efetividade de dynamic no contexto 
@@ -66,9 +67,16 @@ import ApiService from '../src/uteis/ApiService';
  * 
  */
 export default function Home() {
-  
+  const dispatch = useDispatch()
   const parametros = useSelector(state => state.parametros)
-  
+  const token = useSelector(state => state.carregamento.token)
+
+  useEffect(() => {
+    if ( ! token ){
+      const item = new ApiService
+        item.Auth().then(res => dispatch(setToken(res.token)))
+    }
+  }, [])
   useEffect(() => {handleScroll()}, [parametros])
   const triggerScroll = useScrollTrigger({
     disableHysteresis:true,

@@ -92,7 +92,8 @@ export default function Lista(){
      * Carga de imóveis, altera quando paginaAtual ou parametros são altertados, e na primeira carga
      */
     React.useEffect(() => {
-            const item = new ApiService
+        if ( carregamento.token ){
+            const item = new ApiService(carregamento.token)
             item.tituloQtdeImoveis(retornaParametrosURL()).then((res) => {
                 setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
                 if ( res.itens.length ){
@@ -129,6 +130,7 @@ export default function Lista(){
                 }
                 
             });
+        }
     }, [paginaAtual, carregamento.imoveis])
     /**
      * verifica fim da pagina
