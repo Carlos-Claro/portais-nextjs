@@ -2,7 +2,8 @@ const start = {
     url:false,
     imoveis:false,
     qtde:false,
-    token:false
+    token:false,
+    imobiliarias:false,
 }
 export default function Carregamento(state=start, action){
     switch(action.type) {
@@ -16,6 +17,8 @@ export default function Carregamento(state=start, action){
             return {...state, qtde: ! state.qtde}
         case 'SET_TOKEN':
             return {...state, imoveis: ! state.imoveis, token: action.payload}
+        case 'SET_IMOBILIARIAS':
+            return {...state, imobiliarias: ! state.imobiliarias}
         default:
             return state
     }

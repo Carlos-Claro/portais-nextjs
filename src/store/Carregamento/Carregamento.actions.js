@@ -22,3 +22,10 @@ export function setToken(token){
         payload:token
     }
 }
+export function setImobiliarias(){
+    return {
+        type: 'SET_IMOBILIARIAS',
+        payload:true
+    }
+}
+

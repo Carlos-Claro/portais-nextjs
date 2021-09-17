@@ -10,10 +10,18 @@ class ApiService {
     constructor(token){
       var bearer = 'Bearer ' + token;
       this.endereco = "http://carlosclaro.ddns.net:5000/";
-      this.headers = new Headers({
+      const headers = new Headers({
         'Authorization': bearer,
         'Content-Type': 'application/json'
       });
+      this.requestInfoGet = {
+        method:'GET',
+        headers: headers
+      }
+      this.requestInfoPost = {
+        method:'POST',
+        headers: headers
+      }
     }   
 
     Auth = async () => {
@@ -21,77 +29,56 @@ class ApiService {
         method:'POST',
         headers: this.headers
       };
-      let data = await fetch(`${this.endereco}auth` , requestInfo)
+      let data = await fetch(`${this.endereco}auth` , this.requestInfoPost)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
       return data;
     }
 
     QtdeImoveis = async (filtro) => {
-      const requestInfo = {
-        method:'GET',
-        headers: this.headers
-      };
-      let data = await fetch(`${this.endereco}portal_qtde?${filtro}` , requestInfo)
+      
+      let data = await fetch(`${this.endereco}portal_qtde?${filtro}` , this.requestInfoGet)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
       return data;
     }
     tituloQtdeImoveis = async (filtro) => {
-      const requestInfo = {
-        method:'GET',
-        headers: this.headers
-      };
-      let data = await fetch(`${this.endereco}portal_main?${filtro}` , requestInfo)
+      
+      let data = await fetch(`${this.endereco}portal_main?${filtro}` , this.requestInfoGet)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
       return data;
     }
     getFavoritos = async (ids) => {
-      const requestInfo = {
-        method:'GET',
-        headers: this.headers
-      };
-      let data = await fetch(`${this.endereco}portal_ids?ids=${ids.join(',')}` , requestInfo)
+      let data = await fetch(`${this.endereco}portal_ids?ids=${ids.join(',')}` , this.requestInfoGet)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
       return data;
     }
     ListaImoveis = async (filtro) => {
-      const requestInfo = {
-        method:'GET',
-        headers: this.headers
-      };
-      let data = await fetch(`${this.endereco}imoveismongo?${filtro}` , requestInfo)
+      let data = await fetch(`${this.endereco}imoveismongo?${filtro}` , this.requestInfoGet)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
       return data;
     }
     Imovel = _id => {
-  
-      const requestInfo = {
-        method:'GET',
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        })
-      };
-      return fetch(`${ApiService.endereco}imoveismongo/${_id}` , requestInfo)
+      return fetch(`${ApiService.endereco}imoveismongo/${_id}` , this.requestInfoGet)
       .then(res => ApiService.TrataErros(res))
       .then(data => data.json());
     }
     GetCidade = host => {
-      return fetch(`${ApiService.endereco}get_cidade/?dominio=${host}`)
+      return fetch(`${ApiService.endereco}get_cidade/?dominio=${host}`, this.requestInfoGet)
       .then(res => ApiService.TrataErros(res) )
       .then(data => data.json());
     }
     GetBairros = async (cidade) => {
-      let data = await fetch(`${this.endereco}get_bairros_por_cidade/${cidade}`)
+      let data = await fetch(`${this.endereco}get_bairros_por_cidade/${cidade}`, this.requestInfoGet)
       .then(res => this.TrataErros(res) )
       .then(data => data.json());
       return data;
     }
     GetImobiliarias = async (cidade) => {
-      let data = await fetch(`${this.endereco}portal_empresas?cidade_link=${cidade}`)
+      let data = await fetch(`${this.endereco}portal_empresas?cidade_link=${cidade}`, this.requestInfoGet)
       .then(res => this.TrataErros(res) )
       .then(data => data.json());
       return data;
