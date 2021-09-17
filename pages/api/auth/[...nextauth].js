@@ -2,7 +2,6 @@ import NextAuth from "next-auth"
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
 
-
 export default NextAuth({
   providers: [
     GithubProvider({
@@ -31,10 +30,10 @@ export default NextAuth({
   events:{},
   callbacks:{
     async signIn({user, account, profile, email, credentials}){
-      console.log('signInStart');
+      
       console.log(user)
       console.log(profile, email, credentials)
-      console.log('signInEnd');
+      
       return true
     },
     async redirect({url, baseUrl}){
