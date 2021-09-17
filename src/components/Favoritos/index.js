@@ -9,12 +9,12 @@ import ImovelLista from "../Imoveis/imovelLista";
 export default function Favoritos(props){
     const dispatch = useDispatch()
     const favoritos = useSelector(state => state.favoritos)
+    const token = useSelector(state => state.carregamento.token)
     const [imoveis,setImoveis] = React.useState([])
     const [alteraFav, setAlteraFav] = React.useState(false)
     React.useEffect(() => {
         if ( favoritos.length && props.isOpen ){
-
-            const item = new ApiService
+            const item = new ApiService(token)
             item.getFavoritos(favoritos).then((res) => {
                 setImoveis(res)  
             });
