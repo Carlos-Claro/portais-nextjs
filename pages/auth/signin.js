@@ -5,12 +5,10 @@ import HeaderLogin from "../../src/components/Header/login"
 import GoogleIcon from '@material-ui/icons/Google';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
-export default function SignIn({ providers }){
-    
+export default function SignIn({ providers }){  
     return (
         <>
           <HeaderLogin />
-
           <Stack sx={{marginTop:"70px", p:1}}>
             <Paper sx={{p:1}}>
               <Typography>
@@ -19,17 +17,14 @@ export default function SignIn({ providers }){
             </Paper>
               {Object.values(providers).map((provider) => (
                 <Paper key={provider.name} sx={{p:1}} onClick={() => signIn(provider.id)}>
-
                   <IconButton >
                     {
                       provider.id == 'google' 
                       ? <GoogleIcon />
                       : <GitHubIcon />
                     }
-                    
                   </IconButton>
                     Entrar com {provider.name}
-
                 </Paper>
               ))}
           </Stack>

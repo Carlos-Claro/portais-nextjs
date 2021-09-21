@@ -9,8 +9,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import HeaderDinamico from '../src/components/Header'
 import ListaDinamico from '../src/components/Lista'
 import FooterDinamico from '../src/components/Footer'
+
 import ApiService from '../src/uteis/ApiService';
+
 import { setToken } from '../src/store/Carregamento/Carregamento.actions';
+import { Auth } from '../src/uteis/Auth';
+import { useSession } from 'next-auth/react';
 
 // todo
 // Verificar efetividade de dynamic no contexto 
@@ -62,6 +66,8 @@ import { setToken } from '../src/store/Carregamento/Carregamento.actions';
 //   }
 // )
 
+import jwt from 'jsonwebtoken'
+
 /**
  * Inicia pagina de imóveis, filtra, busca data em store
  * 
@@ -70,13 +76,20 @@ export default function Home() {
   const dispatch = useDispatch()
   const parametros = useSelector(state => state.parametros)
   const token = useSelector(state => state.carregamento.token)
-
+  const {data: session} = useSession()
   useEffect(() => {
     if ( ! token ){
       const item = new ApiService
-        item.Auth().then(res => dispatch(setToken(res.token)))
+      item.Auth().then(res => dispatch(setToken(res.token)))
     }
   }, [])
+  useEffect(() => {
+    var infoToken = jwt.decode(token)
+    if ( session && ! infoToken.islogin ){
+      const item = new ApiService(token)
+      item.AtualizaToken({email:session.user.email}).then(res => dispatch(setToken(res.token)))
+    }
+  }, [session])
   useEffect(() => {handleScroll()}, [parametros])
   const triggerScroll = useScrollTrigger({
     disableHysteresis:true,

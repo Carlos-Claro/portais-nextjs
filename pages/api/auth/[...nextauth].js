@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
+import ApiService from "../../../src/uteis/ApiService"
 
 export default NextAuth({
   providers: [
@@ -30,9 +31,26 @@ export default NextAuth({
   events:{},
   callbacks:{
     async signIn({user, account, profile, email, credentials}){
-      
+      const data = {
+        auth_type:account.provider,
+        email:profile.email,
+        nome: profile.name,
+        email_verified: profile.email_verified,
+        image: user.image,
+        auth_id: user.id
+      }
+      console.log('user');
       console.log(user)
-      console.log(profile, email, credentials)
+      console.log('account');
+      console.log(account);
+      console.log('profile');
+      console.log(profile)
+      console.log('email');
+      console.log(email);
+      console.log('credenciais');
+      console.log(credentials);
+      const item = new ApiService
+      item.Cadastro(data).then(res => console.log(res))
       
       return true
     },

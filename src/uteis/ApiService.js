@@ -24,11 +24,25 @@ class ApiService {
       }
     }   
 
-    Auth = async () => {
-      const requestInfo = {
-        method:'POST',
-        headers: this.headers
-      };
+    Cadastro = async (complemento) => {
+      console.log(complemento);
+      this.requestInfoPost['body'] = JSON.stringify(complemento)
+      let data = await fetch(`${this.endereco}auth_cadastro` , this.requestInfoPost)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
+    
+    AtualizaToken = async (complemento) => {
+      this.requestInfoPost['body'] = JSON.stringify(complemento)
+      let data = await fetch(`${this.endereco}atualiza_token` , this.requestInfoPost)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
+
+    Auth = async (complemento) => {
+      this.requestInfoPost['body'] = JSON.stringify(complemento)
       let data = await fetch(`${this.endereco}auth` , this.requestInfoPost)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
