@@ -40,6 +40,7 @@ const tipo_negocio = ["venda","locacao"]
 export default function Filtro(props){
     const parametros = useSelector(state => state.parametros)
     const dispatch = useDispatch()
+    const token = useSelector(state => state.carregamento.token)
     const [qtdePesquisado, setQtdePesquisado] = React.useState()
     const retornaParametrosURL = () => {
         var pesquisa = Object.keys(parametros).map((chave,i) => (
@@ -52,7 +53,7 @@ export default function Filtro(props){
     };
     useEffect(() => {
         if (props.isOpen){
-            const item = new ApiService
+            const item = new ApiService(token)
             item.QtdeImoveis(retornaParametrosURL()).then((res) => {
                 setQtdePesquisado(res.qtde_total)
             })
@@ -71,16 +72,15 @@ export default function Filtro(props){
             >
 
               <Grid container spacing={1}>
-                  <Grid item xs={10}>
-                        <MyTitulo 
+                <Grid item xs={10}>
+                    <MyTitulo 
                         variant="h3" 
-                        
                         children="Encontre os melhores imóveis"
-                        />
-                        <Typography variant="p" sx={{marginLeft:"20px"}}>
-                            {qtdePesquisado} imóveis para esta pesquisa
-                        </Typography>
-                  </Grid>
+                    />
+                    <Typography variant="p" sx={{marginLeft:"20px"}}>
+                        {qtdePesquisado} imóveis para esta pesquisa
+                    </Typography>
+                </Grid>
                   <Grid item xs={2}>
                         <IconButton 
                             aria-label="fecha filtro"

@@ -13,7 +13,7 @@ import FooterDinamico from '../src/components/Footer'
 import ApiService from '../src/uteis/ApiService';
 
 import { setToken } from '../src/store/Carregamento/Carregamento.actions';
-import { Auth } from '../src/uteis/Auth';
+
 import { useSession } from 'next-auth/react';
 
 // todo
