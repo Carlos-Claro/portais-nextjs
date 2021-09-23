@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { 
   Avatar
@@ -24,6 +24,7 @@ import { handle } from "../../store/Favoritos/Favoritos.actions";
 import { Descricao } from "./descricao";
 import OpcoesMenu from "./opcoesMenu";
 import Images from "../Images";
+import ApiService from "../../uteis/ApiService";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -47,13 +48,30 @@ export default function ImovelLista(props){
     event.preventDefault()
     setMenu(event.currentTarget);
   }
+  const token = useSelector(state => state.carregamento.token)
   const handleCloseOptions = () => setMenu(null)
-  const handleExpandClick = () => setExpanded(!expanded)
-  
+  const handleExpandClick = () => {
+    if ( ! expanded ){
+      const item = new ApiService(token)
+            item.RegistraLog(props.imovel._id, 'ficha').then((res) => {})
+    }
+    setExpanded(!expanded)
+  }
+  useEffect(() => {
+    const intersectionObserver = new IntersectionObserver(entries => {
+      if ( entries.some(entry => entry.isIntersecting) ){
+        console.log(props.imovel._id)
+        const item = new ApiService(token)
+            item.RegistraLog(props.imovel._id, 'lista').then((res) => {})
+      }
+  })
+  intersectionObserver.observe(document.querySelector(`#imovel-${props.imovel._id}`))
+  return () => intersectionObserver.disconnect()
+  }, [])
 
   return (
     <>
-        <Card sx={{ maxWidth: 345 }} component="li" className={props.className} key={`imovel-${props.imovel._id}`} >
+        <Card sx={{ maxWidth: 345 }} component="li" className={props.className} key={`imovel-${props.imovel._id}`} id={`imovel-${props.imovel._id}`} >
           <CardHeader
           avatar={
             <Avatar 
@@ -82,7 +100,7 @@ export default function ImovelLista(props){
           }}>
             <IconButton 
               aria-label="Adicionar aos favoritos"  
-              onClick={ () => dispatch(handle(props.imovel._id)) }
+              onClick={ () => dispatch(handle(props.imovel._id, token)) }
             >
               <FavoriteIcon color={isFavorito ? "disabled" : "success"}/>
             </IconButton>

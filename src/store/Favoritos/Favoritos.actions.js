@@ -1,6 +1,6 @@
-export function handle (id) {
+export function handle (id, token) {
     return {
         type:'HANDLE_FAVORITO',
-        payload: id
+        payload: {id:id, token: token}
     }
 }

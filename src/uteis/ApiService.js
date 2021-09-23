@@ -25,7 +25,7 @@ class ApiService {
     }   
 
     Cadastro = async (complemento) => {
-      console.log(complemento);
+      
       this.requestInfoPost['body'] = JSON.stringify(complemento)
       let data = await fetch(`${this.endereco}auth_cadastro` , this.requestInfoPost)
                 .then( res => this.TrataErros(res))
@@ -44,6 +44,14 @@ class ApiService {
     Auth = async (complemento) => {
       this.requestInfoPost['body'] = JSON.stringify(complemento)
       let data = await fetch(`${this.endereco}auth` , this.requestInfoPost)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
+
+    RegistraLog = async (id_imovel, tipo) => {
+      this.requestInfoPost['body'] = JSON.stringify({id:id_imovel, tipo:tipo})
+      let data = await fetch(`${this.endereco}registra_log` , this.requestInfoPost)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
       return data;

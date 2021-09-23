@@ -1,12 +1,13 @@
 import { Button, Chip, Fade, Grid } from "@material-ui/core";
 
-import React from "react"
+import React, { useEffect } from "react"
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import TemporaryImage from '../../../public/images/naodisponivel.jpg'
 import Image from 'next/image'
 import PropTypes from 'prop-types'
-
+import ApiService from "../../uteis/ApiService";
+import { useSelector } from "react-redux";
 
 export default function Images(props){
   
@@ -21,8 +22,10 @@ export default function Images(props){
   const [imageAtual, SetImageAtual] = React.useState(0)
   const [height, setHeight] = React.useState(200)
   const [layout, setLayout] = React.useState("responsive")
+  const [ativouCarousel, setAtivouCarousel] = React.useState(false)
   const fotoAnterior = () => {
     setFadeImage(false);
+    setAtivouCarousel(true)
     setTimeout(() => {
     SetImageAtual((atual) => {
         setFadeImage(true);
@@ -35,6 +38,7 @@ export default function Images(props){
   }
   const fotoProxima = () => {
     setFadeImage(false);
+    setAtivouCarousel(true)
     setTimeout(() => {
     SetImageAtual((atual) => {
         setFadeImage(true);
@@ -46,6 +50,15 @@ export default function Images(props){
       })
     },500)
   }  
+  const token = useSelector(state => state.carregamento.token)
+  useEffect(() => {
+    if (ativouCarousel){
+      const item = new ApiService(token)
+            item.RegistraLog(props.id_imovel, 'images').then((res) => {})
+
+    }
+  }, [ativouCarousel])
+
   const setImages = () => {
     if ( image.images.length && ( ativaImage || props.abaFavorito ) ){
       return (
