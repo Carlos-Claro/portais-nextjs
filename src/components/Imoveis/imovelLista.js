@@ -8,11 +8,17 @@ import {
   , CardContent
   , CardHeader
   , IconButton
+  , Grid
+  , Chip
  } from "@material-ui/core";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import BedIcon from '@material-ui/icons/Bed';
+import BathtubIcon from '@material-ui/icons/Bathtub';
+import DirectionsCarFilledIcon from '@material-ui/icons/DirectionsCarFilled';
 
 import { styled } from '@material-ui/core/styles';
 
@@ -25,6 +31,7 @@ import { Descricao } from "./descricao";
 import OpcoesMenu from "./opcoesMenu";
 import Images from "../Images";
 import ApiService from "../../uteis/ApiService";
+import { Box } from "@material-ui/system";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -94,6 +101,25 @@ export default function ImovelLista(props){
           wrapped="true"
           />
           <Images itens={props.imovel.images} id_imovel={props.imovel._id} abaFavorito={props.abaFavorito}/>
+          <CardContent>
+          <Box style={{
+                display: Grid,
+                gridTemplateColumns: "1fr",
+                
+            }}>
+            {props.imovel.preco_venda ? <Chip style={{margin:"5px"}} variant="outlined" color="success" size="medium" icon={<AttachMoneyIcon />} label={`Valor venda: ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(props.imovel.preco_venda)},00`} /> : ''}
+            {props.imovel.preco_locacao ? <Chip style={{margin:"5px"}} variant="outlined" color="success" size="medium" icon={<AttachMoneyIcon />} label={`Valor Aluguel: ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(props.imovel.preco_locacao)}`} /> : ''}
+            </Box>
+            <Box style={{
+                display: Grid,
+                gridTemplateColumns: "1fr 1fr 1fr",
+                
+            }}>
+                {props.imovel.quartos ? <Chip style={{margin:"5px"}} variant="outlined" color="primary" size="small" icon={<BedIcon />} label={`quartos: ${props.imovel.quartos}`} /> : ''}
+                {props.imovel.banheiros ? <Chip style={{margin:"5px"}} variant="outlined" color="primary" size="small" icon={<BathtubIcon />} label={`banheiros: ${props.imovel.banheiros}`} /> : ''}
+                {props.imovel.garagens ? <Chip style={{margin:"5px"}} variant="outlined" color="primary" size="small" icon={<DirectionsCarFilledIcon />} label={`vagas: ${props.imovel.garagens}`} /> : ''}
+            </Box>
+          </CardContent>
           <CardActions style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr 2fr"
@@ -116,11 +142,12 @@ export default function ImovelLista(props){
               <ExpandMoreIcon />
             </ExpandMore>
           </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
+          <CardContent>
+          
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
               <Descricao imovel={props.imovel} />
-            </CardContent>
-          </Collapse>
+            </Collapse>
+          </CardContent>
         </Card>
       </>
       );
