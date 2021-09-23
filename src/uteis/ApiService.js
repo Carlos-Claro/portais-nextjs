@@ -1,3 +1,5 @@
+import useSWR from 'swr'
+
 /*
 http://imoveis.powempresas.com/
 
@@ -58,7 +60,6 @@ class ApiService {
     }
 
     QtdeImoveis = async (filtro) => {
-      
       let data = await fetch(`${this.endereco}portal_qtde?${filtro}` , this.requestInfoGet)
                 .then( res => this.TrataErros(res))
                 .then(data => data.json());
@@ -100,6 +101,8 @@ class ApiService {
       return data;
     }
     GetImobiliarias = async (cidade) => {
+
+      
       let data = await fetch(`${this.endereco}portal_empresas?cidade_link=${cidade}`, this.requestInfoGet)
       .then(res => this.TrataErros(res) )
       .then(data => data.json());
