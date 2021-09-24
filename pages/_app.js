@@ -19,8 +19,8 @@ const GlobalStyle = createGlobalStyle`
   }
   h1 {
     padding-top: 70px;
-    color: blue;
-    font-weight: 600;
+    color: blueviolet;
+    font-weight: 500;
     font-size: 1em;
   }
   h2 {
@@ -29,7 +29,10 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
     color: red;
   }
-
+  .MuiContainer-root {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
 `
 
 const theme = {

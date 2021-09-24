@@ -10,7 +10,10 @@ import {
   , IconButton
   , Grid
   , Chip,
-  Divider
+  Divider,
+  BottomNavigation,
+  BottomNavigationAction,
+  Paper
  } from "@material-ui/core";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -46,7 +49,8 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function ImovelLista(props){
+export default function ImovelItem(props){
+    const [value, setValue] = React.useState(0);
   const dispatch = useDispatch()
   const isFavorito = useSelector(state => state.favoritos.indexOf(props.imovel._id) === -1)
   const [menu, setMenu] = React.useState(null);
@@ -79,25 +83,16 @@ export default function ImovelLista(props){
   }, [])
 
   return (
-    <>
-        <Card component="li" className={props.className} key={`imovel-${props.imovel._id}`} id={`imovel-${props.imovel._id}`} >
+    <>  
+        <Card className={props.className} key={`imovel-${props.imovel._id}`} id={`imovel-${props.imovel._id}`} >
           <CardHeader
           avatar={
             <Avatar 
             arial-label={props.imovel.imobiliaria_nome} 
             src={`https://pow.com.br/powsites/${props.imovel.id_empresa}/${props.imovel.logo}`} 
-            sx={{width:36, height:36  }}
+            sx={{width:64, height:64  }}
             />
           } 
-          action={<OpcoesMenu 
-            handleClickOptions={(e) => handleClickOptions(e)} 
-            handleCloseOptions={() => handleCloseOptions()} 
-            open={open} 
-            menu={menu} 
-            imobiliaria={props.imovel.imobiliaria_nome}
-            handleExpandClick={() => handleExpandClick()}
-            />
-          }
           title={`${props.imovel.nome}`}
           subheader={`${props.imovel.bairro}, ${props.imovel.cidade} - ${props.imovel.estado}`}
           wrapped="true"
@@ -115,48 +110,33 @@ export default function ImovelLista(props){
             {props.imovel.banheiros ? <Chip style={{margin:"5px"}} variant="outlined" color="primary" size="small" icon={<BathtubIcon />} label={`${props.imovel.banheiros}`} /> : ''}
             {props.imovel.garagens ? <Chip style={{margin:"5px"}} variant="outlined" color="primary" size="small" icon={<DirectionsCarFilledIcon />} label={`${props.imovel.garagens}`} /> : ''}
             </Box>
-          </CardContent>
-          <CardActions disableSpacing>
-            <IconButton 
-              aria-label="Adicionar aos favoritos"  
-              onClick={ () => dispatch(handle(props.imovel._id, token)) }
-            >
-              <FavoriteIcon color={isFavorito ? "disabled" : "success"}/>
-            </IconButton>
-            <IconButton arial-label="Compartilhe">
-              <ShareIcon />
-            </IconButton>
-            {location ? (
-              <IconButton aria-label="Localização">
-                <PinDropIcon />
-              </IconButton>)
-              : ''
-            }
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="descrição do imóvel"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-          </CardActions>
-          <CardContent>
+            <Descricao imovel={props.imovel} />
           
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <Descricao imovel={props.imovel} />
-            </Collapse>
           </CardContent>
         </Card>
+
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+                <BottomNavigation
+                showLabels
+                value={value}
+                onChange={(event, newValue) => {
+                    setValue(newValue);
+                }}
+                >
+                <BottomNavigationAction label="Recents" icon={<ShareIcon />} />
+                <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+                <BottomNavigationAction label="Archive" icon={<PinDropIcon />} />
+                </BottomNavigation>
+            </Paper>
       </>
       );
 }
 
-ImovelLista.defaultPropr = {
+ImovelItem.defaultPropr = {
   abaFavorito: false
 }
 
-ImovelLista.propTypes = {
+ImovelItem.propTypes = {
   imovel:PropTypes.object,
   abaFavorito:PropTypes.bool,
   className:PropTypes.string

@@ -84,13 +84,13 @@ class ApiService {
       return data;
     }
     Imovel = _id => {
-      return fetch(`${ApiService.endereco}imoveismongo/${_id}` , this.requestInfoGet)
-      .then(res => ApiService.TrataErros(res))
+      return fetch(`${this.endereco}imoveismongo/${_id}` , this.requestInfoGet)
+      .then(res => this.TrataErros(res))
       .then(data => data.json());
     }
     GetCidade = host => {
-      return fetch(`${ApiService.endereco}get_cidade/?dominio=${host}`, this.requestInfoGet)
-      .then(res => ApiService.TrataErros(res) )
+      return fetch(`${this.endereco}get_cidade/?dominio=${host}`, this.requestInfoGet)
+      .then(res => this.TrataErros(res) )
       .then(data => data.json());
     }
     GetBairros = async (cidade) => {
