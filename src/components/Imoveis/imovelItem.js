@@ -38,44 +38,18 @@ import Images from "../Images";
 import ApiService from "../../uteis/ApiService";
 import { Box } from "@material-ui/system";
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 export default function ImovelItem(props){
     const [value, setValue] = React.useState(0);
   const dispatch = useDispatch()
   const isFavorito = useSelector(state => state.favoritos.indexOf(props.imovel._id) === -1)
   const [menu, setMenu] = React.useState(null);
-  const [expanded, setExpanded] = React.useState(false);
-  const open = Boolean(menu);
-  const handleClickOptions = (event) => {
-    console.log(event);
-    event.preventDefault()
-    setMenu(event.currentTarget);
-  }
   const token = useSelector(state => state.carregamento.token)
-  const handleCloseOptions = () => setMenu(null)
-  const handleExpandClick = () => {
-    if ( ! expanded ){
-      const item = new ApiService(token)
-            item.RegistraLog(props.imovel._id, 'ficha').then((res) => {})
-    }
-    setExpanded(!expanded)
-  }
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
       if ( entries.some(entry => entry.isIntersecting) ){
-        console.log(props.imovel._id)
         const item = new ApiService(token)
-            item.RegistraLog(props.imovel._id, 'lista').then((res) => {})
+        item.RegistraLog(props.imovel._id, 'ficha').then((res) => {})
       }
   })
   intersectionObserver.observe(document.querySelector(`#imovel-${props.imovel._id}`))
@@ -123,9 +97,9 @@ export default function ImovelItem(props){
                     setValue(newValue);
                 }}
                 >
-                <BottomNavigationAction label="Recents" icon={<ShareIcon />} />
-                <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-                <BottomNavigationAction label="Archive" icon={<PinDropIcon />} />
+                <BottomNavigationAction label="Compartilhar" icon={<ShareIcon />} />
+                <BottomNavigationAction label="Favoritar" icon={<FavoriteIcon />} />
+                <BottomNavigationAction label="Localização" icon={<PinDropIcon />} />
                 </BottomNavigation>
             </Paper>
       </>
