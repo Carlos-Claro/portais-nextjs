@@ -8,14 +8,24 @@ import Image from 'next/image'
 import PropTypes from 'prop-types'
 import ApiService from "../../uteis/ApiService";
 import { useSelector } from "react-redux";
+import Lightbox from "react-image-lightbox";
+import 'react-image-lightbox/style.css'
+
+function onImageLoadError(imageSrc, _srcType, errorEvent) {
+  console.error(`Could not load image at ${imageSrc}`, errorEvent); // eslint-disable-line no-console
+}
 
 export default function Images(props){
-  
+  console.log(props)
   const [image, SetImage] = React.useState({
     src: TemporaryImage,
     alt: 'Imagem carregando',
     images: props.itens,
   });
+  const imagesLightbox = props.itens.map(image => image.arquivo)
+  const titulosLightbox = props.itens.map(image => image.titulo)
+  const [lightboxOpen, setLightboxOpen] = React.useState(false)
+
   const [ativaImage, setAtivaImage] = React.useState(false)
   const [swipeStart, setSwipeStart] = React.useState(0);    
   const [fadeImage, setFadeImage] = React.useState(true)
@@ -77,7 +87,7 @@ export default function Images(props){
           blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(300, 200))}`}
           src={(image.images[imageAtual].arquivo).replace('650F_','')}
           title={image.images[imageAtual].titulo}
-          onClick={() => setLayout("responsive")}
+          onClick={() => setLightboxOpen(true)}
           onTouchStart={(e) => setSwipeStart(e.changedTouches[0].pageX)}
           onTouchEnd={(e) => {
             if ( e.changedTouches[0].pageX < swipeStart ){
@@ -114,6 +124,21 @@ export default function Images(props){
             </Button>
           </Grid>
         </Grid>
+        {lightboxOpen && (
+          <Lightbox
+          mainSrc={imagesLightbox[imageAtual]}
+          nextSrc={imagesLightbox[(imageAtual + 1) % imagesLightbox.length]}
+          prevSrc={
+            imagesLightbox[(imageAtual + imagesLightbox.length - 1) % imagesLightbox.length]
+          }
+          
+          onCloseRequest= {() => {setLightboxOpen(false)}}
+          onMovePrevRequest={fotoProxima()}
+          onMoveNextRequest={fotoAnterior()}
+          imageTitle={titulosLightbox[imageAtual]}
+          onImageLoadError={onImageLoadError}
+            />
+        )}
         </>
         
         );
