@@ -10,13 +10,10 @@ import ApiService from "../../uteis/ApiService";
 import { useSelector } from "react-redux";
 import Lightbox from "react-image-lightbox";
 import 'react-image-lightbox/style.css'
-
-function onImageLoadError(imageSrc, _srcType, errorEvent) {
-  console.error(`Could not load image at ${imageSrc}`, errorEvent); // eslint-disable-line no-console
-}
+import MyLightbox from "./lightbox";
 
 export default function Images(props){
-  console.log(props)
+  
   const [image, SetImage] = React.useState({
     src: TemporaryImage,
     alt: 'Imagem carregando',
@@ -24,6 +21,7 @@ export default function Images(props){
   });
   const imagesLightbox = props.itens.map(image => image.arquivo)
   const titulosLightbox = props.itens.map(image => image.titulo)
+  
   const [lightboxOpen, setLightboxOpen] = React.useState(false)
 
   const [ativaImage, setAtivaImage] = React.useState(false)
@@ -87,7 +85,11 @@ export default function Images(props){
           blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(300, 200))}`}
           src={(image.images[imageAtual].arquivo).replace('650F_','')}
           title={image.images[imageAtual].titulo}
-          onClick={() => setLightboxOpen(true)}
+          onClick={(e) => {
+            e.preventDefault()
+
+            setLightboxOpen(true)
+          }}
           onTouchStart={(e) => setSwipeStart(e.changedTouches[0].pageX)}
           onTouchEnd={(e) => {
             if ( e.changedTouches[0].pageX < swipeStart ){
@@ -124,21 +126,7 @@ export default function Images(props){
             </Button>
           </Grid>
         </Grid>
-        {lightboxOpen && (
-          <Lightbox
-          mainSrc={imagesLightbox[imageAtual]}
-          nextSrc={imagesLightbox[(imageAtual + 1) % imagesLightbox.length]}
-          prevSrc={
-            imagesLightbox[(imageAtual + imagesLightbox.length - 1) % imagesLightbox.length]
-          }
-          
-          onCloseRequest= {() => {setLightboxOpen(false)}}
-          onMovePrevRequest={fotoProxima()}
-          onMoveNextRequest={fotoAnterior()}
-          imageTitle={titulosLightbox[imageAtual]}
-          onImageLoadError={onImageLoadError}
-            />
-        )}
+        
         </>
         
         );
@@ -161,7 +149,6 @@ export default function Images(props){
 
 
     const elemento = () => `.image-${props.id_imovel}`;
-    
     React.useEffect(() => {
         const intersectionObserver = new IntersectionObserver(entries => {
           
@@ -176,6 +163,17 @@ export default function Images(props){
   return (
       <>
           {setImages()}
+          
+          {lightboxOpen && (
+          <MyLightbox
+          imagesLightbox={imagesLightbox}
+          imageAtual={imageAtual}
+          setLightboxOpen={(valor) => {setLightboxOpen(valor)}}
+          fotoProxima={() => fotoProxima()}
+          fotoAnterior={() => fotoAnterior()}
+          titulosLightbox={titulosLightbox}
+            />
+        )}
       </>
   );
 }

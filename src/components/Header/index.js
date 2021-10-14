@@ -30,15 +30,15 @@ import { setImoveis } from '../../store/Carregamento/Carregamento.actions';
 import dynamic from 'next/dynamic'
 const FiltroDinamico = dynamic(
   () => import('../Filtro'),
-  {suspense:true}
+  // {suspense:true}
   )
 const MenuPrincipal  = dynamic(
   () => import('../MenuPrincipal'),
-  {suspense:true}
+  // {suspense:true}
 )
 const FavoritosDinamico = dynamic(
   () => import('../Favoritos'),
-  {suspense:true}
+  // {suspense:true}
 )
 import { signIn, signOut, useSession } from "next-auth/react"
 
