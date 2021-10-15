@@ -37,9 +37,11 @@ import OpcoesMenu from "./opcoesMenu";
 import Images from "../Images";
 import ApiService from "../../uteis/ApiService";
 import { Box } from "@material-ui/system";
+import Mapas from "./mapas";
 
 
 export default function ImovelItem(props){
+  
     const [value, setValue] = React.useState(0);
   const dispatch = useDispatch()
   const isFavorito = useSelector(state => state.favoritos.indexOf(props.imovel._id) === -1)
@@ -85,7 +87,10 @@ export default function ImovelItem(props){
             {props.imovel.garagens ? <Chip style={{margin:"5px"}} variant="outlined" color="primary" size="small" icon={<DirectionsCarFilledIcon />} label={`${props.imovel.garagens}`} /> : ''}
             </Box>
             <Descricao imovel={props.imovel} />
-          
+            {
+              (props.imovel.location && props.imovel.location.length > 0) && <Mapas lat={props.imovel.location[1]} lng={props.imovel.location[0]} />
+            }
+            
           </CardContent>
         </Card>
 
