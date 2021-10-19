@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { 
   Avatar
@@ -10,7 +10,13 @@ import {
   , IconButton
   , Grid
   , Chip,
-  Divider
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button
  } from "@material-ui/core";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -34,6 +40,8 @@ import OpcoesMenu from "./opcoesMenu";
 import Images from "../Images";
 import ApiService from "../../uteis/ApiService";
 import { Box } from "@material-ui/system";
+import { useSession } from "next-auth/react";
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -53,7 +61,6 @@ export default function ImovelLista(props){
   const [expanded, setExpanded] = React.useState(false);
   const open = Boolean(menu);
   const handleClickOptions = (event) => {
-    console.log(event);
     event.preventDefault()
     setMenu(event.currentTarget);
   }
@@ -65,6 +72,35 @@ export default function ImovelLista(props){
             item.RegistraLog(props.imovel._id, 'ficha').then((res) => {})
     }
     setExpanded(!expanded)
+  }
+  const {data: session} = useSession()
+  const [openDialog, setOpenDialog] = React.useState(false)
+  const [dialog, setDialog] = React.useState({
+    title: 'Falta algo para prosseguir!',
+    text: 'Para continuar esta ação, seria mais legal estar logado e assim, poderemos lhe atender melhor.',
+    positivo: 'Fazer login',
+    negativo: 'Continuar assim mesmo'
+  })
+  const handleCloseDialog = (x) => {
+    if (x === undefined){
+      setOpenDialog(false)
+    }
+    if (x){
+
+    }else{}
+  }
+  const clickWhats = () => {
+    handleCloseOptions()
+    if (session){
+      const item = new ApiService(token)
+      item.RegistraLog(props.imovel._id, 'ligacao-whatsapp').then((res) => {})
+      window.open('','_blank')
+      console.log('tem sesssion')
+    }else{
+      setOpenDialog(true)
+      console.log('clica whats sem session');
+    }
+
   }
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
@@ -92,9 +128,11 @@ export default function ImovelLista(props){
           action={<OpcoesMenu 
             handleClickOptions={(e) => handleClickOptions(e)} 
             handleCloseOptions={() => handleCloseOptions()} 
+            clickWhats={() => clickWhats()}
             open={open} 
             menu={menu} 
             imobiliaria={props.imovel.imobiliaria_nome}
+            id_imovel={props.imovel._id}
             handleExpandClick={() => handleExpandClick()}
             />
           }
@@ -148,6 +186,27 @@ export default function ImovelLista(props){
             </Collapse>
           </CardContent>
         </Card>
+        <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {dialog.title}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {dialog.text}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog(false)}>{dialog.negativo}</Button>
+          <Button onClick={handleCloseDialog(true)} autoFocus>
+            {dialog.positivo}
+          </Button>
+        </DialogActions>
+      </Dialog>
       </>
       );
 }

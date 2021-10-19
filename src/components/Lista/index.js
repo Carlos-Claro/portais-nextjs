@@ -97,7 +97,7 @@ export default function Lista(){
             item.tituloQtdeImoveis(retornaParametrosURL()).then((res) => {
                 setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
                 if ( res.itens.length ){
-                    
+                    console.log(res)
                     if ( paginaAtual == 0 ){
                         setImoveis(res.itens)
                         /** retorna itens na url, desativado no desenvolvimento para evitar refresh da pasta .next o tempo todo */

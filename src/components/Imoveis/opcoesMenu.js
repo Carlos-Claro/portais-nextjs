@@ -1,12 +1,9 @@
 import { Divider, IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Link from 'next/link'
 
 export default function OpcoesMenu(props){
-
-    const handleExpandClick = () => {
-        props.handleCloseOptions()
-        props.handleExpandClick()
-    }
+  
     return (<>
         <IconButton 
           id="botao-opcao"
@@ -26,9 +23,13 @@ export default function OpcoesMenu(props){
             'aria-labelledby': 'botao-opcao',
           }}
         >
-          <MenuItem onClick={handleExpandClick} noWrap>Mais sobre este imóvel</MenuItem>
+          <MenuItem >
+            <Link href={`/imovel/0/${props.id_imovel}`} >
+            Mais sobre este imóvel
+            </Link>
+          </MenuItem>
           <Divider />
-          <MenuItem onClick={props.handleCloseOptions}>Whatsapp</MenuItem>
+          <MenuItem onClick={props.clickWhats}>Whatsapp</MenuItem>
           <MenuItem onClick={props.handleCloseOptions}>Contato</MenuItem>
           <Divider />
           <MenuItem onClick={props.handleCloseOptions}>Sobre a {props.imobiliaria}</MenuItem>

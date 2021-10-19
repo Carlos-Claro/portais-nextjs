@@ -13,7 +13,8 @@ import {
   Divider,
   BottomNavigation,
   BottomNavigationAction,
-  Paper
+  Paper,
+  Typography
  } from "@material-ui/core";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -24,29 +25,29 @@ import BedIcon from '@material-ui/icons/Bed';
 import BathtubIcon from '@material-ui/icons/Bathtub';
 import DirectionsCarFilledIcon from '@material-ui/icons/DirectionsCarFilled';
 import PinDropIcon from '@material-ui/icons/PinDrop';
-
 import { styled } from '@material-ui/core/styles';
-
 import PropTypes from 'prop-types'
-
 import { useDispatch, useSelector } from "react-redux";
 import { handle } from "../../store/Favoritos/Favoritos.actions";
-
 import { Descricao } from "./descricao";
 import OpcoesMenu from "./opcoesMenu";
 import Images from "../Images";
 import ApiService from "../../uteis/ApiService";
 import { Box } from "@material-ui/system";
 import Mapas from "./mapaImovelLoad";
+import Logradouro from "./logradouro";
+import Imobiliaria from "../Imobiliaria";
+
 
 
 export default function ImovelItem(props){
-  
+  console.log(props.imovel)
     const [value, setValue] = React.useState(0);
   const dispatch = useDispatch()
   const isFavorito = useSelector(state => state.favoritos.indexOf(props.imovel._id) === -1)
   const [menu, setMenu] = React.useState(null);
   const token = useSelector(state => state.carregamento.token)
+  const [imobiliaria, setImobiliaria] = React.useState(false)
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
       if ( entries.some(entry => entry.isIntersecting) ){
@@ -56,6 +57,18 @@ export default function ImovelItem(props){
   })
   intersectionObserver.observe(document.querySelector(`#imovel-${props.imovel._id}`))
   return () => intersectionObserver.disconnect()
+}, [])
+useEffect(() => {
+    const intersectionObserver_imobi = new IntersectionObserver(entries => {
+      if ( entries.some(entry => entry.isIntersecting) && ! imobiliaria){
+        const item = new ApiService(token)
+        item.GetImobiliaria(props.imovel.id_empresa).then((res) => {
+          setImobiliaria(res)
+        })
+      }
+    })
+    intersectionObserver_imobi.observe(document.querySelector(`#imobiliaria`))
+    return () => intersectionObserver_imobi.disconnect()
   }, [])
 
   return (
@@ -78,7 +91,6 @@ export default function ImovelItem(props){
           <Box style={{
                 display: Grid,
                 gridTemplateColumns: "1fr",
-                
             }}>
             {props.imovel.preco_venda ? <Chip style={{margin:"5px"}} variant="outlined" color="success" size="medium" icon={<AttachMoneyIcon />} label={`${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(props.imovel.preco_venda)}`} /> : ''}
             {props.imovel.preco_locacao ? <Chip style={{margin:"5px"}} variant="outlined" color="success" size="medium" icon={<AttachMoneyIcon />} label={`${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(props.imovel.preco_locacao)}`} /> : ''}
@@ -88,9 +100,20 @@ export default function ImovelItem(props){
             </Box>
             <Descricao imovel={props.imovel} />
             {
-              (props.imovel.location && props.imovel.location.length > 0) && <Mapas lat={props.imovel.location[1]} lng={props.imovel.location[0]} />
+              (props.imovel.location && props.imovel.location.length > 0 && props.imovel.latitude) && <Mapas lat={props.imovel.location[1]} lng={props.imovel.location[0]} />
             }
-            
+            <Logradouro endereco={props.imovel.logradouro} numero={props.imovel.numero} bairro={props.imovel.bairro} cidade={props.imovel.cidade} />
+            <div id="imobiliaria">
+            {
+              imobiliaria ? <><Typography>Imobiliária:</Typography><Divider /><Imobiliaria imobiliaria={imobiliaria.itens[0]} component="div" /></> : ''
+            }
+            </div>
+
+            <Typography>
+            As informações estão sujeitas a alterações. Consulte o corretor responsável.
+            <br />
+            Atualizado em: {props.imovel.data_atualizacao}
+            </Typography>
           </CardContent>
         </Card>
 
@@ -107,6 +130,7 @@ export default function ImovelItem(props){
                 <BottomNavigationAction label="Localização" icon={<PinDropIcon />} />
                 </BottomNavigation>
             </Paper>
+
       </>
       );
 }

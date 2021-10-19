@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../src/components/Header";
 import { setToken, setImobiliarias as setImobiliariasAction } from "../../src/store/Carregamento/Carregamento.actions";
 import ApiService from "../../src/uteis/ApiService";
-import Imobiliaria from "./imobiliaria";
+import Imobiliaria from "../../src/components/Imobiliaria";
 
 
 export default function Imobiliarias(){
@@ -15,8 +15,8 @@ export default function Imobiliarias(){
     const [imobiliarias, setImobiliarias] = React.useState([]);
     const [paginaAtual, setPaginaAtual] = React.useState(1);
     const cidade = {
-        link:'sao_jose_dos_pinhais_pr',
-        nome:"São José dos Pinais"
+        link:process.env.NEXT_PUBLIC_CIDADE_LINK,
+        nome:process.env.NEXT_PUBLIC_CIDADE
     }
     React.useEffect(() => {
         if ( ! token ){
@@ -46,11 +46,10 @@ export default function Imobiliarias(){
         <Container>
             <Typography as="h1">Imobiliárias em {cidade.nome}.</Typography>
             <Typography as="h2">Consulte nossa relação de imobiliarias anunciantes em Curitiba e encontre a mais perto de você.</Typography>
-            {console.log(imobiliarias)}
             <ul>{
                 
                 (imobiliarias.length)
-                ? imobiliarias.map((imobiliaria,index) => <Imobiliaria imobiliaria={imobiliaria} key={`imobiliaria-${index}`} />)
+                ? imobiliarias.map((imobiliaria,index) => <Imobiliaria imobiliaria={imobiliaria} key={`imobiliaria-${index}`} component="li" />)
                 : (<Paper elevation={8} align="center" sx={{m:"10px"}} >
                     <CircularProgress />
                     <br />

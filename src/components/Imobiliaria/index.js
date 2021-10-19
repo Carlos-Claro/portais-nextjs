@@ -14,6 +14,7 @@ import { styled } from '@material-ui/core/styles';
 import React from "react";
 
 
+
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -24,48 +25,48 @@ const ExpandMore = styled((props) => {
       duration: theme.transitions.duration.shortest,
     }),
   }));
-  
 
 export default function Imobiliaria(props){
+    console.log(props.imobiliaria)
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
-      }
+    }
     return (
-        <Card sx={{ maxWidth: 345 }} component="li" key={`imobiliaria-${props.imobiliaria.id}`} >
+        <Card sx={{ maxWidth: 345 }} component={props.component} key={`imobiliaria-${props.imobiliaria.id}`} >
             <CardHeader
                 avatar={
                 <Avatar 
                     arial-label={props.imobiliaria.nome_fantasia} 
                     src={`${props.imobiliaria.logo}`} 
-                    sx={{width:36, height:36  }}
+                    sx={{width:48, height:48  }}
                 />
                 } 
                 title={`${props.imobiliaria.nome_fantasia}`}
-                // subheader={`${imobiliaria.descricao}`}
+                subheader={`${props.imobiliaria.endereco}`}
             />
             <CardActions>
-            <IconButton arial-label="Compartilhe">
-                <ShareIcon />
-            </IconButton>
-            <ExpandMore
-                expand={expanded}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="descrição do imobiliária"
-                style={{alignSelf:'flex-end'}}
-            >
-                <ExpandMoreIcon />
-            </ExpandMore>
+                <IconButton arial-label="Compartilhe">
+                    <ShareIcon />
+                </IconButton>
+                <ExpandMore
+                    expand={expanded}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="descrição do imobiliária"
+                    style={{alignSelf:'flex-end'}}
+                >
+                    <ExpandMoreIcon />
+                </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-            <Typography variant="body2" color="text.secondary">
-            {props.imobiliaria.descricao}
-            </Typography>
-            </CardContent>
+                <CardContent>
+                    <Typography variant="body2" color="text.secondary">
+                        {props.imobiliaria.descricao}
+                    </Typography>
+                </CardContent>
             </Collapse>
         </Card>
-
     )
+    
 }

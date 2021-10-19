@@ -3,6 +3,7 @@
 
 import React from 'react'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { Typography } from '@material-ui/core';
 
 const containerStyle = {
   width: '100%',
@@ -16,19 +17,22 @@ function MyComponent(props) {
       lng: props.lng
     };
   return (
+    <>
+    <Typography>Mapa:</Typography>
     <LoadScript
       googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_KEY}
-    >
+      >
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
         zoom={14}
-      >
+        >
         <>
           <Marker position={center} icon="/images/imoveis_marcador.png"/>
         </>
       </GoogleMap>
     </LoadScript>
+    </>
   )
 }
 

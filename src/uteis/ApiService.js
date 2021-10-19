@@ -105,6 +105,12 @@ class ApiService {
       .then(data => data.json());
       return data;
     }
+    GetImobiliaria = async (id) => {
+      let data = await fetch(`${this.endereco}portal_empresas?id=${id}`, this.requestInfoGet)
+      .then(res => this.TrataErros(res) )
+      .then(data => data.json());
+      return data;
+    }
     TrataErros = res => {
       if ( ! res.ok ){
         throw new Error('erro fetch');

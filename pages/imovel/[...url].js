@@ -13,8 +13,6 @@ import ApiService from "../../src/uteis/ApiService";
 export default function URL(){
     const router = useRouter()
     const dispatch = useDispatch()
-    const [value, setValue] = useState(0)
-    console.log(router.query['url']);
     const [imovel, setImovel] = useState(<Loading titulo="Imóvel" />)
     const token = useSelector(state => state.carregamento.token)
     useEffect(() => {
