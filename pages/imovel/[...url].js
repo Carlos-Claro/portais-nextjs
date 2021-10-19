@@ -1,4 +1,4 @@
-import { BottomNavigation, BottomNavigationAction, Container, Divider, Paper } from "@material-ui/core";
+import { Container, Divider } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,9 +7,7 @@ import HeaderImovel from "../../src/components/Header/imovel";
 import ImovelItem from "../../src/components/Imoveis/imovelItem";
 import Loading from "../../src/components/Loading";
 import ApiService from "../../src/uteis/ApiService";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import PinDropIcon from "@material-ui/icons/PinDrop";
+
 
 
 export default function URL(){

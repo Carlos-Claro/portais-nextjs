@@ -37,7 +37,7 @@ import OpcoesMenu from "./opcoesMenu";
 import Images from "../Images";
 import ApiService from "../../uteis/ApiService";
 import { Box } from "@material-ui/system";
-import Mapas from "./mapas";
+import Mapas from "./mapaImovelLoad";
 
 
 export default function ImovelItem(props){
