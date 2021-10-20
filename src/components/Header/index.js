@@ -42,6 +42,8 @@ const FavoritosDinamico = dynamic(
 )
 import { signIn, signOut, useSession } from "next-auth/react"
 
+
+
 const logo = '';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -211,7 +213,8 @@ export default function Header(props){
           isOpen={swipeMenu.right}
         />
       </Suspense>
-    </AppBar>    
+    </AppBar>
+    
   </>
     );
   }
