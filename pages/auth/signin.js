@@ -10,8 +10,7 @@ export default function SignIn({ providers }){
   
     return (
         <>
-          <HeaderLogin />
-          <Stack sx={{marginTop:"70px", p:1}}>
+          <Stack sx={{p:1}}>
             <Paper sx={{p:1}}>
               <Typography>
                 Escolha como fazer seu login

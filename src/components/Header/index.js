@@ -42,8 +42,6 @@ const FavoritosDinamico = dynamic(
 )
 import { signIn, signOut, useSession } from "next-auth/react"
 
-import NewWindow from 'react-new-window'
-
 const logo = '';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -97,9 +95,10 @@ export default function Header(props){
   }
 
   const handleSignin = () => {
-    signIn()
+    
     // setOpenDialog(true)
-    // handleCloseOptions()
+    handleCloseOptions()
+    window.open('/auth/signin', '_blank')
   }
 
   const [openDialog, setOpenDialog] = React.useState(false)
