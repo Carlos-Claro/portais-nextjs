@@ -51,7 +51,6 @@ export default NextAuth({
       console.log(credentials);
       const item = new ApiService
       item.Cadastro(data).then(res => console.log(res))
-      
       return true
     },
     async redirect({url, baseUrl}){

@@ -1,11 +1,13 @@
 import { IconButton, Paper, Stack, Typography } from "@material-ui/core";
 
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders, signIn  } from "next-auth/react";
 import HeaderLogin from "../../src/components/Header/login"
 import GoogleIcon from '@material-ui/icons/Google';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
+
 export default function SignIn({ providers }){  
+  
     return (
         <>
           <HeaderLogin />

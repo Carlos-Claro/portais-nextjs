@@ -1,12 +1,12 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core"
+import React from "react"
 
 
-
-export default MyDialog(props){
-    const [openDialog, setOpenDialog] = React.useState(false)
+export default function MyDialog(props){
+    
     const [dialog, setDialog] = React.useState({
         title: 'Falta algo para prosseguir!',
-        text: 'Para continuar esta ação, seria mais legal estar logado e assim, poderemos lhe atender melhor.',
+        text: '',
         positivo: 'Fazer login',
         negativo: 'Continuar assim mesmo'
     })
@@ -20,8 +20,8 @@ export default MyDialog(props){
     }
     return (
         <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
+        open={props.openDialog}
+        onClose={() => props.handleCloseDialog()}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -34,8 +34,8 @@ export default MyDialog(props){
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog(false)}>{dialog.negativo}</Button>
-          <Button onClick={handleCloseDialog(true)} autoFocus>
+          <Button onClick={() => props.handleCloseDialog(false)}>{dialog.negativo}</Button>
+          <Button onClick={() => props.handleCloseDialog(true)} autoFocus>
             {dialog.positivo}
           </Button>
         </DialogActions>

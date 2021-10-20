@@ -42,7 +42,7 @@ const FavoritosDinamico = dynamic(
 )
 import { signIn, signOut, useSession } from "next-auth/react"
 
-
+import NewWindow from 'react-new-window'
 
 const logo = '';
 
@@ -95,6 +95,15 @@ export default function Header(props){
   const handleCloseOptions = () => {
     setMenu(null) 
   }
+
+  const handleSignin = () => {
+    signIn()
+    // setOpenDialog(true)
+    // handleCloseOptions()
+  }
+
+  const [openDialog, setOpenDialog] = React.useState(false)
+
     return (
       <>
       <AppBar position="fixed" color="default">
@@ -154,7 +163,7 @@ export default function Header(props){
             }}
             
         >
-        <MenuItem onClick={() => !session ? signIn() : signOut()}  > 
+        <MenuItem onClick={() => !session ? handleSignin() : signOut()}  > 
 
           <IconButton
             aria-label="Login/cadastro" 
