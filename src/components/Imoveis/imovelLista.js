@@ -41,8 +41,7 @@ import Images from "../Images";
 import ApiService from "../../uteis/ApiService";
 import { Box } from "@material-ui/system";
 import { useSession } from "next-auth/react";
-import SignIn from "../../../pages/auth/signin";
-
+import MyDialog from '../Dialog'
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -56,6 +55,8 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function ImovelLista(props){
+  console.log(props)
+  const link_imovel = process.env.NEXT_PUBLIC_URL + `imovel/${props.imovel.nome}/${props.imovel._id}`
   const dispatch = useDispatch()
   const isFavorito = useSelector(state => state.favoritos.indexOf(props.imovel._id) === -1)
   const [menu, setMenu] = React.useState(null);
@@ -75,15 +76,24 @@ export default function ImovelLista(props){
     setExpanded(!expanded)
   }
   const {data: session} = useSession()
+  const [openDialog, setOpenDialog] = React.useState(false)
+  const handleWhats = (fechaDialog) => {
+    if(fechaDialog){
+      setOpenDialog(false)
+    }
+    const item = new ApiService(token)
+      item.RegistraLog(props.imovel._id, 'ligacao-whatsapp').then((res) => {
+        const uri = encodeURI('Gostaria de mais informações sobre o imóvel: ' + link_imovel)
+        const uriWhats = `https://wa.me/55${props.imovel.imobiliaria_whatsapp}?text=${uri}`
+        window.open(uriWhats,'_blank')
+      })
+  }
   const clickWhats = () => {
     handleCloseOptions()
     if (session){
-      // const item = new ApiService(token)
-      // item.RegistraLog(props.imovel._id, 'ligacao-whatsapp').then((res) => {})
-      window.open('','_blank')
-      console.log('tem sesssion')
+       handleWhats(false)
     }else{
-      console.log('clica whats sem session');
+      setOpenDialog(true)
     }
 
   }
@@ -171,7 +181,7 @@ export default function ImovelLista(props){
             </Collapse>
           </CardContent>
         </Card>
-        
+        <MyDialog open={openDialog} close={() => handleWhats(true)} />
       </>
       );
 }

@@ -8,7 +8,7 @@ export default function MyDialog(props){
     
     const [dialog, setDialog] = React.useState({
         title: 'Falta algo para prosseguir!',
-        text: '',
+        text: 'Para nos ajudar a sugerir melhores imóveis e resultados, considere fazer logIn antes de prosseguir',
         positivo: 'Fazer login',
         negativo: 'Continuar assim mesmo'
     })
@@ -25,16 +25,12 @@ export default function MyDialog(props){
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          <iframe src="auth/signin" width="100%" sx={{
-                    border: 'none',
-                    width: "100%",
-                    height: "100%"
-                }} ></iframe>
+          {dialog.text}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => props.close(false)}>{dialog.negativo}</Button>
-          <Button onClick={() => props.close(true)} autoFocus>
+          <Button onClick={() => props.close()}>{dialog.negativo}</Button>
+          <Button onClick={() => window.open('/auth/signin', '_blank')} autoFocus>
             {dialog.positivo}
           </Button>
         </DialogActions>
