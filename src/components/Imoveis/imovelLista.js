@@ -85,24 +85,35 @@ export default function ImovelLista(props){
   }
   const {data: session} = useSession()
   const [openDialog, setOpenDialog] = React.useState(false)
-  const handleWhats = (fechaDialog) => {
+  const handleWhats = (fechaDialog,share) => {
     if(fechaDialog){
       setOpenDialog(false)
+      handleCloseShare()
     }
     const item = new ApiService(token)
+    if (share){
+      item.RegistraLog(props.imovel._id, 'ligacao-whatsapp').then((res) => {
+        const uri = encodeURI('Veja este imóvel: ' + link_imovel)
+        const uriWhats = `https://wa.me/?text=${uri}`
+        window.open(uriWhats,'_blank')
+      })
+    }else{
+
       item.RegistraLog(props.imovel._id, 'ligacao-whatsapp').then((res) => {
         const uri = encodeURI('Gostaria de mais informações sobre o imóvel: ' + link_imovel)
         const uriWhats = `https://wa.me/55${props.imovel.imobiliaria_whatsapp}?text=${uri}`
         window.open(uriWhats,'_blank')
       })
+    }
   }
-  const clickWhats = () => {
+  const clickWhats = (tipo) => {
     handleCloseOptions()
     if (session){
        handleWhats(false)
     }else{
       setOpenDialog(true)
     }
+    
 
   }
   const clickContato = () => {
@@ -221,7 +232,7 @@ export default function ImovelLista(props){
                     
                   </MenuItem>
                   </CopyToClipboard>
-                  <MenuItem onClick={handleCloseShare}>
+                  <MenuItem onClick={() => handleWhats(true,true)}>
                     <IconButton>
                     <WhatsAppIcon />
                     </IconButton>
@@ -229,14 +240,14 @@ export default function ImovelLista(props){
                   </MenuItem>
                   
                 </Menu>
-                <Snackbar open={openSnack} autoHideDuration={6000} onClose={handleCloseSnack}>
-                  <Alert onClose={handleCloseSnack} severity="success" sx={{ width: '100%' }}>
-                    Link copiado com sucesso!
-                  </Alert>
-                </Snackbar>
               </>
               )
             }
+            <Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
+              <Alert onClose={handleCloseSnack} severity="success" sx={{ width: '100%' }}>
+                Link copiado com sucesso!
+              </Alert>
+            </Snackbar>
             {props.imovel.latitude && (
               <IconButton aria-label="Localização">
                 <PinDropIcon />
