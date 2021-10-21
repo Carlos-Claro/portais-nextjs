@@ -1,5 +1,7 @@
 import { Divider, IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import ChatIcon from '@material-ui/icons/Chat';
 import Link from 'next/link'
 
 export default function OpcoesMenu(props){
@@ -24,13 +26,23 @@ export default function OpcoesMenu(props){
           }}
         >
           <MenuItem >
-            <Link href={`/imovel/0/${props.id_imovel}`} >
+            <Link href={props.link_imovel} >
             Mais sobre este imóvel
             </Link>
           </MenuItem>
           <Divider />
-          <MenuItem onClick={props.clickWhats}>Whatsapp</MenuItem>
-          <MenuItem onClick={props.handleCloseOptions}>Contato</MenuItem>
+          <MenuItem onClick={props.clickWhats}>
+            <IconButton>
+              <WhatsAppIcon />
+            </IconButton>
+            Whatsapp
+            </MenuItem>
+          <MenuItem onClick={props.clickContato}>
+            <IconButton>
+              <ChatIcon />
+            </IconButton>
+            Contato
+            </MenuItem>
           <Divider />
           <MenuItem onClick={props.handleCloseOptions}>Sobre a {props.imobiliaria}</MenuItem>
         </Menu>

@@ -16,7 +16,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  Button
+  Button,
+  Menu,
+  MenuItem,
+  Snackbar,
+  Alert
  } from "@material-ui/core";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -27,6 +31,8 @@ import BedIcon from '@material-ui/icons/Bed';
 import BathtubIcon from '@material-ui/icons/Bathtub';
 import DirectionsCarFilledIcon from '@material-ui/icons/DirectionsCarFilled';
 import PinDropIcon from '@material-ui/icons/PinDrop';
+import LinkIcon from '@material-ui/icons/Link';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 
 import { styled } from '@material-ui/core/styles';
 
@@ -43,6 +49,8 @@ import { Box } from "@material-ui/system";
 import { useSession } from "next-auth/react";
 import MyDialog from '../Dialog'
 
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -56,7 +64,7 @@ const ExpandMore = styled((props) => {
 
 export default function ImovelLista(props){
   console.log(props)
-  const link_imovel = process.env.NEXT_PUBLIC_URL + `imovel/${props.imovel.nome}/${props.imovel._id}`
+  const link_imovel = process.env.NEXT_PUBLIC_URL + `imovel/${props.imovel.imoveis_tipos_link}-${props.imovel.tipo_negocio}-${props.imovel.cidade_link}-${props.imovel.imobiliaria_nome_seo}/${props.imovel._id}`
   const dispatch = useDispatch()
   const isFavorito = useSelector(state => state.favoritos.indexOf(props.imovel._id) === -1)
   const [menu, setMenu] = React.useState(null);
@@ -97,6 +105,31 @@ export default function ImovelLista(props){
     }
 
   }
+  const clickContato = () => {
+    if (session){
+      setOpenDialog(true)
+   }else{
+
+   }
+
+  }
+  const [menuShare, setMenuShare] = React.useState(null)
+  const openShare = Boolean(menuShare)
+  const handleOpenShare = (event) => {
+    setMenuShare(event.currentTarget)
+  }
+  const handleCloseShare = () => {
+    setMenuShare(null)
+  }
+  const [openSnack, setOpenSnack] = React.useState(false)
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false)
+  }
+
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
       if ( entries.some(entry => entry.isIntersecting) ){
@@ -124,10 +157,12 @@ export default function ImovelLista(props){
             handleClickOptions={(e) => handleClickOptions(e)} 
             handleCloseOptions={() => handleCloseOptions()} 
             clickWhats={() => clickWhats()}
+            clickContato={() => clickContato()}
             open={open} 
             menu={menu} 
             imobiliaria={props.imovel.imobiliaria_nome}
             id_imovel={props.imovel._id}
+            link_imovel={link_imovel}
             handleExpandClick={() => handleExpandClick()}
             />
           }
@@ -156,14 +191,56 @@ export default function ImovelLista(props){
             >
               <FavoriteIcon color={isFavorito ? "disabled" : "success"}/>
             </IconButton>
-            <IconButton arial-label="Compartilhe">
+            <IconButton 
+              arial-label="Compartilhe"
+              aria-controls="share-menu"
+              aria-haspopup="true"
+              aria-expanded={openShare ? 'true' : undefined}
+              onClick={handleOpenShare}
+              id="share-menu-button"
+            >
               <ShareIcon />
             </IconButton>
-            {location ? (
+            {
+              openShare && (
+                <>
+                <Menu
+                id="share-menu"
+                open={openShare}
+                anchorEl={menuShare}
+                onClose={handleCloseShare}
+                MenuListProps={{'aria-labelledby':'share-menu-button'}}
+                >
+                  <CopyToClipboard text={link_imovel}
+                    onCopy={() => setOpenSnack(true)}>
+                  <MenuItem onClick={()=>setMenuShare(false)} >
+                    <IconButton>
+                      <LinkIcon />
+                    </IconButton>
+                    Copiar Link
+                    
+                  </MenuItem>
+                  </CopyToClipboard>
+                  <MenuItem onClick={handleCloseShare}>
+                    <IconButton>
+                    <WhatsAppIcon />
+                    </IconButton>
+                    Compartilhar Whatsapp
+                  </MenuItem>
+                  
+                </Menu>
+                <Snackbar open={openSnack} autoHideDuration={6000} onClose={handleCloseSnack}>
+                  <Alert onClose={handleCloseSnack} severity="success" sx={{ width: '100%' }}>
+                    Link copiado com sucesso!
+                  </Alert>
+                </Snackbar>
+              </>
+              )
+            }
+            {props.imovel.latitude && (
               <IconButton aria-label="Localização">
                 <PinDropIcon />
               </IconButton>)
-              : ''
             }
             <ExpandMore
               expand={expanded}
@@ -181,7 +258,7 @@ export default function ImovelLista(props){
             </Collapse>
           </CardContent>
         </Card>
-        <MyDialog open={openDialog} close={() => handleWhats(true)} />
+        {openDialog && <MyDialog open={openDialog} close={() => handleWhats(true)} />}
       </>
       );
 }
