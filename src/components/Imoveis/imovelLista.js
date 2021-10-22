@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { 
   Avatar
@@ -10,13 +10,7 @@ import {
   , IconButton
   , Grid
   , Chip,
-  Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
+  
   Menu,
   MenuItem,
   Snackbar,
@@ -98,8 +92,7 @@ export default function ImovelLista(props){
         window.open(uriWhats,'_blank')
       })
     }else{
-
-      item.RegistraLog(props.imovel._id, 'ligacao-whatsapp').then((res) => {
+      item.RegistraLog(props.imovel._id, 'compartilha-whatsapp').then((res) => {
         const uri = encodeURI('Gostaria de mais informações sobre o imóvel: ' + link_imovel)
         const uriWhats = `https://wa.me/55${props.imovel.imobiliaria_whatsapp}?text=${uri}`
         window.open(uriWhats,'_blank')
@@ -120,7 +113,7 @@ export default function ImovelLista(props){
     if (session){
       setOpenDialog(true)
    }else{
-
+    setOpenDialog(true)
    }
 
   }
