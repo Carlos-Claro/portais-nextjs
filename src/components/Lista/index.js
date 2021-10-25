@@ -100,14 +100,14 @@ export default function Lista(){
                     if ( paginaAtual == 0 ){
                         setImoveis(res.itens)
                         /** retorna itens na url, desativado no desenvolvimento para evitar refresh da pasta .next o tempo todo */
-                        // if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
-                        //     router.push({
-                        //         pathname: '/[...url]',
-                        //         query: { url: [res.uri] }
-                        //     }, 
-                        //     undefined, { shallow: true }
-                        //     )
-                        // }
+                        if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
+                            router.push({
+                                pathname: '/[...url]',
+                                query: { url: [res.uri] }
+                            }, 
+                            undefined, { shallow: true }
+                            )
+                        }
                     }else{
                         setImoveis((itensAtual) => [...itensAtual,...res.itens])  
                     }

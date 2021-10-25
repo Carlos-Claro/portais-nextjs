@@ -15,10 +15,11 @@ import BathtubIcon from '@material-ui/icons/Bathtub';
 import OpenInFullIcon from '@material-ui/icons/OpenInFull';
 import DirectionsCarFilledIcon from '@material-ui/icons/DirectionsCarFilled';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-
+import SearchIcon from '@material-ui/icons/Search';
 
 import { styled } from '@material-ui/core/styles';
 import ApiService from '../../uteis/ApiService';
+import router from 'next/router';
 
 const MyDivider = styled(Divider)(({ theme }) => ({
     marginTop:0,
@@ -50,20 +51,32 @@ export default function FiltroHome(props){
         return pesquisa
     };
     useEffect(() => {
-        if (props.isOpen){
             const item = new ApiService(token)
             item.QtdeImoveis(retornaParametrosURL()).then((res) => {
                 setQtdePesquisado(res.qtde_total)
             })
-        }
-    },[props.isOpen, parametros])
-    return (<>
-    <Paper
+    },[parametros])
+
+    const handlePesquisar = () => {
+        const item = new ApiService(token)
+        item.URLPrincipal(retornaParametrosURL()).then((res) => {
+            if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
+                router.push({
+                    pathname: '/[...url]',
+                    query: { url: [res.uri] }
+                }, 
+                undefined, { shallow: true }
+                )
+            }
+        })
+    }
+    return (
+    <>
+        <Paper
             sx={{p:'2px 4px', display: 'table', alignItems: 'center', width:'96%', m:'5px auto', mt:"70px"}}
             >
-
               <Grid container spacing={1}>
-                <Grid item xs={10}>
+                <Grid item xs={12}>
                     <MyTitulo 
                         variant="h3" 
                         children="Encontre os melhores imóveis"
@@ -72,24 +85,9 @@ export default function FiltroHome(props){
                         {qtdePesquisado} imóveis para esta pesquisa
                     </Typography>
                 </Grid>
-                  <Grid item xs={2}>
-                        <IconButton 
-                            aria-label="fecha filtro"
-                            sx={{
-                                width:"100%",
-                                display: 'block'
-                            }} 
-                            
-                            color="secondary" 
-                            size="large" 
-                            variant="contained">
-                            <ArrowDropUpIcon fontSize="inherit" />
-                            <Typography sx={{fontSize:10, display:"block"}}>fechar</Typography>
-                        </IconButton>
-                  </Grid>
+                  
               </Grid>
             </Paper>
-
           <Paper 
           component="form"
           sx={{p:'2px 4px', display: 'table', alignItems: 'center', width:'96%', m:'0px auto'}}
@@ -145,16 +143,17 @@ export default function FiltroHome(props){
             
             
             </Paper>
-            <Paper elevation={8} >
+            <Paper elevation={8} onClick={() => handlePesquisar()}>
                 <IconButton 
+                    
                     aria-label="fecha filtro"
                     sx={{width:"100%"}} 
                     
                     color="secondary" 
                     size="large" 
                     variant="contained">
-                    <ArrowDropUpIcon fontSize="inherit" />
-                    <Typography sx={{fontSize:10, display:"block"}}>fechar</Typography>
+                    <SearchIcon fontSize="inherit" />
+                    <Typography sx={{fontSize:10, display:"block"}} >Pesquisar</Typography>
                 </IconButton>
             </Paper>
     </>)

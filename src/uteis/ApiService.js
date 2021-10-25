@@ -56,7 +56,12 @@ class ApiService {
                 .then(data => data.json());
       return data;
     }
-
+    URLPrincipal = async (filtro) => {
+      let data = await fetch(`${this.endereco}portal_url?${filtro}` , this.requestInfoGet)
+                .then(res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
     QtdeImoveis = async (filtro) => {
       
       let data = await fetch(`${this.endereco}portal_qtde?${filtro}` , this.requestInfoGet)
