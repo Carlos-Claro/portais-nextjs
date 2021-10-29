@@ -44,6 +44,7 @@ import { useSession } from "next-auth/react";
 import MyDialog from '../Dialog'
 
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import MyDialogForm from "../Dialog/form";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -79,6 +80,7 @@ export default function ImovelLista(props){
   }
   const {data: session} = useSession()
   const [openDialog, setOpenDialog] = React.useState(false)
+  const [openDialogForm, setOpenDialogForm] = React.useState(false)
   const handleWhats = (fechaDialog,share) => {
     if(fechaDialog){
       setOpenDialog(false)
@@ -111,12 +113,14 @@ export default function ImovelLista(props){
   }
   const clickContato = () => {
     if (session){
-      setOpenDialog(true)
-   }else{
-    setOpenDialog(true)
-   }
+      setOpenDialogForm(true)
+    }
 
   }
+  const handleContato = (data) => {
+    console.log(data)
+  }
+  
   const [menuShare, setMenuShare] = React.useState(null)
   const openShare = Boolean(menuShare)
   const handleOpenShare = (event) => {
@@ -263,6 +267,12 @@ export default function ImovelLista(props){
           </CardContent>
         </Card>
         {openDialog && <MyDialog open={openDialog} close={() => handleWhats(true)} />}
+        {openDialogForm && <MyDialogForm 
+                              open={openDialogForm} 
+                              close={() => setOpenDialogForm(false)} 
+                              envio={(data) => handleContato(data)} 
+                              imovel={{id:props.imovel._id, imobiliaria:props.imovel.imobiliaria_nome, nome:props.imovel.nome}}
+                              /> }
       </>
       );
 }
