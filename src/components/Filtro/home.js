@@ -6,7 +6,7 @@ import BairrosInput, {BairrosSelect} from './bairros';
 import {TiposSelect} from './tipos';
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux';
-import { handleFiltro, limpaFiltro } from '../../store/Filtro/Filtro.actions';
+import { handleFiltro, limpaFiltro, setParametros, setURL } from '../../store/Filtro/Filtro.actions';
 import Range from './range';
 
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -20,6 +20,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { styled } from '@material-ui/core/styles';
 import ApiService from '../../uteis/ApiService';
 import router from 'next/router';
+import Parametros from '../../mocks/parametros.json'
 
 const MyDivider = styled(Divider)(({ theme }) => ({
     marginTop:0,
@@ -51,6 +52,9 @@ export default function FiltroHome(props){
         return pesquisa
     };
     useEffect(() => {
+        dispatch(setParametros(Parametros))
+    },[])
+    useEffect(() => {
             const item = new ApiService(token)
             item.QtdeImoveis(retornaParametrosURL()).then((res) => {
                 setQtdePesquisado(res.qtde_total)
@@ -59,7 +63,9 @@ export default function FiltroHome(props){
 
     const handlePesquisar = () => {
         const item = new ApiService(token)
-        item.URLPrincipal(retornaParametrosURL()).then((res) => {
+        const pUrl = retornaParametrosURL()
+        console.log(pUrl)
+        item.URLPrincipal(pUrl).then((res) => {
             if ( ! router.query['url'] || (router.query['url'] && router.query['url'][0] !== res.uri)){
                 router.push({
                     pathname: '/[...url]',
@@ -73,16 +79,16 @@ export default function FiltroHome(props){
     return (
     <>
         <Paper
-            sx={{p:'2px 4px', display: 'table', alignItems: 'center', width:'96%', m:'5px auto', mt:"70px"}}
+            sx={{p:'2px 4px', display: 'table', alignItems: 'center', width:'96%', m:'5px auto', mt:"85px", mb:"25px"}}
             >
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <MyTitulo 
                         variant="h3" 
-                        children="Encontre os melhores imóveis"
+                        children="Encontre os melhores imóveis da cidade"
                     />
                     <Typography variant="p" sx={{marginLeft:"20px"}}>
-                        {qtdePesquisado} imóveis para esta pesquisa
+                        <b>{qtdePesquisado}</b> imóveis para esta pesquisa
                     </Typography>
                 </Grid>
                   
@@ -143,7 +149,7 @@ export default function FiltroHome(props){
             
             
             </Paper>
-            <Paper elevation={8} onClick={() => handlePesquisar()}>
+            <Paper elevation={8} onClick={() => handlePesquisar()} sx={{mt:"10px", mb:"15px"}}>
                 <IconButton 
                     
                     aria-label="fecha filtro"

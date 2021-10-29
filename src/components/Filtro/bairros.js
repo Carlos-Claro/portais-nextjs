@@ -48,7 +48,3 @@ export function BairrosSelect(){
       </FormControl>
     )
 }
-export async function getServerSideProps(){
-  const data = []
-  return { props: { data } }
-}
