@@ -25,8 +25,8 @@ import { ChatContent } from "../../../pages/chat/index";
 import PropTypes from 'prop-types'
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setImoveis } from '../../store/Carregamento/Carregamento.actions';
-
+import { setImoveis, setToken } from '../../store/Carregamento/Carregamento.actions';
+import Parametros from '../../mocks/parametros.json'
 import dynamic from 'next/dynamic'
 const FiltroDinamico = dynamic(
   () => import('../Filtro'),
@@ -41,6 +41,8 @@ const FavoritosDinamico = dynamic(
   // {suspense:true}
 )
 import { signIn, signOut, useSession } from "next-auth/react"
+import { setParametros } from '../../store/Filtro/Filtro.actions';
+import router from 'next/router';
 
 const logo = '';
 
@@ -100,7 +102,11 @@ export default function Header(props){
     handleCloseOptions()
     window.open('/auth/signin', '_blank')
   }
-
+  const handleSignout = () => {
+    dispatch(setParametros(Parametros))
+    dispatch(setToken(false))
+    signOut()
+  }
   const [openDialog, setOpenDialog] = React.useState(false)
 
     return (
@@ -162,7 +168,7 @@ export default function Header(props){
             }}
             
         >
-        <MenuItem onClick={() => !session ? handleSignin() : signOut()}  > 
+        <MenuItem onClick={() => !session ? handleSignin() : handleSignout()}  > 
 
           <IconButton
             aria-label="Login/cadastro" 

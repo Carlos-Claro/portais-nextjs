@@ -3,6 +3,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
 import ApiService from "../../../src/uteis/ApiService"
 
+
 export default NextAuth({
   providers: [
     GithubProvider({
