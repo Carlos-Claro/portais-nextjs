@@ -29,12 +29,14 @@ export default function URL(){
   const parametros = useSelector(state => state.parametros)
   const token = useSelector(state => state.carregamento.token)
   const {data: session} = useSession()
+  // busca token, para iniciar processamento
   useEffect(() => {
     if ( ! token ){
       const item = new ApiService
       item.Auth().then(res => dispatch(setToken(res.token)))
     }
   }, [])
+  // atualiza token, quando logado
   useEffect(() => {
     var infoToken = jwt.decode(token)
     if ( session && ! infoToken.islogin ){
@@ -42,6 +44,7 @@ export default function URL(){
       item.AtualizaToken({email:session.user.email}).then(res => dispatch(setToken(res.token)))
     }
   }, [session])
+  // rolagem para o topo
   useEffect(() => {handleScroll()}, [parametros])
   const triggerScroll = useScrollTrigger({
     disableHysteresis:true,
@@ -53,6 +56,7 @@ export default function URL(){
       anchor.scrollIntoView({behavior: 'smooth',block: 'center'});
     }
   };
+  // carrega primeira poesquisa, quando rota ok
   const [home, setHome] = useState('')
   useEffect(() => {
     if ( router.isReady ) {
@@ -60,10 +64,6 @@ export default function URL(){
       setHome()
     }
   }, [router.isReady])  
-
-  useEffect(() => {
-    console.log(carregamento);
-  }, [carregamento])
 
   return (
     <>

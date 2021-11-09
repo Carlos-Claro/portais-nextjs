@@ -17,6 +17,7 @@ import { CircularProgress, IconButton, Paper, Typography } from "@material-ui/co
 
 
 import ImovelLista from "../Imoveis/imovelLista"; 
+import { setHeadDescription, setHeadQtde, setHeadTitle } from "../../store/Head/Head.actions";
 
     const TypographyH1 = styled.h1`
         padding-top: 70px;
@@ -35,14 +36,15 @@ import ImovelLista from "../Imoveis/imovelLista";
     }
     `;
 
-export default function Lista(){        
+export default function Lista(){   
+    // inicia manipuladores
+    const dispatch = useDispatch()
+    const router = useRouter()
+    // inicia variaveis     
     const parametros = useSelector(state => state.parametros)
     const carregamento = useSelector(state => state.carregamento)
     const [qtdeItensporPagina, setQtdeItensporPagina] = React.useState(3)
-    const [infoPagina, setInfoPagina] = React.useState({
-          qtde_total: 1420,
-          titulo:'Imóveis em São José dos Pinhais'
-    })
+    const infoPagina = useSelector(state => state.head)
     const [imoveis, setImoveis] = React.useState([])
     const [paginaAtual, setPaginaAtual] = React.useState(0);
     const retornaParametrosURL = () => {
@@ -50,14 +52,11 @@ export default function Lista(){
         pesquisa += '&limit=' + qtdeItensporPagina + '&skip=' + ( paginaAtual * qtdeItensporPagina )
         return pesquisa
     };
-    const [fimDaLista, setFimDaLista] = React.useState(false)
-
-    const dispatch = useDispatch()
-    const router = useRouter()
-  
+    // prototipo nao encontrei, nao utilizado ainda... todo
     const [openNaoEncontrei, setOpenNaoEncontrei] = React.useState(false)
     const handleOpenNaoencontrei = (acao) => setOpenNaoEncontrei(acao)
-    
+    // ativa fim da lista
+    const [fimDaLista, setFimDaLista] = React.useState(false)
     const valorFimDalista = () => {
         if (fimDaLista){
             return (
@@ -93,9 +92,12 @@ export default function Lista(){
      */
     React.useEffect(() => {
         if ( carregamento.token ){
+            // carrega api
             const item = new ApiService(carregamento.token)
             item.tituloQtdeImoveis(retornaParametrosURL()).then((res) => {
-                setInfoPagina({qtde_total:res.qtde_total,titulo:res.titulo})
+                dispatch(setHeadQtde(res.qtde_total))
+                dispatch(setHeadTitle(res.titulo))
+                dispatch(setHeadDescription(res.descricao))
                 if ( res.itens.length ){
                     if ( paginaAtual == 0 ){
                         setImoveis(res.itens)
@@ -132,7 +134,7 @@ export default function Lista(){
         }
     }, [paginaAtual, carregamento.imoveis])
     /**
-     * verifica fim da pagina
+     * verifica fim da pagina, paginação
      */
     React.useEffect(() => {
         const intersectionObserver = new IntersectionObserver(entries => {
@@ -166,7 +168,7 @@ export default function Lista(){
                 sx={{m:2}} 
                 >
                 <TypographyH1 as="h1" >
-                    {infoPagina.titulo}
+                    {infoPagina.title}
                 </TypographyH1>
                 <TypographyH2 as="h2" >
                     {infoPagina.qtde_total} Imóveis encontrados
