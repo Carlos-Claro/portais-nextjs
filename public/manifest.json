@@ -1,0 +1,47 @@
+{
+    "name": "Encontre seus imoveis em Curitiba - icuritiba.com",
+    "short_name": "Curitiba - icuritiba.com",
+    "icons": [
+        {
+            "src": "imagens\/imoveiscuritiba-48x48.png",
+            "type": "image\/gif",
+            "sizes": "48x48"
+        },
+        {
+            "src": "imagens\/imoveiscuritiba-96x96.png",
+            "type": "image\/gif",
+            "sizes": "96x96"
+        },
+        {
+            "src": "imagens\/imoveiscuritiba-128x128.png",
+            "type": "image\/gif",
+            "sizes": "128x128"
+        },
+        {
+            "src": "imagens\/imoveiscuritiba-144x144.png",
+            "type": "image\/gif",
+            "sizes": "144x144"
+        },
+        {
+            "src": "imagens\/imoveiscuritiba-152x152.png",
+            "type": "image\/gif",
+            "sizes": "152x152"
+        },
+        {
+            "src": "imagens\/imoveiscuritiba-192x192.png",
+            "type": "image\/gif",
+            "sizes": "192x192"
+        },
+        {
+            "src": "imagens\/imoveiscuritiba-512x512.png",
+            "type": "image\/gif",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": ".",
+    "theme_color": "#285384",
+    "background_color": "#FFFFFF",
+    "orientation": "portrait",
+    "display": "standalone",
+    "lang": "pt-BR"
+}

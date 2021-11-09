@@ -20,6 +20,7 @@ import { setToken } from '../src/store/Carregamento/Carregamento.actions';
 
 import { useSession } from 'next-auth/react';
 import jwt from "jsonwebtoken";
+import MyHead from "../src/components/Head";
 
 export default function URL(){
   const dispatch = useDispatch()
@@ -66,6 +67,7 @@ export default function URL(){
 
   return (
     <>
+      <MyHead />
       <Container>
         <HeaderDinamico />
         <ListaDinamico />

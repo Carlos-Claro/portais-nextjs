@@ -10,6 +10,9 @@ import ApiService from '../src/uteis/ApiService';
 
 import Loading from '../src/components/Loading'
 
+
+import MyHead from '../src/components/Head';
+
 /**
  * Inicia pagina de imóveis, filtra, busca data em store
  * 
@@ -31,6 +34,7 @@ export default function Home() {
   }, [])
   return (
     <>
+      <MyHead />
       <Container>
         <HeaderDinamico />
         {home}

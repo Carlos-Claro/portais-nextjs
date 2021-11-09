@@ -5,13 +5,14 @@ import storage from 'redux-persist/lib/storage'
 import FavoritosReducer from './Favoritos/Favoritos.reducer'
 import FiltroReducer from './Filtro/Filtro.reducer'
 import CarregamentoReducer from './Carregamento/Carregamento.reducer'
+import HeadReducer from './Head/Head.reducer'
 
 
 const rootReducer = combineReducers({
   favoritos: FavoritosReducer,
   parametros: FiltroReducer,
   carregamento: CarregamentoReducer,
-  
+  head: HeadReducer
 })
 
 const persistedReducer = persistReducer({

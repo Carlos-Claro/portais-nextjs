@@ -1,3 +1,4 @@
+
 export function handleFiltro (tipo, valor) {
     return {
         type:'HANDLE_PARAMETROS',
