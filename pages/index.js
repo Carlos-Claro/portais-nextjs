@@ -13,6 +13,7 @@ import Loading from '../src/components/Loading'
 
 import MyHead from '../src/components/Head';
 import { unsetHead } from '../src/store/Head/Head.actions';
+import { unsetParametros } from '../src/store/Filtro/Filtro.actions';
 
 /**
  * Inicia pagina de imóveis, filtra, busca data em store
@@ -25,6 +26,7 @@ export default function Home() {
   const token = useSelector(state => state.carregamento.token)
   useEffect(() => {
     dispatch(unsetHead())
+    dispatch(unsetParametros())
     if ( ! token ){
       const item = new ApiService
       item.Auth().then(res => {

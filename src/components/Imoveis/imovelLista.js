@@ -45,6 +45,7 @@ import MyDialog from '../Dialog'
 
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import MyDialogForm from "../Dialog/form";
+import MyDialogAviso from "../Dialog/avisos";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -113,14 +114,53 @@ export default function ImovelLista(props){
   }
   const clickContato = () => {
     if (session){
+      handleCloseOptions()
       setOpenDialogForm(true)
+    }else{
+      // todo
+      // cadastrar dados
     }
 
   }
-  const handleContato = (data) => {
-    console.log(data)
+  const handleContato = (tipo, data) => {
+    if ( tipo == 'error' ){
+      setSnackText(data)
+      setOpenSnack(true)
+    }else{
+      data['id_imovel'] = props.imovel._id
+      data['id_item'] = props.imovel._id
+      data['id_empresa'] = props.imovel.id_empresa
+      data['referencia'] = props.imovel.referencia
+      data['cidade'] = props.imovel.cidade
+      data['estado'] = props.imovel.uf
+      data['id_cidade'] = props.imovel.id_cidade
+      data['tipo_negocio_item'] = props.imovel.tipo_negocio
+      data['origem'] = 'i4'
+      data['assunto'] = 'Contato através do imóvel ref. ' + props.imovel.referencia + 'através da rede Portais Imobiliarios'
+      const item = new ApiService(token)
+      item.Contato(data).then((res) => {
+        if (res.status){
+          setAviso({titulo:'Pronto!!', descricao: res.message})
+          setOpenDialogForm(false)
+          setOpenDialogAviso(true)
+          setTimeout(setOpenDialogAviso(false), 5000)
+
+        }else{
+          // retomar o botão e avisar com snack
+          setSnackText(res.message)
+          setOpenSnack(true)
+        }
+      })
+      
+
+    }
+    
   }
   
+  const [aviso, setAviso] = React.useState({})
+  const [openDialogAviso, setOpenDialogAviso] = React.useState(false)
+
+
   const [menuShare, setMenuShare] = React.useState(null)
   const openShare = Boolean(menuShare)
   const handleOpenShare = (event) => {
@@ -130,14 +170,13 @@ export default function ImovelLista(props){
     setMenuShare(null)
   }
   const [openSnack, setOpenSnack] = React.useState(false)
+  const [snackText, setSnackText] = React.useState('Link copiado com sucesso!')
   const handleCloseSnack = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpenSnack(false)
   }
-
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
       if ( entries.some(entry => entry.isIntersecting) ){
@@ -220,7 +259,10 @@ export default function ImovelLista(props){
                 MenuListProps={{'aria-labelledby':'share-menu-button'}}
                 >
                   <CopyToClipboard text={link_imovel}
-                    onCopy={() => setOpenSnack(true)}>
+                    onCopy={() => {
+                      setSnackText('Link copiado com sucesso!')
+                      setOpenSnack(true)
+                      }}>
                   <MenuItem onClick={()=>setMenuShare(false)} >
                     <IconButton>
                       <LinkIcon />
@@ -242,7 +284,7 @@ export default function ImovelLista(props){
             }
             <Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
               <Alert onClose={handleCloseSnack} severity="success" sx={{ width: '100%' }}>
-                Link copiado com sucesso!
+                {snackText}
               </Alert>
             </Snackbar>
             {props.imovel.latitude && (
@@ -270,8 +312,14 @@ export default function ImovelLista(props){
         {openDialogForm && <MyDialogForm 
                               open={openDialogForm} 
                               close={() => setOpenDialogForm(false)} 
-                              envio={(data) => handleContato(data)} 
+                              envio={(tipo, data) => handleContato(tipo, data)} 
                               imovel={{id:props.imovel._id, imobiliaria:props.imovel.imobiliaria_nome, nome:props.imovel.nome}}
+                              /> }
+        {openDialogAviso && <MyDialogAviso 
+                              open={openDialogAviso}  
+                              close={() => setOpenDialogAviso(false)}
+                              titulo={aviso.titulo}
+                              descricao={aviso.descricao}
                               /> }
       </>
       );

@@ -21,6 +21,13 @@ export function setURL(url){
 
 }
 
+export function unsetParametros(){
+    return {
+        type:'UNSET_PARAMETROS',
+        payload: true
+    }
+}
+
 export function setParametros(parametros){
     return {
         type:'SET_PARAMETROS',

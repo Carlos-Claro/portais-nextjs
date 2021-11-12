@@ -12,6 +12,8 @@ export default function Filtro(state=Parametros, action){
             return {url:action.payload}
         case 'SET_PARAMETROS':
             return action.payload
+        case 'UNSET_PARAMETROS':
+            return Parametros
         default:
             return state
     }

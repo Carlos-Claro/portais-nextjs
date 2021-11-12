@@ -18,6 +18,7 @@ import { CircularProgress, IconButton, Paper, Typography } from "@material-ui/co
 
 import ImovelLista from "../Imoveis/imovelLista"; 
 import { setHeadDescription, setHeadQtde, setHeadTitle } from "../../store/Head/Head.actions";
+import Loading from "../Loading";
 
     const TypographyH1 = styled.h1`
         padding-top: 70px;
@@ -73,16 +74,7 @@ export default function Lista(){
                 </>
            )
         } else{
-            return (
-                <>
-                    <CircularProgress />
-                    <br />
-                    <Typography variant="caption"  align="center">
-                        Carregando mais imóveis
-                    </Typography>
-                </>
-
-            )
+            return (<Loading titulo="Carregando mais imóveis" />)
         }
     }
 

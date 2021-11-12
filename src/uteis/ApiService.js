@@ -56,6 +56,13 @@ class ApiService {
                 .then(data => data.json());
       return data;
     }
+    Contato = async (info) => {
+      this.requestInfoPost['body'] = JSON.stringify(info)
+      let data = await fetch(`${this.endereco}set_contato` , this.requestInfoPost)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
     URLPrincipal = async (filtro) => {
       let data = await fetch(`${this.endereco}portal_url?${filtro}` , this.requestInfoGet)
                 .then(res => this.TrataErros(res))
