@@ -137,6 +137,7 @@ export default function ImovelLista(props){
       data['tipo_negocio_item'] = props.imovel.tipo_negocio
       data['origem'] = 'i4'
       data['assunto'] = 'Contato através do imóvel ref. ' + props.imovel.referencia + 'através da rede Portais Imobiliarios'
+      data['link'] = link_imovel
       const item = new ApiService(token)
       item.Contato(data).then((res) => {
         if (res.status){
