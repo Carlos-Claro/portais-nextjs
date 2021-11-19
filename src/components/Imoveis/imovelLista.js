@@ -136,15 +136,19 @@ export default function ImovelLista(props){
       data['id_cidade'] = props.imovel.id_cidade
       data['tipo_negocio_item'] = props.imovel.tipo_negocio
       data['origem'] = 'i4'
-      data['assunto'] = 'Contato através do imóvel ref. ' + props.imovel.referencia + 'através da rede Portais Imobiliarios'
+      data['assunto'] = 'Contato através do imóvel ref. ' + props.imovel.referencia + ' através da rede Portais Imobiliarios'
       data['link'] = link_imovel
       const item = new ApiService(token)
       item.Contato(data).then((res) => {
         if (res.status){
           setAviso({titulo:'Pronto!!', descricao: res.message})
           setOpenDialogForm(false)
+          console.log('abre aviso');
+          setTimeout(function(){}, 500)
           setOpenDialogAviso(true)
+          console.log('aguarda fecha aviso');
           setTimeout(setOpenDialogAviso(false), 5000)
+          console.log('fecha aviso');
 
         }else{
           // retomar o botão e avisar com snack
