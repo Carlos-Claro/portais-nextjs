@@ -63,6 +63,18 @@ class ApiService {
                 .then(data => data.json());
       return data;
     }
+    Chat = async () => {
+      let data = await fetch(`${this.endereco}set_chat`, this.requestInfoGet)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
+    ChatQtde = async () => {
+      let data = await fetch(`${this.endereco}set_chat_qtde`, this.requestInfoGet)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
     URLPrincipal = async (filtro) => {
       let data = await fetch(`${this.endereco}portal_url?${filtro}` , this.requestInfoGet)
                 .then(res => this.TrataErros(res))

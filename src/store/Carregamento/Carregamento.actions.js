@@ -28,4 +28,10 @@ export function setImobiliarias(){
         payload:true
     }
 }
+export function setChat(){
+    return {
+        type: 'SET_CHAT',
+        payload:true
+    }
+}
 

@@ -46,6 +46,7 @@ import MyDialog from '../Dialog'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import MyDialogForm from "../Dialog/form";
 import MyDialogAviso from "../Dialog/avisos";
+import { setChat } from "../../store/Carregamento/Carregamento.actions";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -59,7 +60,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function ImovelLista(props){
-  console.log(props)
+  
   const link_imovel = process.env.NEXT_PUBLIC_URL + `imovel/${props.imovel.imoveis_tipos_link}-${props.imovel.tipo_negocio}-${props.imovel.cidade_link}-${props.imovel.imobiliaria_nome_seo}/${props.imovel._id}`
   const dispatch = useDispatch()
   const isFavorito = useSelector(state => state.favoritos.indexOf(props.imovel._id) === -1)
@@ -147,7 +148,10 @@ export default function ImovelLista(props){
           setTimeout(function(){}, 500)
           setOpenDialogAviso(true)
           console.log('aguarda fecha aviso');
-          setTimeout(setOpenDialogAviso(false), 5000)
+          setTimeout(function(){
+            setOpenDialogAviso(false)
+            dispatch(setChat())
+          }, 5000)
           console.log('fecha aviso');
 
         }else{
@@ -162,10 +166,10 @@ export default function ImovelLista(props){
     
   }
   
+  
   const [aviso, setAviso] = React.useState({})
   const [openDialogAviso, setOpenDialogAviso] = React.useState(false)
-
-
+  
   const [menuShare, setMenuShare] = React.useState(null)
   const openShare = Boolean(menuShare)
   const handleOpenShare = (event) => {

@@ -27,22 +27,15 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux';
 import { setImoveis, setToken } from '../../store/Carregamento/Carregamento.actions';
 import Parametros from '../../mocks/parametros.json'
-import dynamic from 'next/dynamic'
-const FiltroDinamico = dynamic(
-  () => import('../Filtro'),
-  // {suspense:true}
-  )
-const MenuPrincipal  = dynamic(
-  () => import('../MenuPrincipal'),
-  // {suspense:true}
-)
-const FavoritosDinamico = dynamic(
-  () => import('../Favoritos'),
-  // {suspense:true}
-)
+
+import FiltroDinamico from '../Filtro'
+import MenuPrincipal from '../MenuPrincipal'
+import FavoritosDinamico from '../Favoritos'
+
 import { signIn, signOut, useSession } from "next-auth/react"
 import { setParametros } from '../../store/Filtro/Filtro.actions';
 import router from 'next/router';
+import ApiService from '../../uteis/ApiService';
 
 const logo = '';
 
@@ -83,7 +76,16 @@ export default function Header(props){
     
     setSwipeMenu({...swipeMenu,[anchor]:open});
   };
-  const [chat, setChat] = React.useState(ChatContent);
+  const [chat, setChat] = React.useState(0);
+  const token = useSelector(state => state.carregamento.token)
+  const chatCarregamento = useSelector(state => state.carregamento.chat)
+  React.useEffect(() => {
+    const item = new ApiService(token)
+    item.ChatQtde().then(res => {
+      setChat(res.qtde)})
+  }, [chatCarregamento])
+
+
   const [modalStatus, setModalStatus] = React.useState(false)
   
   const [menu, setMenu] = React.useState(null)
@@ -97,8 +99,6 @@ export default function Header(props){
   }
 
   const handleSignin = () => {
-    
-    // setOpenDialog(true)
     handleCloseOptions()
     window.open('/auth/signin', '_blank')
   }
@@ -150,7 +150,7 @@ export default function Header(props){
           color="inherit" 
         >
           <Badge 
-          badgeContent={favoritos.length+chat.length} 
+          badgeContent={favoritos.length+chat} 
           color="success" >
               <MoreVertIcon />
 
@@ -204,9 +204,9 @@ export default function Header(props){
             color="inherit" 
             >
             <Badge 
-              badgeContent={chat.length} 
+              badgeContent={chat} 
               color="success" >
-                <ChatBubbleOutlineIcon color={ ! chat.length ? "disabled" : "success"} /> 
+                <ChatBubbleOutlineIcon color={ ! chat ? "disabled" : "success"} /> 
             </Badge>
           </IconButton>       
                 <p>Chat</p>
