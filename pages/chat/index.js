@@ -1,62 +1,54 @@
-import React from "react"
+import React, { useEffect } from "react"
 import 'react-chat-elements/dist/main.css';
 // https://www.npmjs.com/package/react-chat-elements
 // https://github.com/detaysoft/react-chat-elements
 import { ChatItem } from 'react-chat-elements';
-
-export const ChatContent = () => [
-    {
-      id:1, 
-      imobiliaria: 81881, 
-      imobiliaria_logo: "https://pow.com.br/powsites/7695/8707094000145_logopeq.gif",
-      imobiliaria_nome: "Powsites ficticio",
-      imovel: 1,
-      conversas:[
-        {iterator: 0, message:"gostaria de mais informações sobre o imóvel 0001"},
-        {iterator: 1, message:"estamos disponiveis para tirar suas duvidas"},
-        {iterator: 1, message:"fique a vontade"}
-      ]
-    },
-    {
-      id:2, 
-      imobiliaria: 81881, 
-      imobiliaria_logo: "https://pow.com.br/powsites/84100/bcada1362b79cf623de9d5e3cdcab5f8.jpeg",
-      imobiliaria_nome: "Powsites ficticio 2",
-      imovel: 2,
-      conversas:[
-        {iterator: 0, message:"gostaria de mais informações sobre o imóvel 0002"},
-        {iterator: 1, message:"estamos disponiveis para tirar suas duvidas"},
-        {iterator: 0, message:"tem supermercados perto"},
-        {iterator: 0, message:"Escola fundamental"},
-        {iterator: 1, message:"Tem bantante comercio..."},
-      ]
-    }
-  ]
+import { useDispatch, useSelector } from "react-redux";
+import ApiService from "../../src/uteis/ApiService";
+import { MessageList } from 'react-chat-elements';
+import Header from "../../src/components/Header";
+import { Paper, Typography } from "@material-ui/core";
+import Conversa from "../../src/components/Chat/conversa";
+import ListaChat from "../../src/components/Chat/lista";
 
 export default function MyChat (){
-    const [myChat, setMyChat] = React.useState(ChatContent)
-    const HandleChat = (item) => {
-      console.log(item);
+  const dispatch = useDispatch()
+  const token = useSelector(state => state.carregamento.token)
+  useEffect(() => {
+    if ( ! token ){
+      const item = new ApiService
+      item.Auth().then(res => {
+        dispatch(setToken(res.token))
+      })
     }
-    const [chat, setChat] = React.useState(false)
+  }, [])
+  const chatCarregamento = useSelector(state => state.carregamento.chat)
+  React.useEffect(() => {
+    if (token){
+      const item = new ApiService(token)
+      item.Chat().then(res => {
+        setChat(res)})
+    }
+  }, [])
+
+  const [chat, setChat] = React.useState([])
+  const [chatAtivo, setChatAtivo] = React.useState({})
+  const [titulo, setTitulo] = React.useState('Lista de Conversas')
+  const [isConversa, setIsConversa] = React.useState(false)
+  const HandleChat = (item) => {
+    setChatAtivo(item)
+    setIsConversa(true)
+  } 
     return (
-        <div>
+        <>
+        <Header />
+        <Paper sx={{mt:"70px"}}>
             {
-              myChat.map((chat, index) => {
-                  return (
-                    <ChatItem
-                      avatar={chat.imobiliaria_logo}
-                      alt={chat.imobiliaria_nome}
-                      title={`${chat.imobiliaria_nome}`}
-                      subtitle={chat.conversas[chat.conversas.length - 1].message}
-                      unread={0}
-                      date={new Date()}
-                      onClick={HandleChat(index)}
-                      />
-                    );
-                })
-              
+              isConversa 
+              ? <Conversa item={chatAtivo} isConversa={(tipo) => setIsConversa(tipo)} />
+              : <ListaChat chat={chat} HandleChat={(item) => HandleChat(item)} />
             }    
-        </div>
+        </Paper>
+        </>
     )
 }

@@ -69,6 +69,13 @@ class ApiService {
                 .then(data => data.json());
       return data;
     }
+    ChatAdd = async (info) => {
+      this.requestInfoPost['body'] = JSON.stringify(info)
+      let data = await fetch(`${this.endereco}set_chat_add`, this.requestInfoPost)
+                .then( res => this.TrataErros(res))
+                .then(data => data.json());
+      return data;
+    }
     ChatQtde = async () => {
       let data = await fetch(`${this.endereco}set_chat_qtde`, this.requestInfoGet)
                 .then( res => this.TrataErros(res))
